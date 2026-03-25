@@ -1,0 +1,337 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/credentials" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Numerics</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>CredentialManagement</x:String>
+      <x:String>UiPath.Credentials.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Linq.Async</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>netstandard</AssemblyReference>
+      <AssemblyReference>CredentialManagement</AssemblyReference>
+      <AssemblyReference>UiPath.Credentials.Activities</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="746.6666666666666,4430.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="hasDocsText" />
+      <Variable x:TypeArguments="x:String" Name="threshold2Text" />
+      <Variable x:TypeArguments="x:String" Name="threshold1Text" />
+      <Variable x:TypeArguments="x:String" Name="passwordText" />
+      <Variable x:TypeArguments="x:String" Name="credentialAssetName" />
+      <Variable x:TypeArguments="x:String" Name="configFilePath" />
+      <Variable x:TypeArguments="x:String" Name="configJson" />
+      <Variable x:TypeArguments="x:String" Name="channels" />
+      <Variable x:TypeArguments="x:Boolean" Name="notifyToast" />
+      <Variable x:TypeArguments="x:Boolean" Name="notifyTeams" />
+      <Variable x:TypeArguments="x:Boolean" Name="notifyEmail" />
+      <Variable x:TypeArguments="x:Boolean" Name="hasDocuments" />
+      <Variable x:TypeArguments="x:Int32" Name="threshold2" />
+      <Variable x:TypeArguments="x:Int32" Name="threshold1" />
+      <Variable x:TypeArguments="x:String" Name="serviceType" />
+      <Variable x:TypeArguments="x:String" Name="recipientEmail" />
+      <Variable x:TypeArguments="ss:SecureString" Name="password" />
+      <Variable x:TypeArguments="x:String" Name="username" />
+      <Variable x:TypeArguments="x:String" Name="authType" />
+      <Variable x:TypeArguments="x:String" Name="portalURL" />
+      <Variable x:TypeArguments="x:String" Name="portalName" />
+      <Variable x:TypeArguments="x:String" Name="errorMessage" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Ask: Portal Name" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalName">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter a name for this portal (e.g. BESCOM Electricity)", "WebMonitor Setup - Step 1 of 6", "")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[String.IsNullOrWhiteSpace(portalName)]" sap:VirtualizedContainerService.HintSize="452,4231.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box - Empty Name" sap:VirtualizedContainerService.HintSize="416,114.66666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Portal name cannot be empty. Please run setup again.&quot;]" />
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else - Continue Setup" sap:VirtualizedContainerService.HintSize="450,3926" sap2010:WorkflowViewState.IdRef="Sequence_Else">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Ask: Portal URL" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalURL">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[portalURL]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter the full login URL of the portal", "WebMonitor Setup - Step 2 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Service Type" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_serviceType">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[serviceType]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("What type of service is this? (e.g. Electricity Bill, Gas Bill, MCA Filing)", "WebMonitor Setup - Step 3 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Auth Type" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_authType">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[authType]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("How does this portal log in? Type one: UsernamePassword / OTP / None", "WebMonitor Setup - Step 4 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Username" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_username">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[username]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter your username or consumer number for this portal", "WebMonitor Setup - Step 5 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Password" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_passwordText">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[passwordText]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter your password for this portal", "WebMonitor Setup - Step 5 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Init SecureString" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_initSecure">
+            <Assign.To>
+              <OutArgument x:TypeArguments="ss:SecureString">[password]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="ss:SecureString">[New System.Security.SecureString()]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:InvokeCode ContinueOnError="{x:Null}" Code="If Not String.IsNullOrEmpty(passwordText) Then&#xA;    For Each c As Char In passwordText&#xA;        password.AppendChar(c)&#xA;    Next&#xA;End If" DisplayName="Convert Password to SecureString" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_secure">
+            <ui:InvokeCode.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="passwordText">[passwordText]</InArgument>
+              <InOutArgument x:TypeArguments="ss:SecureString" x:Key="password">[password]</InOutArgument>
+            </ui:InvokeCode.Arguments>
+          </ui:InvokeCode>
+          <Assign DisplayName="Ask: Recipient Email" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_recipientEmail">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[recipientEmail]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter the email address where reminders should be sent", "WebMonitor Setup - Step 6 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Threshold1 Urgent Days" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_threshold1Text">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[threshold1Text]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Send URGENT reminder how many days before due date? (recommended: 7)", "Reminder Settings", "7")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Convert threshold1" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_threshold1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[threshold1]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(Integer.TryParse(threshold1Text, threshold1), threshold1, 7)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Threshold2 Warning Days" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_threshold2Text">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[threshold2Text]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Send WARNING reminder how many days before due date? (recommended: 30)", "Reminder Settings", "30")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Convert threshold2" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_threshold2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[threshold2]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[If(Integer.TryParse(threshold2Text, threshold2), threshold2, 30)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Has Documents" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_hasDocsText">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[hasDocsText]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Does this portal have downloadable PDF bills? Type Yes or No", "Document Settings", "No")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Convert hasDocuments" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_hasDocuments">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[hasDocuments]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[(hasDocsText.ToLower.Trim = "yes")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Ask: Notification Channels" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_channels">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[channels]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Which channels to notify? Type comma separated: Email, Teams, Toast", "Notification Channels", "Email")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Build credentialAssetName" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_credentialAssetName">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[credentialAssetName]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">["Portal_" &amp; portalName.Replace(" ","_").ToUpper]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Build configFilePath" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_configFilePath">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[configFilePath]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Data\Config\Portals\" &amp; portalName.Replace(" ","_") &amp; ".json")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Build configJson" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_configJson">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[configJson]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String" xml:space="preserve">["{" &amp;
+"""PortalName"": """ &amp; portalName &amp; """," &amp;
+"""URL"": """ &amp; portalURL &amp; """," &amp;
+"""AuthType"": """ &amp; authType &amp; """," &amp;
+"""CredentialAssetName"": """ &amp; credentialAssetName &amp; """," &amp;
+"""ServiceType"": """ &amp; serviceType &amp; """," &amp;
+"""HasDocuments"": " &amp; hasDocuments.ToString.ToLower &amp; "," &amp;
+"""DocumentLinkSelector"": ""a[href*='.pdf']""," &amp;
+"""NotificationChannels"": [" &amp; String.Join(",", channels.Split(","c).Select(Function(ch) """" &amp; ch.Trim &amp; """").ToArray()) &amp; "]," &amp;
+"""ReminderThreshold1"": " &amp; threshold1.ToString &amp; "," &amp;
+"""ReminderThreshold2"": " &amp; threshold2.ToString &amp; "," &amp;
+"""RecipientEmail"": """ &amp; recipientEmail &amp; """," &amp;
+"""ExtractionMethod"": ""WebScrape""," &amp;
+"""Fields"": [" &amp;
+"{""Name"":""AmountDue"",""Selector"":"""",""Anchor"":""Amount Due""}," &amp;
+"{""Name"":""DueDate"",""Selector"":"""",""Anchor"":""Due Date""}," &amp;
+"{""Name"":""ApplicantName"",""Selector"":"""",""Anchor"":""Name""}" &amp;
+"]" &amp;
+"}"]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="[DEBUG] Pre-Write Log" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_debug" Level="Info" Message="[&quot;[DEBUG] PATH=&quot; &amp; configFilePath &amp; &quot; | JSON_LEN=&quot; &amp; configJson.Length.ToString]" />
+          <ui:InvokeCode ContinueOnError="[True]" Code="errorMessage = &quot;&quot;&#xA;Try&#xA;    If String.IsNullOrEmpty(configFilePath) Then&#xA;        errorMessage = &quot;configFilePath is empty&quot;&#xA;        Exit Sub&#xA;    End If&#xA;    Dim dir As String = System.IO.Path.GetDirectoryName(configFilePath)&#xA;    If String.IsNullOrEmpty(dir) Then&#xA;        errorMessage = &quot;GetDirectoryName returned empty for path: &quot; &amp; configFilePath&#xA;        Exit Sub&#xA;    End If&#xA;    System.IO.Directory.CreateDirectory(dir)&#xA;    If String.IsNullOrEmpty(configJson) Then&#xA;        errorMessage = &quot;configJson is empty — JSON build step produced nothing&quot;&#xA;        Exit Sub&#xA;    End If&#xA;    System.IO.File.WriteAllText(configFilePath, configJson, System.Text.Encoding.UTF8)&#xA;    System.Diagnostics.Process.Start(&quot;explorer.exe&quot;, &quot;/select,&quot;&quot;&quot; &amp; configFilePath &amp; &quot;&quot;&quot;&quot;)&#xA;    errorMessage = &quot;&quot;&#xA;Catch ex As Exception&#xA;    errorMessage = ex.GetType().Name &amp; &quot;: &quot; &amp; ex.Message&#xA;End Try" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+            <ui:InvokeCode.Arguments>
+              <InOutArgument x:TypeArguments="x:String" x:Key="configFilePath">[configFilePath]</InOutArgument>
+              <InOutArgument x:TypeArguments="x:String" x:Key="configJson">[configJson]</InOutArgument>
+              <InOutArgument x:TypeArguments="x:String" x:Key="errorMessage">[errorMessage]</InOutArgument>
+            </ui:InvokeCode.Arguments>
+          </ui:InvokeCode>
+          <If Condition="[Not String.IsNullOrEmpty(errorMessage)]" sap:VirtualizedContainerService.HintSize="416,200" sap2010:WorkflowViewState.IdRef="If_errorCheck">
+            <If.Then>
+              <Sequence DisplayName="Handle Write Error" sap:VirtualizedContainerService.HintSize="414,170" sap2010:WorkflowViewState.IdRef="Sequence_errHandle">
+                <ui:LogMessage DisplayName="[ERROR] Write Failed" sap:VirtualizedContainerService.HintSize="412,100" sap2010:WorkflowViewState.IdRef="LogMessage_err" Level="Error" Message="[&quot;[WRITE FAILED] &quot; &amp; errorMessage &amp; &quot; | PATH: &quot; &amp; configFilePath]" />
+                <Throw DisplayName="Throw Write Error" sap:VirtualizedContainerService.HintSize="412,60" sap2010:WorkflowViewState.IdRef="Throw_writeErr" Exception="[New Exception(&quot;PortalSetup write failed: &quot; &amp; errorMessage)]" />
+              </Sequence>
+            </If.Then>
+          </If>
+          <p:AddCredential Password="{x:Null}" CredentialType="Generic" DisplayName="Add Credentials" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="AddCredential_1" PasswordSecureString="[password]" PersistanceType="LocalComputer" Target="[credentialAssetName]" Username="[username]" />
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Success Message" sap:VirtualizedContainerService.HintSize="416,124" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Portal '&quot; &amp; portalName &amp; &quot;' added successfully!&quot; &amp; Environment.NewLine &amp; &quot;Config saved to: &quot;&quot;&quot; &amp; configFilePath &amp; &quot;&quot;&quot;&quot; &amp; Environment.NewLine &amp; &quot;Credential stored as: &quot; &amp; credentialAssetName &amp; Environment.NewLine &amp; Environment.NewLine &amp; &quot;This portal will be monitored from the next scheduled run.&quot;]" />
+          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;PortalSetup complete: &quot; &amp; portalName &amp; &quot; | Asset: &quot; &amp; credentialAssetName]" />
+        </Sequence>
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>

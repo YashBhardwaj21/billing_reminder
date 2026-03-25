@@ -1,0 +1,25 @@
+# UiPath generated files
+.local/
+.settings/
+.tmh/
+.objects/
+.project/
+.entities/
+
+# Temporary and backup files
+~*
+*.bak
+*.screenshot
+Exception_Screenshots/
+*.xaml.local
+*.log
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Runtime data files (Configuration like Data/Config should be tracked)
+Data/Temp/
+Data/Input/
+Data/Output/
+
