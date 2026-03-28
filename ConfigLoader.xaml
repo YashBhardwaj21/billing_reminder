@@ -83,9 +83,8 @@
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="portalList" />
       <Variable x:TypeArguments="s:String[]" Name="jsonFiles" />
-      <Variable x:TypeArguments="x:String" Name="jsonContent" />
-      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="parsedConfig" />
-      <Variable x:TypeArguments="x:String" Name="configName" />
+      <Variable x:TypeArguments="x:String" Name="rawJson" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="config" />
     </Sequence.Variables>
 
     <!-- ═══ BLOCK 1 — Initialise output list ═══ -->
@@ -99,11 +98,13 @@
     </Assign>
     <ui:LogMessage DisplayName="Log: ConfigLoader started" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;ConfigLoader started. Scanning folder: &quot; &amp; in_PortalsFolderPath]" />
 
-    <!-- ═══ BLOCK 2 — Guard: folder must exist ═══ -->
-    <If Condition="[Not String.IsNullOrWhiteSpace(in_PortalsFolderPath) AndAlso System.IO.Directory.Exists(in_PortalsFolderPath)]" DisplayName="Check: Folder exists?" sap2010:WorkflowViewState.IdRef="If_1">
+    <!-- ═══ BLOCK 2 — Guard: folder must exist (THROW if missing) ═══ -->
+    <If Condition="[String.IsNullOrWhiteSpace(in_PortalsFolderPath) OrElse Not System.IO.Directory.Exists(in_PortalsFolderPath)]" DisplayName="Check: Folder missing?" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <Sequence DisplayName="Then — Folder found, load configs" sap2010:WorkflowViewState.IdRef="Sequence_2">
-
+        <Throw DisplayName="Throw: Folder missing" Exception="[New Exception(&quot;Config folder missing or invalid path: &quot; &amp; If(in_PortalsFolderPath Is Nothing, &quot;(null)&quot;, in_PortalsFolderPath))]" sap2010:WorkflowViewState.IdRef="Throw_1" />
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else — Folder found, load configs" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <!-- ═══ BLOCK 3 — Enumerate JSON files ═══ -->
           <Assign DisplayName="Get: JSON file list" sap2010:WorkflowViewState.IdRef="Assign_2">
             <Assign.To>
@@ -123,60 +124,70 @@
                   <DelegateInArgument x:TypeArguments="x:String" Name="filePath" />
                 </ActivityAction.Argument>
 
-                <TryCatch DisplayName="TryCatch: Parse single config" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch DisplayName="TryCatch: Parse and validate single config" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                   <TryCatch.Try>
-                    <Sequence DisplayName="Try — Read and deserialize" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                    <Sequence DisplayName="Try — Read, deserialize, normalize" sap2010:WorkflowViewState.IdRef="Sequence_3">
 
-                      <!-- Read file contents -->
-                      <Assign DisplayName="Read: JSON file" sap2010:WorkflowViewState.IdRef="Assign_3">
+                      <!-- Read file contents securely with UTF8 -->
+                      <Assign DisplayName="Read: JSON file (UTF8)" sap2010:WorkflowViewState.IdRef="Assign_3">
                         <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[jsonContent]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String">[rawJson]</OutArgument>
                         </Assign.To>
                         <Assign.Value>
                           <InArgument x:TypeArguments="x:String">[System.IO.File.ReadAllText(filePath, System.Text.Encoding.UTF8)]</InArgument>
                         </Assign.Value>
                       </Assign>
 
-                      <!-- Deserialize JSON to Dictionary via InvokeCode -->
-                      <ui:InvokeCode ContinueOnError="{x:Null}" DisplayName="InvokeCode: Deserialize JSON" sap2010:WorkflowViewState.IdRef="InvokeCode_1" Language="{x:Null}">
+                      <!-- Deserialize, Validate, and Normalize via InvokeCode -->
+                      <!-- If invalid, it throws an exception which skips this file via TryCatch -->
+                      <ui:InvokeCode ContinueOnError="{x:Null}" DisplayName="InvokeCode: Deserialize and Normalize" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
                         <ui:InvokeCode.Code>
-parsedConfig = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(jsonContent)
+Dim rawConfig As Dictionary(Of String, Object) = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(rawJson)
+
+If rawConfig Is Nothing OrElse Not TypeOf rawConfig Is Dictionary(Of String, Object) Then
+    Throw New Exception("Deserialization returned null or invalid type.")
+End If
+
+If Not rawConfig.ContainsKey("PortalName") OrElse String.IsNullOrWhiteSpace(rawConfig("PortalName").ToString()) Then
+    Throw New Exception("Validation Failed: Missing required field 'PortalName'")
+End If
+
+outNormalized = New Dictionary(Of String, Object)()
+' Schema defaults injected here
+outNormalized("PortalName") = rawConfig("PortalName").ToString()
+outNormalized("AuthType") = If(rawConfig.ContainsKey("AuthType"), rawConfig("AuthType").ToString(), "none")
+outNormalized("ExtractionMode") = If(rawConfig.ContainsKey("ExtractionMode"), rawConfig("ExtractionMode").ToString(), "table")
+
+' Preserve other nested fields without overwriting defaults
+For Each kvp In rawConfig
+    If Not outNormalized.ContainsKey(kvp.Key) Then
+        outNormalized(kvp.Key) = kvp.Value
+    End If
+Next
                         </ui:InvokeCode.Code>
                         <ui:InvokeCode.Arguments>
-                          <InArgument x:TypeArguments="x:String" x:Key="jsonContent">[jsonContent]</InArgument>
-                          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="parsedConfig">[parsedConfig]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="rawJson">[rawJson]</InArgument>
+                          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="outNormalized">[config]</OutArgument>
                         </ui:InvokeCode.Arguments>
                       </ui:InvokeCode>
 
-                      <!-- Guard: parsedConfig not nothing -->
-                      <If Condition="[parsedConfig IsNot Nothing]" DisplayName="Check: Parsed OK?" sap2010:WorkflowViewState.IdRef="If_2">
+                      <If Condition="[config Is Nothing OrElse Not config.ContainsKey(&quot;PortalName&quot;)]" DisplayName="Guard: config valid?" sap2010:WorkflowViewState.IdRef="If_ConfigValid">
                         <If.Then>
-                          <Sequence DisplayName="Then — Add to list" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                            <!-- Add to portalList using Concat pattern -->
-                            <Assign DisplayName="Append: config to portalList" sap2010:WorkflowViewState.IdRef="Assign_4">
-                              <Assign.To>
-                                <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList]</OutArgument>
-                              </Assign.To>
-                              <Assign.Value>
-                                <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList.Concat(New List(Of Dictionary(Of String, Object)) From {parsedConfig}).ToList()]</InArgument>
-                              </Assign.Value>
-                            </Assign>
-                            <!-- Extract name for logging -->
-                            <Assign DisplayName="Extract: configName" sap2010:WorkflowViewState.IdRef="Assign_5">
-                              <Assign.To>
-                                <OutArgument x:TypeArguments="x:String">[configName]</OutArgument>
-                              </Assign.To>
-                              <Assign.Value>
-                                <InArgument x:TypeArguments="x:String">[If(parsedConfig.ContainsKey("PortalName"), parsedConfig("PortalName").ToString(), System.IO.Path.GetFileNameWithoutExtension(filePath))]</InArgument>
-                              </Assign.Value>
-                            </Assign>
-                            <ui:LogMessage DisplayName="Log: Config loaded" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;ConfigLoader: Loaded portal config — &quot; &amp; configName]" />
-                          </Sequence>
+                          <ui:Continue sap2010:WorkflowViewState.IdRef="Continue_ConfigInvalid" />
                         </If.Then>
-                        <If.Else>
-                          <ui:LogMessage DisplayName="Log: Null result" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Warn" Message="[&quot;ConfigLoader: Deserialization returned Nothing for &quot; &amp; filePath]" />
-                        </If.Else>
                       </If>
+
+                      <!-- If we reached here, normalization succeeded. Append validated config only. -->
+                      <Assign DisplayName="Append: config to portalList" sap2010:WorkflowViewState.IdRef="Assign_4">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList.Concat(New List(Of Dictionary(Of String, Object)) From {config}).ToList()]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+
+                      <ui:LogMessage DisplayName="Log: Config loaded" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;ConfigLoader: Successfully loaded and normalized config for portal: &quot; &amp; config(&quot;PortalName&quot;).ToString()]" />
 
                     </Sequence>
                   </TryCatch.Try>
@@ -186,7 +197,8 @@ parsedConfig = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of St
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
                         </ActivityAction.Argument>
-                        <ui:LogMessage DisplayName="Log: Config load failed" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error" Message="[&quot;ConfigLoader ERROR: Failed to load &quot; &amp; filePath &amp; &quot; — &quot; &amp; exception.Message]" />
+                        <!-- Log detailed error including file path -->
+                        <ui:LogMessage DisplayName="Log: Config load failed" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error" Message="[&quot;Failed to load config: &quot; &amp; filePath &amp; &quot; | &quot; &amp; exception.Message]" />
                       </ActivityAction>
                     </Catch>
                   </TryCatch.Catches>
@@ -196,14 +208,18 @@ parsedConfig = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of St
             </ui:ForEach.Body>
           </ui:ForEach>
 
+          <!-- ═══ BLOCK 5 — Post-Loop Validation: Check Count ═══ -->
+          <If Condition="[portalList.Count = 0]" DisplayName="Check: Any configs valid?" sap2010:WorkflowViewState.IdRef="If_2">
+            <If.Then>
+              <Throw DisplayName="Throw: No valid configs" Exception="[New Exception(&quot;No valid configs found in folder: &quot; &amp; in_PortalsFolderPath)]" sap2010:WorkflowViewState.IdRef="Throw_2" />
+            </If.Then>
+          </If>
+
         </Sequence>
-      </If.Then>
-      <If.Else>
-        <ui:LogMessage DisplayName="Log: Folder not found" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[&quot;ConfigLoader WARNING: Portal config folder not found or path is empty — &quot; &amp; If(in_PortalsFolderPath Is Nothing, &quot;(null)&quot;, in_PortalsFolderPath)]" />
       </If.Else>
     </If>
 
-    <!-- ═══ BLOCK 5 — Set output argument ═══ -->
+    <!-- ═══ BLOCK 6 — Set output argument ═══ -->
     <Assign DisplayName="Set: out_PortalList" sap2010:WorkflowViewState.IdRef="Assign_6">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_PortalList]</OutArgument>
@@ -212,7 +228,7 @@ parsedConfig = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of St
         <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:LogMessage DisplayName="Log: ConfigLoader complete" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;ConfigLoader complete. Loaded &quot; &amp; portalList.Count.ToString &amp; &quot; portal config(s).&quot;]" />
+    <ui:LogMessage DisplayName="Log: ConfigLoader complete" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;ConfigLoader complete. Loaded &quot; &amp; portalList.Count.ToString &amp; &quot; validated portal config(s).&quot;]" />
 
   </Sequence>
 </Activity>
