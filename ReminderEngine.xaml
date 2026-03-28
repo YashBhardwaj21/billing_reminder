@@ -1,0 +1,555 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ReminderEngine" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ReminderList" Type="InArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
+    <x:Property Name="in_SMTPHost" Type="InArgument(x:String)" />
+    <x:Property Name="in_SMTPPort" Type="InArgument(x:Int32)" />
+    <x:Property Name="in_SMTPUsername" Type="InArgument(x:String)" />
+    <x:Property Name="in_SMTPPassword" Type="InArgument(x:String)" />
+    <x:Property Name="in_SenderEmail" Type="InArgument(x:String)" />
+    <x:Property Name="out_SentCount" Type="OutArgument(x:Int32)" />
+    <x:Property Name="out_FailedCount" Type="OutArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Globalization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Net.Requests</AssemblyReference>
+      <AssemblyReference>System.Net.Primitives</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN SEQUENCE                                                      -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <Sequence DisplayName="ReminderEngine" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="recipientEmail" />
+      <Variable x:TypeArguments="x:String" Name="portalName" />
+      <Variable x:TypeArguments="x:String" Name="serviceType" />
+      <Variable x:TypeArguments="x:String" Name="applicantName" />
+      <Variable x:TypeArguments="x:String" Name="applicationNumber" />
+      <Variable x:TypeArguments="x:String" Name="amountDue" />
+      <Variable x:TypeArguments="s:DateTime" Name="dueDate" />
+      <Variable x:TypeArguments="x:Int32" Name="daysLeft" />
+      <Variable x:TypeArguments="x:String" Name="severity" />
+      <Variable x:TypeArguments="x:String" Name="sourceURL" />
+      <Variable x:TypeArguments="x:String" Name="emailSubject" />
+      <Variable x:TypeArguments="x:String" Name="emailBody" />
+      <Variable x:TypeArguments="x:String" Name="channels" />
+      <Variable x:TypeArguments="x:Boolean" Name="sendEmail" />
+      <Variable x:TypeArguments="x:Boolean" Name="sendTeams" />
+      <Variable x:TypeArguments="x:Boolean" Name="sendToast" />
+      <Variable x:TypeArguments="x:Int32" Name="sentCount" />
+      <Variable x:TypeArguments="x:Int32" Name="failedCount" />
+      <Variable x:TypeArguments="x:String" Name="subjectPrefix" />
+      <Variable x:TypeArguments="x:String" Name="urgencyColor" />
+      <Variable x:TypeArguments="x:String" Name="dedupeKey" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="dedupeSet" />
+      <Variable x:TypeArguments="x:String" Name="teamsPayload" />
+      <Variable x:TypeArguments="x:String" Name="dedupeFilePath" />
+    </Sequence.Variables>
+
+    <!-- ═══ BLOCK 1 — Initialise ═══ -->
+    <Assign DisplayName="Init: sentCount" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[sentCount]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[0]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Init: failedCount" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Int32">[failedCount]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Int32">[0]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Init: dedupeFilePath" sap2010:WorkflowViewState.IdRef="Assign_DedupeFile">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[dedupeFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Data\dedupe_log.txt")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <!-- Load existing dedupe keys from persistent file -->
+    <ui:InvokeCode ContinueOnError="[True]" DisplayName="InvokeCode: Load dedupe keys from file" sap2010:WorkflowViewState.IdRef="InvokeCode_LoadDedupe">
+      <ui:InvokeCode.Code>
+dedupeSet = New List(Of String)()
+Try
+    Dim dir As String = System.IO.Path.GetDirectoryName(dedupeFilePath)
+    If Not String.IsNullOrEmpty(dir) Then System.IO.Directory.CreateDirectory(dir)
+    If System.IO.File.Exists(dedupeFilePath) Then
+        Dim lines() As String = System.IO.File.ReadAllLines(dedupeFilePath)
+        For Each line As String In lines
+            If Not String.IsNullOrWhiteSpace(line) Then
+                dedupeSet.Add(line.Trim())
+            End If
+        Next
+    End If
+Catch
+    dedupeSet = New List(Of String)()
+End Try
+      </ui:InvokeCode.Code>
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="dedupeFilePath">[dedupeFilePath]</InArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="dedupeSet">[dedupeSet]</OutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:LogMessage DisplayName="Log: Dedupe loaded" sap2010:WorkflowViewState.IdRef="LogMessage_DedupeLoaded" Level="Info" Message="[&quot;Dedupe store loaded. Existing keys: &quot; &amp; dedupeSet.Count.ToString]" />
+    <ui:LogMessage DisplayName="Log: ReminderEngine started" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;ReminderEngine started. Total reminders to process: &quot; &amp; in_ReminderList.Count.ToString]" />
+
+    <!-- ═══ BLOCK 2 — Guard: empty list check ═══ -->
+    <If Condition="[in_ReminderList Is Nothing OrElse in_ReminderList.Count = 0]" DisplayName="Check: ReminderList empty?" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Then — Empty list" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <ui:LogMessage DisplayName="Log: No reminders" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;ReminderEngine: No reminders received. Nothing to send.&quot;]" />
+          <Assign DisplayName="Set out_SentCount = 0" sap2010:WorkflowViewState.IdRef="Assign_4">
+            <Assign.To><OutArgument x:TypeArguments="x:Int32">[out_SentCount]</OutArgument></Assign.To>
+            <Assign.Value><InArgument x:TypeArguments="x:Int32">[0]</InArgument></Assign.Value>
+          </Assign>
+          <Assign DisplayName="Set out_FailedCount = 0" sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To><OutArgument x:TypeArguments="x:Int32">[out_FailedCount]</OutArgument></Assign.To>
+            <Assign.Value><InArgument x:TypeArguments="x:Int32">[0]</InArgument></Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else — Process reminders" sap2010:WorkflowViewState.IdRef="Sequence_3">
+
+          <!-- ═══ BLOCK 3 — For Each reminder loop ═══ -->
+          <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each: reminder in ReminderList" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[in_ReminderList]">
+            <ui:ForEach.Body>
+              <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="currentReminder" />
+                </ActivityAction.Argument>
+
+                <!-- ═══ BLOCK 4 — TryCatch outer ═══ -->
+                <TryCatch DisplayName="TryCatch: Process single reminder" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                  <TryCatch.Try>
+                    <Sequence DisplayName="Try — Process reminder" sap2010:WorkflowViewState.IdRef="Sequence_4">
+
+                      <!-- ═══ BLOCK 5 — Unpack reminder fields ═══ -->
+                      <Assign DisplayName="Unpack: recipientEmail" sap2010:WorkflowViewState.IdRef="Assign_6">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[recipientEmail]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("RecipientEmail"), currentReminder("RecipientEmail").ToString().Trim(), "")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: portalName" sap2010:WorkflowViewState.IdRef="Assign_7">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[portalName]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("PortalName"), currentReminder("PortalName").ToString(), "Unknown Portal")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: serviceType" sap2010:WorkflowViewState.IdRef="Assign_8">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[serviceType]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("ServiceType"), currentReminder("ServiceType").ToString(), "Bill")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: applicantName" sap2010:WorkflowViewState.IdRef="Assign_9">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[applicantName]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("ApplicantName"), currentReminder("ApplicantName").ToString(), "Customer")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: applicationNumber" sap2010:WorkflowViewState.IdRef="Assign_10">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[applicationNumber]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("ApplicationNumber"), currentReminder("ApplicationNumber").ToString(), "N/A")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: amountDue" sap2010:WorkflowViewState.IdRef="Assign_11">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[amountDue]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("AmountDue"), currentReminder("AmountDue").ToString(), "Amount not available")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: dueDate" sap2010:WorkflowViewState.IdRef="Assign_12">
+                        <Assign.To><OutArgument x:TypeArguments="s:DateTime">[dueDate]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="s:DateTime">[CDate(currentReminder("DueDate"))]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: daysLeft" sap2010:WorkflowViewState.IdRef="Assign_13">
+                        <Assign.To><OutArgument x:TypeArguments="x:Int32">[daysLeft]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:Int32">[CInt(currentReminder("DaysLeft"))]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: severity" sap2010:WorkflowViewState.IdRef="Assign_14">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[severity]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[currentReminder("Severity").ToString()]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: sourceURL" sap2010:WorkflowViewState.IdRef="Assign_15">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[sourceURL]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("SourceURL"), currentReminder("SourceURL").ToString(), "")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Unpack: channels" sap2010:WorkflowViewState.IdRef="Assign_16">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[channels]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(currentReminder.ContainsKey("NotificationChannels"), currentReminder("NotificationChannels").ToString().ToLower(), "email")]</InArgument></Assign.Value>
+                      </Assign>
+
+                      <!-- ═══ BLOCK 6 — Parse notification channel flags ═══ -->
+                      <Assign DisplayName="Parse: sendEmail flag" sap2010:WorkflowViewState.IdRef="Assign_17">
+                        <Assign.To><OutArgument x:TypeArguments="x:Boolean">[sendEmail]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:Boolean">[channels.Contains("email")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Parse: sendTeams flag" sap2010:WorkflowViewState.IdRef="Assign_18">
+                        <Assign.To><OutArgument x:TypeArguments="x:Boolean">[sendTeams]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:Boolean">[channels.Contains("teams")]</InArgument></Assign.Value>
+                      </Assign>
+                      <Assign DisplayName="Parse: sendToast flag" sap2010:WorkflowViewState.IdRef="Assign_19">
+                        <Assign.To><OutArgument x:TypeArguments="x:Boolean">[sendToast]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:Boolean">[channels.Contains("toast")]</InArgument></Assign.Value>
+                      </Assign>
+
+                      <!-- ═══ BLOCK 7 — Deduplication check ═══ -->
+                      <Assign DisplayName="Build: dedupeKey" sap2010:WorkflowViewState.IdRef="Assign_20">
+                        <Assign.To><OutArgument x:TypeArguments="x:String">[dedupeKey]</OutArgument></Assign.To>
+                        <Assign.Value><InArgument x:TypeArguments="x:String">[applicationNumber &amp; "|" &amp; dueDate.ToString("yyyy-MM-dd") &amp; "|" &amp; severity]</InArgument></Assign.Value>
+                      </Assign>
+                      <If Condition="[Not dedupeSet.Contains(dedupeKey)]" DisplayName="Check: Not a duplicate?" sap2010:WorkflowViewState.IdRef="If_2">
+                        <If.Then>
+                          <Sequence DisplayName="Then — Not duplicate, continue" sap2010:WorkflowViewState.IdRef="Sequence_5">
+
+                            <!-- ═══ BLOCK 8 — Guard: validate email ═══ -->
+                            <If Condition="[Not (String.IsNullOrWhiteSpace(recipientEmail) OrElse Not recipientEmail.Contains(&quot;@&quot;))]" DisplayName="Check: Valid recipient email?" sap2010:WorkflowViewState.IdRef="If_3">
+                              <If.Then>
+                                <Sequence DisplayName="Then — Valid email, continue" sap2010:WorkflowViewState.IdRef="Sequence_6">
+
+                                  <!-- ═══ BLOCK 9 — Guard: skip far-future dates ═══ -->
+                                  <If Condition="[daysLeft &lt;= 365]" DisplayName="Check: Date within 365 days?" sap2010:WorkflowViewState.IdRef="If_4">
+                                    <If.Then>
+                                      <Sequence DisplayName="Then — Within range, process" sap2010:WorkflowViewState.IdRef="Sequence_7">
+
+                                        <!-- ═══ BLOCK 10 — Build subjectPrefix and urgencyColor ═══ -->
+                                        <Assign DisplayName="Assign: subjectPrefix by severity" sap2010:WorkflowViewState.IdRef="Assign_21">
+                                          <Assign.To><OutArgument x:TypeArguments="x:String">[subjectPrefix]</OutArgument></Assign.To>
+                                          <Assign.Value><InArgument x:TypeArguments="x:String">[If(severity = "OVERDUE", "OVERDUE", If(severity = "DUE_TODAY", "DUE TODAY", If(severity = "URGENT", "URGENT", If(severity = "WARNING", "REMINDER", "REMINDER"))))]</InArgument></Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Assign: urgencyColor by severity" sap2010:WorkflowViewState.IdRef="Assign_22">
+                                          <Assign.To><OutArgument x:TypeArguments="x:String">[urgencyColor]</OutArgument></Assign.To>
+                                          <Assign.Value><InArgument x:TypeArguments="x:String">[If(severity = "OVERDUE", "#DC3545", If(severity = "DUE_TODAY", "#FD7E14", If(severity = "URGENT", "#E8530E", If(severity = "WARNING", "#FFC107", "#0D6EFD"))))]</InArgument></Assign.Value>
+                                        </Assign>
+
+                                        <!-- ═══ BLOCK 11 — Build email subject ═══ -->
+                                        <Assign DisplayName="Build: emailSubject" sap2010:WorkflowViewState.IdRef="Assign_23">
+                                          <Assign.To><OutArgument x:TypeArguments="x:String">[emailSubject]</OutArgument></Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[subjectPrefix &amp; " | " &amp; serviceType &amp; " Due " &amp; If(daysLeft &lt; 0, Math.Abs(daysLeft).ToString &amp; " days ago", If(daysLeft = 0, "TODAY", "in " &amp; daysLeft.ToString &amp; " days")) &amp; " | " &amp; portalName]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+
+                                        <!-- ═══ BLOCK 12 — Build email body (HTML) ═══ -->
+                                        <Assign DisplayName="Build: emailBody" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                          <Assign.To><OutArgument x:TypeArguments="x:String">[emailBody]</OutArgument></Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">["&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;body style='font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;'&gt;" &amp;
+"&lt;div style='background:" &amp; urgencyColor &amp; ";color:white;padding:15px;border-radius:8px 8px 0 0;'&gt;" &amp;
+"&lt;h2 style='margin:0;'&gt;" &amp; subjectPrefix &amp; " — " &amp; serviceType &amp; "&lt;/h2&gt;" &amp;
+"&lt;p style='margin:5px 0 0;'&gt;Portal: " &amp; portalName &amp; "&lt;/p&gt;" &amp;
+"&lt;/div&gt;" &amp;
+"&lt;div style='border:2px solid " &amp; urgencyColor &amp; ";border-top:none;padding:20px;border-radius:0 0 8px 8px;'&gt;" &amp;
+"&lt;table style='width:100%;border-collapse:collapse;'&gt;" &amp;
+"&lt;tr&gt;&lt;td style='padding:8px;font-weight:bold;width:40%;'&gt;Account Holder&lt;/td&gt;&lt;td style='padding:8px;'&gt;" &amp; applicantName &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+"&lt;tr style='background:#f9f9f9;'&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Consumer / Ref No&lt;/td&gt;&lt;td style='padding:8px;'&gt;" &amp; applicationNumber &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+"&lt;tr&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Amount Due&lt;/td&gt;&lt;td style='padding:8px;font-size:18px;font-weight:bold;color:" &amp; urgencyColor &amp; ";'&gt;" &amp; amountDue &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+"&lt;tr style='background:#f9f9f9;'&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Due Date&lt;/td&gt;&lt;td style='padding:8px;'&gt;" &amp; dueDate.ToString("dd MMMM yyyy") &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+"&lt;tr&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Days Remaining&lt;/td&gt;&lt;td style='padding:8px;font-weight:bold;color:" &amp; urgencyColor &amp; ";'&gt;" &amp; If(daysLeft &lt; 0, Math.Abs(daysLeft).ToString &amp; " days OVERDUE", If(daysLeft = 0, "DUE TODAY", daysLeft.ToString &amp; " days left")) &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+"&lt;tr style='background:#f9f9f9;'&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Service Type&lt;/td&gt;&lt;td style='padding:8px;'&gt;" &amp; serviceType &amp; "&lt;/td&gt;&lt;/tr&gt;" &amp;
+If(Not String.IsNullOrWhiteSpace(sourceURL), "&lt;tr&gt;&lt;td style='padding:8px;font-weight:bold;'&gt;Pay Now&lt;/td&gt;&lt;td style='padding:8px;'&gt;&lt;a href='" &amp; sourceURL &amp; "' style='background:" &amp; urgencyColor &amp; ";color:white;padding:8px 16px;border-radius:4px;text-decoration:none;'&gt;Pay Now&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;", "") &amp;
+"&lt;/table&gt;" &amp;
+"&lt;hr style='margin:20px 0;' /&gt;" &amp;
+"&lt;p style='color:#666;font-size:12px;margin:0;'&gt;This is an automated reminder from WebMonitor Pro. Do not reply to this email.&lt;/p&gt;" &amp;
+"&lt;p style='color:#666;font-size:12px;margin:5px 0 0;'&gt;Reminder generated on: " &amp; DateTime.Now.ToString("dd MMM yyyy HH:mm") &amp; "&lt;/p&gt;" &amp;
+"&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+
+                                        <!-- ═══ BLOCK 13 — Send Email channel ═══ -->
+                                        <If Condition="[sendEmail]" DisplayName="Check: Send Email?" sap2010:WorkflowViewState.IdRef="If_5">
+                                          <If.Then>
+                                            <TryCatch DisplayName="TryCatch: Send Email" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                                              <TryCatch.Try>
+                                                <Sequence DisplayName="Try — Send Email" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                                  <ui:InvokeCode Language="{x:Null}" ContinueOnError="False" DisplayName="InvokeCode: Send SMTP Email" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                                                    <ui:InvokeCode.Code>
+Dim smtp As New System.Net.Mail.SmtpClient(smtpHost, smtpPort)
+smtp.EnableSsl = True
+smtp.Credentials = New System.Net.NetworkCredential(smtpUser, smtpPass)
+Dim msg As New System.Net.Mail.MailMessage()
+msg.From = New System.Net.Mail.MailAddress(senderAddr)
+msg.[To].Add(toAddr)
+msg.Subject = subj
+msg.Body = body
+msg.IsBodyHtml = True
+smtp.Send(msg)
+msg.Dispose()
+smtp.Dispose()
+                                                    </ui:InvokeCode.Code>
+                                                    <ui:InvokeCode.Arguments>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="smtpHost">[in_SMTPHost]</InArgument>
+                                                      <InArgument x:TypeArguments="x:Int32" x:Key="smtpPort">[in_SMTPPort]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="smtpUser">[in_SMTPUsername]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="smtpPass">[in_SMTPPassword]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="senderAddr">[in_SenderEmail]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="toAddr">[recipientEmail]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="subj">[emailSubject]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="body">[emailBody]</InArgument>
+                                                    </ui:InvokeCode.Arguments>
+                                                  </ui:InvokeCode>
+                                                  <ui:LogMessage DisplayName="Log: EMAIL SENT" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;EMAIL SENT: &quot; &amp; portalName &amp; &quot; → &quot; &amp; recipientEmail &amp; &quot; | Severity: &quot; &amp; severity]" />
+                                                </Sequence>
+                                              </TryCatch.Try>
+                                              <TryCatch.Catches>
+                                                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_1">
+                                                  <ActivityAction x:TypeArguments="s:Exception">
+                                                    <ActivityAction.Argument>
+                                                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                                    </ActivityAction.Argument>
+                                                    <Sequence DisplayName="Catch — Email failed" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                                                      <ui:LogMessage DisplayName="Log: EMAIL FAILED" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error" Message="[&quot;EMAIL FAILED: &quot; &amp; portalName &amp; &quot; → &quot; &amp; recipientEmail &amp; &quot; | Error: &quot; &amp; exception.Message]" />
+                                                      <Assign DisplayName="Increment failedCount (email)" sap2010:WorkflowViewState.IdRef="Assign_25">
+                                                        <Assign.To><OutArgument x:TypeArguments="x:Int32">[failedCount]</OutArgument></Assign.To>
+                                                        <Assign.Value><InArgument x:TypeArguments="x:Int32">[failedCount + 1]</InArgument></Assign.Value>
+                                                      </Assign>
+                                                    </Sequence>
+                                                  </ActivityAction>
+                                                </Catch>
+                                              </TryCatch.Catches>
+                                            </TryCatch>
+                                          </If.Then>
+                                          <If.Else>
+                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_10" />
+                                          </If.Else>
+                                        </If>
+
+                                        <!-- ═══ BLOCK 14 — Teams channel ═══ -->
+                                        <If Condition="[sendTeams]" DisplayName="Check: Send Teams?" sap2010:WorkflowViewState.IdRef="If_6">
+                                          <If.Then>
+                                            <TryCatch DisplayName="TryCatch: Send Teams" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+                                              <TryCatch.Try>
+                                                <Sequence DisplayName="Try — Send Teams" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                                                  <Assign DisplayName="Build: Teams webhook payload" sap2010:WorkflowViewState.IdRef="Assign_26">
+                                                    <Assign.To><OutArgument x:TypeArguments="x:String">[teamsPayload]</OutArgument></Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="x:String">["{""@type"":""MessageCard"",""@context"":""https://schema.org/extensions"",""themeColor"":""" &amp; urgencyColor.Replace("#","") &amp; """,""summary"":""" &amp; emailSubject &amp; """,""sections"":[{""activityTitle"":""" &amp; subjectPrefix &amp; " — " &amp; serviceType &amp; """,""activitySubtitle"":""" &amp; portalName &amp; """,""facts"":[{""name"":""Account"",""value"":""" &amp; applicantName &amp; """},{""name"":""Amount"",""value"":""" &amp; amountDue &amp; """},{""name"":""Due Date"",""value"":""" &amp; dueDate.ToString("dd MMM yyyy") &amp; """},{""name"":""Days Left"",""value"":""" &amp; daysLeft.ToString &amp; """}]}]}"]</InArgument>
+                                                    </Assign.Value>
+                                                  </Assign>
+                                                  <ui:InvokeCode Language="{x:Null}" ContinueOnError="False" DisplayName="InvokeCode: POST to Teams Webhook" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+                                                    <ui:InvokeCode.Code>
+Dim webhookUrl As String = teamsUrl
+If Not String.IsNullOrWhiteSpace(webhookUrl) Then
+    Dim req As System.Net.HttpWebRequest = CType(System.Net.WebRequest.Create(webhookUrl), System.Net.HttpWebRequest)
+    req.Method = "POST"
+    req.ContentType = "application/json"
+    Dim data As Byte() = System.Text.Encoding.UTF8.GetBytes(payload)
+    req.ContentLength = data.Length
+    Dim stream = req.GetRequestStream()
+    stream.Write(data, 0, data.Length)
+    stream.Close()
+    Dim resp = req.GetResponse()
+    resp.Close()
+End If
+                                                    </ui:InvokeCode.Code>
+                                                    <ui:InvokeCode.Arguments>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="teamsUrl">[If(currentReminder.ContainsKey("TeamsWebhookURL"), currentReminder("TeamsWebhookURL").ToString(), "")]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="payload">[teamsPayload]</InArgument>
+                                                    </ui:InvokeCode.Arguments>
+                                                  </ui:InvokeCode>
+                                                  <ui:LogMessage DisplayName="Log: TEAMS SENT" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;TEAMS SENT: &quot; &amp; portalName &amp; &quot; | Severity: &quot; &amp; severity]" />
+                                                </Sequence>
+                                              </TryCatch.Try>
+                                              <TryCatch.Catches>
+                                                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_2">
+                                                  <ActivityAction x:TypeArguments="s:Exception">
+                                                    <ActivityAction.Argument>
+                                                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                                    </ActivityAction.Argument>
+                                                    <ui:LogMessage DisplayName="Log: TEAMS FAILED" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[&quot;TEAMS FAILED: &quot; &amp; portalName &amp; &quot; | Error: &quot; &amp; exception.Message]" />
+                                                  </ActivityAction>
+                                                </Catch>
+                                              </TryCatch.Catches>
+                                            </TryCatch>
+                                          </If.Then>
+                                          <If.Else>
+                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_12" />
+                                          </If.Else>
+                                        </If>
+
+                                        <!-- ═══ BLOCK 15 — Toast notification channel ═══ -->
+                                        <If Condition="[sendToast]" DisplayName="Check: Send Toast?" sap2010:WorkflowViewState.IdRef="If_7">
+                                          <If.Then>
+                                            <TryCatch DisplayName="TryCatch: Send Toast" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                                              <TryCatch.Try>
+                                                <Sequence DisplayName="Try — Show Toast" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                                                  <ui:LogMessage DisplayName="TOAST: Show Notification" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;TOAST NOTIFICATION: &quot; &amp; subjectPrefix &amp; &quot; | &quot; &amp; serviceType &amp; &quot; — &quot; &amp; portalName &amp; &quot; — &quot; &amp; amountDue &amp; &quot; due &quot; &amp; dueDate.ToString(&quot;dd MMM yyyy&quot;) &amp; &quot; (&quot; &amp; daysLeft.ToString &amp; &quot; days)&quot;]" />
+                                                </Sequence>
+                                              </TryCatch.Try>
+                                              <TryCatch.Catches>
+                                                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_3">
+                                                  <ActivityAction x:TypeArguments="s:Exception">
+                                                    <ActivityAction.Argument>
+                                                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                                    </ActivityAction.Argument>
+                                                    <ui:LogMessage DisplayName="Log: TOAST FAILED" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Warn" Message="[&quot;TOAST FAILED: &quot; &amp; portalName &amp; &quot; | Error: &quot; &amp; exception.Message]" />
+                                                  </ActivityAction>
+                                                </Catch>
+                                              </TryCatch.Catches>
+                                            </TryCatch>
+                                          </If.Then>
+                                          <If.Else>
+                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_14" />
+                                          </If.Else>
+                                        </If>
+
+                                        <!-- ═══ BLOCK 16 — Mark as sent + persist to file ═══ -->
+                                        <Assign DisplayName="Add to dedupeSet (memory)" sap2010:WorkflowViewState.IdRef="Assign_27">
+                                          <Assign.To><OutArgument x:TypeArguments="scg:List(x:String)">[dedupeSet]</OutArgument></Assign.To>
+                                          <Assign.Value><InArgument x:TypeArguments="scg:List(x:String)">[dedupeSet.Concat(New List(Of String) From {dedupeKey}).ToList()]</InArgument></Assign.Value>
+                                        </Assign>
+                                        <!-- Persist dedupe key to file -->
+                                        <ui:InvokeCode ContinueOnError="[True]" DisplayName="InvokeCode: Append dedupeKey to file" sap2010:WorkflowViewState.IdRef="InvokeCode_WriteDedupe">
+                                          <ui:InvokeCode.Code>
+System.IO.File.AppendAllText(dedupeFilePath, dedupeKey &amp; Environment.NewLine)
+                                          </ui:InvokeCode.Code>
+                                          <ui:InvokeCode.Arguments>
+                                            <InArgument x:TypeArguments="x:String" x:Key="dedupeFilePath">[dedupeFilePath]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="dedupeKey">[dedupeKey]</InArgument>
+                                          </ui:InvokeCode.Arguments>
+                                        </ui:InvokeCode>
+                                        <Assign DisplayName="Increment sentCount" sap2010:WorkflowViewState.IdRef="Assign_28">
+                                          <Assign.To><OutArgument x:TypeArguments="x:Int32">[sentCount]</OutArgument></Assign.To>
+                                          <Assign.Value><InArgument x:TypeArguments="x:Int32">[sentCount + 1]</InArgument></Assign.Value>
+                                        </Assign>
+                                        <ui:LogMessage DisplayName="Log: Reminder processed" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;PROCESSED: &quot; &amp; portalName &amp; &quot; | &quot; &amp; severity &amp; &quot; | Sent to: &quot; &amp; recipientEmail &amp; &quot; | Channels: &quot; &amp; channels]" />
+
+                                      </Sequence>
+                                    </If.Then>
+                                    <If.Else>
+                                      <!-- BLOCK 9 skip — date too far in future -->
+                                      <ui:LogMessage DisplayName="Log: Date too far in future" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;SKIP: Due date &quot; &amp; dueDate.ToString(&quot;dd-MMM-yyyy&quot;) &amp; &quot; is &quot; &amp; daysLeft.ToString &amp; &quot; days away — beyond 365 day limit. Portal: &quot; &amp; portalName]" />
+                                    </If.Else>
+                                  </If>
+
+                                </Sequence>
+                              </If.Then>
+                              <If.Else>
+                                <!-- BLOCK 8 skip — invalid email -->
+                                <Sequence DisplayName="Else — Invalid email" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                  <ui:LogMessage DisplayName="Log: Invalid email" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Warn" Message="[&quot;SKIP: Invalid or missing recipient email for &quot; &amp; portalName &amp; &quot; | ApplicationNo: &quot; &amp; applicationNumber]" />
+                                  <Assign DisplayName="Increment failedCount (invalid email)" sap2010:WorkflowViewState.IdRef="Assign_29">
+                                    <Assign.To><OutArgument x:TypeArguments="x:Int32">[failedCount]</OutArgument></Assign.To>
+                                    <Assign.Value><InArgument x:TypeArguments="x:Int32">[failedCount + 1]</InArgument></Assign.Value>
+                                  </Assign>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+
+                          </Sequence>
+                        </If.Then>
+                        <If.Else>
+                          <!-- BLOCK 7 skip — duplicate -->
+                          <ui:LogMessage DisplayName="Log: DEDUPE SKIP" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;DEDUPE SKIP: Already sent reminder for &quot; &amp; applicationNumber &amp; &quot; due &quot; &amp; dueDate.ToString(&quot;dd-MMM-yyyy&quot;) &amp; &quot; severity &quot; &amp; severity]" />
+                        </If.Else>
+                      </If>
+
+                    </Sequence>
+                  </TryCatch.Try>
+
+                  <!-- ═══ BLOCK 17 — Outer TryCatch Catch ═══ -->
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_4">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Catch — Reminder processing error" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                          <ui:LogMessage DisplayName="Log: REMINDER ENGINE ERROR" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Error" Message="[&quot;REMINDER ENGINE ERROR on portal &quot; &amp; portalName &amp; &quot; for &quot; &amp; recipientEmail &amp; &quot;: &quot; &amp; exception.Message]" />
+                          <Assign DisplayName="Increment failedCount (error)" sap2010:WorkflowViewState.IdRef="Assign_30">
+                            <Assign.To><OutArgument x:TypeArguments="x:Int32">[failedCount]</OutArgument></Assign.To>
+                            <Assign.Value><InArgument x:TypeArguments="x:Int32">[failedCount + 1]</InArgument></Assign.Value>
+                          </Assign>
+                        </Sequence>
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+
+              </ActivityAction>
+            </ui:ForEach.Body>
+          </ui:ForEach>
+
+          <!-- ═══ BLOCK 18 — Set outputs after For Each ═══ -->
+          <Assign DisplayName="Set out_SentCount" sap2010:WorkflowViewState.IdRef="Assign_31">
+            <Assign.To><OutArgument x:TypeArguments="x:Int32">[out_SentCount]</OutArgument></Assign.To>
+            <Assign.Value><InArgument x:TypeArguments="x:Int32">[sentCount]</InArgument></Assign.Value>
+          </Assign>
+          <Assign DisplayName="Set out_FailedCount" sap2010:WorkflowViewState.IdRef="Assign_32">
+            <Assign.To><OutArgument x:TypeArguments="x:Int32">[out_FailedCount]</OutArgument></Assign.To>
+            <Assign.Value><InArgument x:TypeArguments="x:Int32">[failedCount]</InArgument></Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="Log: ReminderEngine complete" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;ReminderEngine complete. Sent: &quot; &amp; sentCount.ToString &amp; &quot; | Failed: &quot; &amp; failedCount.ToString &amp; &quot; | Total processed: &quot; &amp; in_ReminderList.Count.ToString]" />
+
+        </Sequence>
+      </If.Else>
+    </If>
+
+  </Sequence>
+</Activity>
