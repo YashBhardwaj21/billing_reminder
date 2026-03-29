@@ -119,12 +119,30 @@
       <Variable x:TypeArguments="x:String" Name="portalURL" />
       <Variable x:TypeArguments="x:String" Name="portalName" />
       <Variable x:TypeArguments="x:String" Name="errorMessage" />
+      <Variable x:TypeArguments="x:String" Name="setupChoice" />
+      <Variable x:TypeArguments="x:String" Name="browserChoice" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Ask: Setup Choice" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_setupChoice">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[setupChoice]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Do you want to add a new portal or update existing? (Yes/No)", "WebMonitor Setup", "Yes")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[setupChoice.ToLower.Trim = &quot;yes&quot;]" DisplayName="Check: User wants setup?" sap:VirtualizedContainerService.HintSize="452,4500" sap2010:WorkflowViewState.IdRef="If_SetupChoice">
+      <If.Then>
+        <Sequence DisplayName="Then — Run Setup" sap:VirtualizedContainerService.HintSize="450,4400" sap2010:WorkflowViewState.IdRef="Sequence_RunSetup">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
     <Assign DisplayName="Ask: Portal Name" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalName">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
@@ -269,6 +287,14 @@
               <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Which channels to notify? Type comma separated: Email, Teams, Toast", "Notification Channels", "Email")]</InArgument>
             </Assign.Value>
           </Assign>
+          <Assign DisplayName="Ask: Browser Choice" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_browserChoice">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[browserChoice]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Which browser should be used? Type one: Chrome / Edge / Firefox", "Browser Selection", "Edge")]</InArgument>
+            </Assign.Value>
+          </Assign>
           <Assign DisplayName="Build credentialAssetName" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_credentialAssetName">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">[credentialAssetName]</OutArgument>
@@ -302,6 +328,7 @@
 """ReminderThreshold1"": " &amp; threshold1.ToString &amp; "," &amp;
 """ReminderThreshold2"": " &amp; threshold2.ToString &amp; "," &amp;
 """RecipientEmail"": """ &amp; recipientEmail &amp; """," &amp;
+"""BrowserType"": """ &amp; browserChoice.Trim &amp; """," &amp;
 """ExtractionMethod"": ""WebScrape""," &amp;
 """Fields"": [" &amp;
 "{""Name"":""AmountDue"",""Selector"":"""",""Anchor"":""Amount Due""}," &amp;
@@ -331,6 +358,12 @@
           <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Success Message" sap:VirtualizedContainerService.HintSize="416,124" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Portal '&quot; &amp; portalName &amp; &quot;' added successfully!&quot; &amp; Environment.NewLine &amp; &quot;Config saved to: &quot;&quot;&quot; &amp; configFilePath &amp; &quot;&quot;&quot;&quot; &amp; Environment.NewLine &amp; &quot;Credential stored as: &quot; &amp; credentialAssetName &amp; Environment.NewLine &amp; Environment.NewLine &amp; &quot;This portal will be monitored from the next scheduled run.&quot;]" />
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;PortalSetup complete: &quot; &amp; portalName &amp; &quot; | Asset: &quot; &amp; credentialAssetName]" />
         </Sequence>
+      </If.Else>
+    </If>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <ui:LogMessage DisplayName="Log: Setup skipped" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_SetupSkipped" Level="Info" Message="[&quot;PortalSetup skipped by user choice.&quot;]" />
       </If.Else>
     </If>
   </Sequence>

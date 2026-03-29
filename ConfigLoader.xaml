@@ -98,7 +98,22 @@
     <ui:LogMessage DisplayName="Log: ConfigLoader started" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;ConfigLoader started. Scanning folder: &quot; &amp; in_PortalsFolderPath]" />
     <If Condition="[String.IsNullOrWhiteSpace(in_PortalsFolderPath) OrElse Not System.IO.Directory.Exists(in_PortalsFolderPath)]" DisplayName="Check: Folder missing?" sap:VirtualizedContainerService.HintSize="452,1119.3333333333333" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <Throw DisplayName="Throw: Folder missing" Exception="[New Exception(&quot;Config folder missing or invalid path: &quot; &amp; If(in_PortalsFolderPath Is Nothing, &quot;(null)&quot;, in_PortalsFolderPath))]" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Throw_1" />
+        <Sequence DisplayName="Then — Folder missing, return empty" sap:VirtualizedContainerService.HintSize="450,400" sap2010:WorkflowViewState.IdRef="Sequence_FolderMissing">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log: Folder not found" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_FolderMissing" Level="Warn" Message="[&quot;Config folder not found at: &quot; &amp; in_PortalsFolderPath &amp; &quot; — PortalSetup may not have run yet.&quot;]" />
+          <Assign DisplayName="Set: empty portalList" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_EmptyList">
+            <Assign.To>
+              <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[portalList]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String, Object))()]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
       </If.Then>
       <If.Else>
         <Sequence DisplayName="Else — Folder found, load configs" sap:VirtualizedContainerService.HintSize="450,865.3333333333334" sap2010:WorkflowViewState.IdRef="Sequence_2">

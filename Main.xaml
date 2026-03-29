@@ -92,7 +92,7 @@
       <AssemblyReference>UiPath.Credentials.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Master Orchestrator" sap:VirtualizedContainerService.HintSize="648,4550" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Master Orchestrator" sap:VirtualizedContainerService.HintSize="648,5106.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="v_PortalsPath" />
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="v_ConfigList" />
@@ -137,13 +137,22 @@
       </Assign.Value>
     </Assign>
     <ui:LogMessage DisplayName="Log: Orchestrator started" sap:VirtualizedContainerService.HintSize="550,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;═══ WebMonitor Pro Orchestrator started ═══&quot;]" />
+    <If Condition="[True]" DisplayName="Check: Need PortalSetup?" sap:VirtualizedContainerService.HintSize="550,359.3333333333333" sap2010:WorkflowViewState.IdRef="If_NeedSetup">
+      <If.Then>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke PortalSetup - User Input" sap:VirtualizedContainerService.HintSize="514,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_PortalSetup" UnSafe="False" WorkflowFileName="PortalSetup.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <scg:Dictionary x:TypeArguments="x:String, Argument" />
+          </ui:InvokeWorkflowFile.Arguments>
+        </ui:InvokeWorkflowFile>
+      </If.Then>
+    </If>
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke ConfigLoader" sap:VirtualizedContainerService.HintSize="550,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ConfigLoader.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_PortalsFolderPath">[v_PortalsPath]</InArgument>
         <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_PortalList">[v_ConfigList]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <If Condition="[v_ConfigList Is Nothing OrElse v_ConfigList.Count = 0]" DisplayName="Check: Any configs loaded?" sap:VirtualizedContainerService.HintSize="550,3652.6666666666665" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[v_ConfigList Is Nothing OrElse v_ConfigList.Count = 0]" DisplayName="Check: Any configs loaded?" sap:VirtualizedContainerService.HintSize="550,3850" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
         <Sequence DisplayName="Then — No configs" sap:VirtualizedContainerService.HintSize="548,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <sap:WorkflowViewStateService.ViewState>
@@ -155,22 +164,22 @@
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence DisplayName="Else — Process portals" sap:VirtualizedContainerService.HintSize="548,3285.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Sequence DisplayName="Else — Process portals" sap:VirtualizedContainerService.HintSize="548,3482.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_3">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
           <ui:LogMessage DisplayName="Log: Portal count" sap:VirtualizedContainerService.HintSize="514,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Loaded &quot; &amp; v_ConfigList.Count.ToString &amp; &quot; portal(s). Starting processing loop.&quot;]" />
-          <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each: portalConfig" sap:VirtualizedContainerService.HintSize="514,2881.3333333333335" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[v_ConfigList]">
+          <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each: portalConfig" sap:VirtualizedContainerService.HintSize="514,3078.6666666666665" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[v_ConfigList]">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="portalConfig" />
                 </ActivityAction.Argument>
-                <TryCatch DisplayName="TryCatch: Process single portal" sap:VirtualizedContainerService.HintSize="488,2679.3333333333335" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch DisplayName="TryCatch: Process single portal" sap:VirtualizedContainerService.HintSize="488,2876.6666666666665" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                   <TryCatch.Try>
-                    <Sequence DisplayName="Try — Process portal" sap:VirtualizedContainerService.HintSize="486,2372.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <Sequence DisplayName="Try — Process portal" sap:VirtualizedContainerService.HintSize="486,2570" sap2010:WorkflowViewState.IdRef="Sequence_4">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -225,23 +234,13 @@
                           <InArgument x:TypeArguments="ss:SecureString">[New System.Security.SecureString()]</InArgument>
                         </Assign.Value>
                       </Assign>
-                      <ui:InvokeCode Code="Dim rawConfig As Dictionary(Of String, Object) = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(rawJson)&#xD;&#xA;&#xD;&#xA;If rawConfig Is Nothing OrElse Not TypeOf rawConfig Is Dictionary(Of String, Object) Then&#xD;&#xA;    Throw New Exception(&quot;Deserialization returned null or invalid type.&quot;)&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;If Not rawConfig.ContainsKey(&quot;PortalName&quot;) OrElse String.IsNullOrWhiteSpace(rawConfig(&quot;PortalName&quot;).ToString()) Then&#xD;&#xA;    Throw New Exception(&quot;Validation Failed: Missing required field 'PortalName'&quot;)&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;outNormalized = New Dictionary(Of String, Object)()&#xD;&#xA;&#xD;&#xA;outNormalized(&quot;PortalName&quot;) = rawConfig(&quot;PortalName&quot;).ToString()&#xD;&#xA;outNormalized(&quot;AuthType&quot;) = If(rawConfig.ContainsKey(&quot;AuthType&quot;), rawConfig(&quot;AuthType&quot;).ToString(), &quot;none&quot;)&#xD;&#xA;outNormalized(&quot;ExtractionMode&quot;) = If(rawConfig.ContainsKey(&quot;ExtractionMode&quot;), rawConfig(&quot;ExtractionMode&quot;).ToString(), &quot;table&quot;)&#xD;&#xA;&#xD;&#xA;For Each kvp In rawConfig&#xD;&#xA;    If Not outNormalized.ContainsKey(kvp.Key) Then&#xD;&#xA;        outNormalized(kvp.Key) = kvp.Value&#xD;&#xA;    End If&#xD;&#xA;Next" ContinueOnError="[True]" DisplayName="InvokeCode: Get Credentials" sap:VirtualizedContainerService.HintSize="452,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                      <ui:InvokeCode Code="Dim rawConfig As Dictionary(Of String, Object) = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(rawJson)&#xA;&#xA;If rawConfig Is Nothing OrElse Not TypeOf rawConfig Is Dictionary(Of String, Object) Then&#xA;    Throw New Exception(&quot;Deserialization returned null or invalid type.&quot;)&#xA;End If&#xA;&#xA;If Not rawConfig.ContainsKey(&quot;PortalName&quot;) OrElse String.IsNullOrWhiteSpace(rawConfig(&quot;PortalName&quot;).ToString()) Then&#xA;    Throw New Exception(&quot;Validation Failed: Missing required field 'PortalName'&quot;)&#xA;End If&#xA;&#xA;outNormalized = New Dictionary(Of String, Object)()&#xA;&#xA;outNormalized(&quot;PortalName&quot;) = rawConfig(&quot;PortalName&quot;).ToString()&#xA;outNormalized(&quot;AuthType&quot;) = If(rawConfig.ContainsKey(&quot;AuthType&quot;), rawConfig(&quot;AuthType&quot;).ToString(), &quot;none&quot;)&#xA;outNormalized(&quot;ExtractionMode&quot;) = If(rawConfig.ContainsKey(&quot;ExtractionMode&quot;), rawConfig(&quot;ExtractionMode&quot;).ToString(), &quot;table&quot;)&#xA;&#xA;For Each kvp In rawConfig&#xA;    If Not outNormalized.ContainsKey(kvp.Key) Then&#xA;        outNormalized(kvp.Key) = kvp.Value&#xA;    End If&#xA;Next" ContinueOnError="[True]" DisplayName="InvokeCode: Get Credentials" sap:VirtualizedContainerService.HintSize="452,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
                         <ui:InvokeCode.Arguments>
-                          <InArgument x:TypeArguments="x:String" x:Key="credTarget">
-                            <VisualBasicValue x:TypeArguments="x:String" ExpressionText="v_CredAssetName" />
-                          </InArgument>
-                          <OutArgument x:TypeArguments="x:String" x:Key="outUser">
-                            <VisualBasicReference x:TypeArguments="x:String" ExpressionText="v_Username" />
-                          </OutArgument>
-                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="outPass">
-                            <VisualBasicReference x:TypeArguments="ss:SecureString" ExpressionText="v_Password" />
-                          </OutArgument>
-                          <InArgument x:TypeArguments="x:String" x:Key="rawJson">
-                            <VisualBasicValue x:TypeArguments="x:String" ExpressionText="rawJson" />
-                          </InArgument>
-                          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="outNormalized">
-                            <VisualBasicReference x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="config" />
-                          </OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="credTarget">[v_CredAssetName]</InArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="outUser">[v_Username]</OutArgument>
+                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="outPass">[v_Password]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="rawJson">[rawJson]</InArgument>
+                          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="outNormalized">[config]</OutArgument>
                         </ui:InvokeCode.Arguments>
                       </ui:InvokeCode>
                       <Assign DisplayName="Reset: LoginSuccess" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_9">
@@ -252,6 +251,13 @@
                           <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
                         </Assign.Value>
                       </Assign>
+                      <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim cm As New CredentialManagement.Credential(credTarget)&#xD;&#xA;cm.Load()&#xD;&#xA;outUser = cm.Username&#xD;&#xA;outPass = New System.Security.SecureString()&#xD;&#xA;For Each c As Char In cm.Password&#xD;&#xA;    outPass.AppendChar(c)&#xD;&#xA;Next&#xD;&#xA;outPass.MakeReadOnly()" DisplayName="Retrieve Credentials from Store" sap:VirtualizedContainerService.HintSize="452,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_CredRetrieval">
+                        <ui:InvokeCode.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="credTarget">[v_CredAssetName]</InArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="outUser">[v_Username]</OutArgument>
+                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="outPass">[v_Password]</OutArgument>
+                        </ui:InvokeCode.Arguments>
+                      </ui:InvokeCode>
                       <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartNavigator" sap:VirtualizedContainerService.HintSize="452,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="SmartNavigator.xaml">
                         <ui:InvokeWorkflowFile.Arguments>
                           <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
