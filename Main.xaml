@@ -92,13 +92,7 @@
       <AssemblyReference>UiPath.Credentials.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-
-  <!-- ══════════════════════════════════════════════════════════════════ -->
-  <!-- MAIN ORCHESTRATOR                                                 -->
-  <!-- Flow: ConfigLoader → ForEach Portal → Navigator → Extractor →    -->
-  <!--       DateParser → Accumulate → ReminderEngine                    -->
-  <!-- ══════════════════════════════════════════════════════════════════ -->
-  <Sequence DisplayName="Master Orchestrator" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Master Orchestrator" sap:VirtualizedContainerService.HintSize="648,4550" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="v_PortalsPath" />
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="v_ConfigList" />
@@ -118,10 +112,15 @@
       <Variable x:TypeArguments="x:Int32" Name="v_Threshold2" />
       <Variable x:TypeArguments="x:Int32" Name="v_SentCount" />
       <Variable x:TypeArguments="x:Int32" Name="v_FailedCount" />
+      <Variable x:TypeArguments="x:String" Name="rawJson" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="config" />
     </Sequence.Variables>
-
-    <!-- ═══ BLOCK 1 — Set config folder path ═══ -->
-    <Assign DisplayName="Assign Portals Path" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Assign Portals Path" sap:VirtualizedContainerService.HintSize="550,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[v_PortalsPath]</OutArgument>
       </Assign.To>
@@ -129,9 +128,7 @@
         <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Data\Config\Portals\")]</InArgument>
       </Assign.Value>
     </Assign>
-
-    <!-- ═══ BLOCK 2 — Init master reminder list ═══ -->
-    <Assign DisplayName="Init: MasterReminderList" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign DisplayName="Init: MasterReminderList" sap:VirtualizedContainerService.HintSize="550,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[v_MasterReminderList]</OutArgument>
       </Assign.To>
@@ -139,215 +136,147 @@
         <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String, Object))()]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:LogMessage DisplayName="Log: Orchestrator started" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;═══ WebMonitor Pro Orchestrator started ═══&quot;]" />
-
-    <!-- ═══ BLOCK 3 — Invoke ConfigLoader ═══ -->
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke ConfigLoader" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ConfigLoader.xaml">
+    <ui:LogMessage DisplayName="Log: Orchestrator started" sap:VirtualizedContainerService.HintSize="550,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;═══ WebMonitor Pro Orchestrator started ═══&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke ConfigLoader" sap:VirtualizedContainerService.HintSize="550,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="ConfigLoader.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <scg:Dictionary x:TypeArguments="x:String, Argument">
-          <InArgument x:TypeArguments="x:String" x:Key="in_PortalsFolderPath">[v_PortalsPath]</InArgument>
-          <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_PortalList">[v_ConfigList]</OutArgument>
-        </scg:Dictionary>
+        <InArgument x:TypeArguments="x:String" x:Key="in_PortalsFolderPath">[v_PortalsPath]</InArgument>
+        <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_PortalList">[v_ConfigList]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-
-    <!-- ═══ BLOCK 4 — Guard: configs loaded? ═══ -->
-    <If Condition="[v_ConfigList Is Nothing OrElse v_ConfigList.Count = 0]" DisplayName="Check: Any configs loaded?" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[v_ConfigList Is Nothing OrElse v_ConfigList.Count = 0]" DisplayName="Check: Any configs loaded?" sap:VirtualizedContainerService.HintSize="550,3652.6666666666665" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <Sequence DisplayName="Then — No configs" sap2010:WorkflowViewState.IdRef="Sequence_2">
-          <ui:LogMessage DisplayName="Log: No configs" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;No portal configs found. Run PortalSetup.xaml first to add portals.&quot;]" />
+        <Sequence DisplayName="Then — No configs" sap:VirtualizedContainerService.HintSize="548,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log: No configs" sap:VirtualizedContainerService.HintSize="514,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Warn" Message="[&quot;No portal configs found. Run PortalSetup.xaml first to add portals.&quot;]" />
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence DisplayName="Else — Process portals" sap2010:WorkflowViewState.IdRef="Sequence_3">
-          <ui:LogMessage DisplayName="Log: Portal count" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Loaded &quot; &amp; v_ConfigList.Count.ToString &amp; &quot; portal(s). Starting processing loop.&quot;]" />
-
-          <!-- ═══ BLOCK 5 — For Each portalConfig ═══ -->
-          <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each: portalConfig" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[v_ConfigList]">
+        <Sequence DisplayName="Else — Process portals" sap:VirtualizedContainerService.HintSize="548,3285.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log: Portal count" sap:VirtualizedContainerService.HintSize="514,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Loaded &quot; &amp; v_ConfigList.Count.ToString &amp; &quot; portal(s). Starting processing loop.&quot;]" />
+          <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each: portalConfig" sap:VirtualizedContainerService.HintSize="514,2881.3333333333335" sap2010:WorkflowViewState.IdRef="ForEach_1" Values="[v_ConfigList]">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="portalConfig" />
                 </ActivityAction.Argument>
-
-                <TryCatch DisplayName="TryCatch: Process single portal" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch DisplayName="TryCatch: Process single portal" sap:VirtualizedContainerService.HintSize="488,2679.3333333333335" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                   <TryCatch.Try>
-                    <Sequence DisplayName="Try — Process portal" sap2010:WorkflowViewState.IdRef="Sequence_4">
-
-                      <!-- ═══ BLOCK 5a — Extract portal metadata ═══ -->
-                      <Assign DisplayName="Extract: PortalName" sap2010:WorkflowViewState.IdRef="Assign_3">
-                        <Assign.To><OutArgument x:TypeArguments="x:String">[v_PortalName]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:String">[If(portalConfig.ContainsKey("PortalName"), portalConfig("PortalName").ToString(), "UnknownPortal")]</InArgument></Assign.Value>
+                    <Sequence DisplayName="Try — Process portal" sap:VirtualizedContainerService.HintSize="486,2372.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="Extract: PortalName" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[v_PortalName]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[If(portalConfig.ContainsKey("PortalName"), portalConfig("PortalName").ToString(), "UnknownPortal")]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <Assign DisplayName="Extract: CredAssetName" sap2010:WorkflowViewState.IdRef="Assign_4">
-                        <Assign.To><OutArgument x:TypeArguments="x:String">[v_CredAssetName]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:String">["Portal_" &amp; v_PortalName.Replace(" ","_").ToUpper]</InArgument></Assign.Value>
+                      <Assign DisplayName="Extract: CredAssetName" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_4">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[v_CredAssetName]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">["Portal_" &amp; v_PortalName.Replace(" ","_").ToUpper]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <Assign DisplayName="Extract: Threshold1" sap2010:WorkflowViewState.IdRef="Assign_5">
-                        <Assign.To><OutArgument x:TypeArguments="x:Int32">[v_Threshold1]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:Int32">[If(portalConfig.ContainsKey("ReminderThreshold1"), CInt(portalConfig("ReminderThreshold1")), 7)]</InArgument></Assign.Value>
+                      <Assign DisplayName="Extract: Threshold1" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_5">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[v_Threshold1]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[If(portalConfig.ContainsKey("ReminderThreshold1"), CInt(portalConfig("ReminderThreshold1")), 7)]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <Assign DisplayName="Extract: Threshold2" sap2010:WorkflowViewState.IdRef="Assign_6">
-                        <Assign.To><OutArgument x:TypeArguments="x:Int32">[v_Threshold2]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:Int32">[If(portalConfig.ContainsKey("ReminderThreshold2"), CInt(portalConfig("ReminderThreshold2")), 30)]</InArgument></Assign.Value>
+                      <Assign DisplayName="Extract: Threshold2" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_6">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[v_Threshold2]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[If(portalConfig.ContainsKey("ReminderThreshold2"), CInt(portalConfig("ReminderThreshold2")), 30)]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <ui:LogMessage DisplayName="Log: Processing portal" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;══ Processing portal: &quot; &amp; v_PortalName &amp; &quot; ══&quot;]" />
-
-                      <!-- ═══ BLOCK 5b — Get credentials from Windows Credential Manager ═══ -->
-                      <Assign DisplayName="Init: v_Username" sap2010:WorkflowViewState.IdRef="Assign_7">
-                        <Assign.To><OutArgument x:TypeArguments="x:String">[v_Username]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:String">[""]</InArgument></Assign.Value>
+                      <ui:LogMessage DisplayName="Log: Processing portal" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;══ Processing portal: &quot; &amp; v_PortalName &amp; &quot; ══&quot;]" />
+                      <Assign DisplayName="Init: v_Username" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_7">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[v_Username]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[""]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <Assign DisplayName="Init: v_Password" sap2010:WorkflowViewState.IdRef="Assign_8">
-                        <Assign.To><OutArgument x:TypeArguments="ss:SecureString">[v_Password]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="ss:SecureString">[New System.Security.SecureString()]</InArgument></Assign.Value>
+                      <Assign DisplayName="Init: v_Password" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_8">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="ss:SecureString">[v_Password]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="ss:SecureString">[New System.Security.SecureString()]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <ui:InvokeCode ContinueOnError="[True]" DisplayName="InvokeCode: Get Credentials" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
-                        <ui:InvokeCode.Code>
-Dim cred = New CredentialManagement.Credential()
-cred.Target = credTarget
-If cred.Load() Then
-    outUser = If(cred.Username, "")
-    outPass = New System.Security.SecureString()
-    If cred.Password IsNot Nothing Then
-        For Each c As Char In cred.Password
-            outPass.AppendChar(c)
-        Next
-    End If
-Else
-    outUser = ""
-    outPass = New System.Security.SecureString()
-End If
-                        </ui:InvokeCode.Code>
+                      <ui:InvokeCode Code="Dim rawConfig As Dictionary(Of String, Object) = Newtonsoft.Json.JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(rawJson)&#xD;&#xA;&#xD;&#xA;If rawConfig Is Nothing OrElse Not TypeOf rawConfig Is Dictionary(Of String, Object) Then&#xD;&#xA;    Throw New Exception(&quot;Deserialization returned null or invalid type.&quot;)&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;If Not rawConfig.ContainsKey(&quot;PortalName&quot;) OrElse String.IsNullOrWhiteSpace(rawConfig(&quot;PortalName&quot;).ToString()) Then&#xD;&#xA;    Throw New Exception(&quot;Validation Failed: Missing required field 'PortalName'&quot;)&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;outNormalized = New Dictionary(Of String, Object)()&#xD;&#xA;&#xD;&#xA;outNormalized(&quot;PortalName&quot;) = rawConfig(&quot;PortalName&quot;).ToString()&#xD;&#xA;outNormalized(&quot;AuthType&quot;) = If(rawConfig.ContainsKey(&quot;AuthType&quot;), rawConfig(&quot;AuthType&quot;).ToString(), &quot;none&quot;)&#xD;&#xA;outNormalized(&quot;ExtractionMode&quot;) = If(rawConfig.ContainsKey(&quot;ExtractionMode&quot;), rawConfig(&quot;ExtractionMode&quot;).ToString(), &quot;table&quot;)&#xD;&#xA;&#xD;&#xA;For Each kvp In rawConfig&#xD;&#xA;    If Not outNormalized.ContainsKey(kvp.Key) Then&#xD;&#xA;        outNormalized(kvp.Key) = kvp.Value&#xD;&#xA;    End If&#xD;&#xA;Next" ContinueOnError="[True]" DisplayName="InvokeCode: Get Credentials" sap:VirtualizedContainerService.HintSize="452,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
                         <ui:InvokeCode.Arguments>
-                          <InArgument x:TypeArguments="x:String" x:Key="credTarget">[v_CredAssetName]</InArgument>
-                          <OutArgument x:TypeArguments="x:String" x:Key="outUser">[v_Username]</OutArgument>
-                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="outPass">[v_Password]</OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="credTarget">
+                            <VisualBasicValue x:TypeArguments="x:String" ExpressionText="v_CredAssetName" />
+                          </InArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="outUser">
+                            <VisualBasicReference x:TypeArguments="x:String" ExpressionText="v_Username" />
+                          </OutArgument>
+                          <OutArgument x:TypeArguments="ss:SecureString" x:Key="outPass">
+                            <VisualBasicReference x:TypeArguments="ss:SecureString" ExpressionText="v_Password" />
+                          </OutArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="rawJson">
+                            <VisualBasicValue x:TypeArguments="x:String" ExpressionText="rawJson" />
+                          </InArgument>
+                          <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="outNormalized">
+                            <VisualBasicReference x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="config" />
+                          </OutArgument>
                         </ui:InvokeCode.Arguments>
                       </ui:InvokeCode>
-
-                      <!-- ═══ BLOCK 5c — Invoke SmartNavigator ═══ -->
-                      <Assign DisplayName="Reset: LoginSuccess" sap2010:WorkflowViewState.IdRef="Assign_9">
-                        <Assign.To><OutArgument x:TypeArguments="x:Boolean">[v_LoginSuccess]</OutArgument></Assign.To>
-                        <Assign.Value><InArgument x:TypeArguments="x:Boolean">[False]</InArgument></Assign.Value>
+                      <Assign DisplayName="Reset: LoginSuccess" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_9">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Boolean">[v_LoginSuccess]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                        </Assign.Value>
                       </Assign>
-                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartNavigator" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="SmartNavigator.xaml">
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartNavigator" sap:VirtualizedContainerService.HintSize="452,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="SmartNavigator.xaml">
                         <ui:InvokeWorkflowFile.Arguments>
-                          <scg:Dictionary x:TypeArguments="x:String, Argument">
-                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[portalConfig]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="in_Username">[v_Username]</InArgument>
-                            <InArgument x:TypeArguments="ss:SecureString" x:Key="in_Password">[v_Password]</InArgument>
-                            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_LoginSuccess">[v_LoginSuccess]</OutArgument>
-                            <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
-                          </scg:Dictionary>
+                          <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
+                          <OutArgument x:TypeArguments="x:Boolean" x:Key="out_LoginSuccess">[v_LoginSuccess]</OutArgument>
+                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_BrowserSession" />
+                          <InArgument x:TypeArguments="ss:SecureString" x:Key="in_Password">[v_Password]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_Username">[v_Username]</InArgument>
+                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[portalConfig]</InArgument>
                         </ui:InvokeWorkflowFile.Arguments>
                       </ui:InvokeWorkflowFile>
-
-                      <!-- ═══ BLOCK 5d — If login success → extract ═══ -->
-                      <If Condition="[v_LoginSuccess]" DisplayName="Check: Login successful?" sap2010:WorkflowViewState.IdRef="If_2">
+                      <If Condition="[v_LoginSuccess]" DisplayName="Check: Login successful?" sap:VirtualizedContainerService.HintSize="452,524.6666666666666" sap2010:WorkflowViewState.IdRef="If_2">
                         <If.Then>
-                          <Sequence DisplayName="Then — Extract and parse" sap2010:WorkflowViewState.IdRef="Sequence_5">
-                            <ui:LogMessage DisplayName="Log: Login OK" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Login successful for &quot; &amp; v_PortalName &amp; &quot;. Starting extraction.&quot;]" />
-
-                            <!-- Invoke SmartExtractor -->
-                            <Assign DisplayName="Reset: ExtractionSuccess" sap2010:WorkflowViewState.IdRef="Assign_10">
-                              <Assign.To><OutArgument x:TypeArguments="x:Boolean">[v_ExtractionSuccess]</OutArgument></Assign.To>
-                              <Assign.Value><InArgument x:TypeArguments="x:Boolean">[False]</InArgument></Assign.Value>
-                            </Assign>
-                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartExtractor" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="SmartExtractor.xaml">
-                              <ui:InvokeWorkflowFile.Arguments>
-                                <scg:Dictionary x:TypeArguments="x:String, Argument">
-                                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[portalConfig]</InArgument>
-                                  <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[v_ExtractionSuccess]</OutArgument>
-                                  <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_ExtractedData">[v_ExtractedData]</OutArgument>
-                                  <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
-                                </scg:Dictionary>
-                              </ui:InvokeWorkflowFile.Arguments>
-                            </ui:InvokeWorkflowFile>
-
-                            <!-- If extraction success → DateParser -->
-                            <If Condition="[v_ExtractionSuccess AndAlso v_ExtractedData IsNot Nothing]" DisplayName="Check: Extraction successful?" sap2010:WorkflowViewState.IdRef="If_3">
-                              <If.Then>
-                                <Sequence DisplayName="Then — Parse dates" sap2010:WorkflowViewState.IdRef="Sequence_6">
-                                  <ui:LogMessage DisplayName="Log: Extraction OK" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Extraction successful for &quot; &amp; v_PortalName &amp; &quot;. Fields: &quot; &amp; v_ExtractedData.Count.ToString]" />
-
-                                  <!-- Build context record from extracted data + portal config -->
-                                  <ui:InvokeCode ContinueOnError="{x:Null}" DisplayName="InvokeCode: Build ContextRecord" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
-                                    <ui:InvokeCode.Code>
-contextRecord = New Dictionary(Of String, Object)()
-' Copy extracted data into context
-If extractedData IsNot Nothing Then
-    For Each kvp In extractedData
-        contextRecord(kvp.Key) = kvp.Value
-    Next
-End If
-' Overlay portal metadata
-contextRecord("PortalName") = portalName
-contextRecord("ServiceType") = If(extractedData IsNot Nothing AndAlso extractedData.ContainsKey("ServiceType"), extractedData("ServiceType"), If(portalConfig.ContainsKey("ServiceType"), portalConfig("ServiceType"), "Bill"))
-contextRecord("RecipientEmail") = If(portalConfig.ContainsKey("RecipientEmail"), portalConfig("RecipientEmail").ToString(), "")
-contextRecord("SourceURL") = If(portalConfig.ContainsKey("BaseUrl"), portalConfig("BaseUrl").ToString(), If(portalConfig.ContainsKey("URL"), portalConfig("URL").ToString(), ""))
-contextRecord("ExtractedAt") = DateTime.Now
-If Not contextRecord.ContainsKey("ApplicantName") Then contextRecord("ApplicantName") = "Customer"
-If Not contextRecord.ContainsKey("ApplicationNumber") Then contextRecord("ApplicationNumber") = "N/A"
-If Not contextRecord.ContainsKey("AmountDue") Then contextRecord("AmountDue") = "N/A"
-                                    </ui:InvokeCode.Code>
-                                    <ui:InvokeCode.Arguments>
-                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[v_ExtractedData]</InArgument>
-                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="portalConfig">[portalConfig]</InArgument>
-                                      <InArgument x:TypeArguments="x:String" x:Key="portalName">[v_PortalName]</InArgument>
-                                      <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="contextRecord">[v_ContextRecord]</OutArgument>
-                                    </ui:InvokeCode.Arguments>
-                                  </ui:InvokeCode>
-
-                                  <!-- Build raw text from extracted fields for DateParser -->
-                                  <Assign DisplayName="Build: RawPageText from extracted data" sap2010:WorkflowViewState.IdRef="Assign_11">
-                                    <Assign.To><OutArgument x:TypeArguments="x:String">[v_RawPageText]</OutArgument></Assign.To>
-                                    <Assign.Value><InArgument x:TypeArguments="x:String">[String.Join(" ", v_ExtractedData.Values.Select(Function(v) If(v IsNot Nothing, v.ToString(), "")))]</InArgument></Assign.Value>
-                                  </Assign>
-
-                                  <!-- Invoke DateParser -->
-                                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke DateParser" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="DateParser.xaml">
-                                    <ui:InvokeWorkflowFile.Arguments>
-                                      <scg:Dictionary x:TypeArguments="x:String, Argument">
-                                        <InArgument x:TypeArguments="x:String" x:Key="in_RawText">[v_RawPageText]</InArgument>
-                                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_ContextRecord">[v_ContextRecord]</InArgument>
-                                        <InArgument x:TypeArguments="x:Int32" x:Key="in_Threshold1">[v_Threshold1]</InArgument>
-                                        <InArgument x:TypeArguments="x:Int32" x:Key="in_Threshold2">[v_Threshold2]</InArgument>
-                                        <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_ReminderList">[v_PortalReminders]</OutArgument>
-                                      </scg:Dictionary>
-                                    </ui:InvokeWorkflowFile.Arguments>
-                                  </ui:InvokeWorkflowFile>
-
-                                  <!-- Append portal reminders to master list -->
-                                  <If Condition="[v_PortalReminders IsNot Nothing AndAlso v_PortalReminders.Count &gt; 0]" DisplayName="Check: Any reminders from DateParser?" sap2010:WorkflowViewState.IdRef="If_4">
-                                    <If.Then>
-                                      <Sequence DisplayName="Then — Append reminders" sap2010:WorkflowViewState.IdRef="Sequence_7">
-                                        <Assign DisplayName="Merge: PortalReminders into MasterList" sap2010:WorkflowViewState.IdRef="Assign_12">
-                                          <Assign.To><OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[v_MasterReminderList]</OutArgument></Assign.To>
-                                          <Assign.Value><InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[v_MasterReminderList.Concat(v_PortalReminders).ToList()]</InArgument></Assign.Value>
-                                        </Assign>
-                                        <ui:LogMessage DisplayName="Log: Reminders added" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;DateParser returned &quot; &amp; v_PortalReminders.Count.ToString &amp; &quot; reminder(s) for &quot; &amp; v_PortalName &amp; &quot;. Master total: &quot; &amp; v_MasterReminderList.Count.ToString]" />
-                                      </Sequence>
-                                    </If.Then>
-                                    <If.Else>
-                                      <ui:LogMessage DisplayName="Log: No reminders" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;No actionable reminders for &quot; &amp; v_PortalName &amp; &quot; (all dates outside threshold).&quot;]" />
-                                    </If.Else>
-                                  </If>
-
-                                </Sequence>
-                              </If.Then>
-                              <If.Else>
-                                <ui:LogMessage DisplayName="Log: Extraction failed" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Warn" Message="[&quot;Extraction failed for &quot; &amp; v_PortalName &amp; &quot;: &quot; &amp; If(v_ErrorMessage IsNot Nothing, v_ErrorMessage, &quot;Unknown error&quot;)]" />
-                              </If.Else>
-                            </If>
-
+                          <Sequence DisplayName="Then — Extract and parse" sap:VirtualizedContainerService.HintSize="450,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:LogMessage DisplayName="Log: Login OK" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Login successful for &quot; &amp; v_PortalName &amp; &quot;. Stopping after SmartNavigator for now.&quot;]" />
                           </Sequence>
                         </If.Then>
                         <If.Else>
-                          <ui:LogMessage DisplayName="Log: Login failed" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Warn" Message="[&quot;Login failed for &quot; &amp; v_PortalName &amp; &quot;: &quot; &amp; If(v_ErrorMessage IsNot Nothing, v_ErrorMessage, &quot;Unknown error&quot;) &amp; &quot;. Skipping portal.&quot;]" />
+                          <ui:LogMessage DisplayName="Log: Login failed" sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Warn" Message="[&quot;Login failed for &quot; &amp; v_PortalName &amp; &quot;: &quot; &amp; If(v_ErrorMessage IsNot Nothing, v_ErrorMessage, &quot;Unknown error&quot;) &amp; &quot;. Skipping portal.&quot;]" />
                         </If.Else>
                       </If>
-
                     </Sequence>
                   </TryCatch.Try>
                   <TryCatch.Catches>
@@ -356,44 +285,18 @@ If Not contextRecord.ContainsKey("AmountDue") Then contextRecord("AmountDue") = 
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
                         </ActivityAction.Argument>
-                        <ui:LogMessage DisplayName="Log: Portal processing error" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Error" Message="[&quot;ORCHESTRATOR ERROR on portal &quot; &amp; v_PortalName &amp; &quot;: &quot; &amp; exception.Message]" />
+                        <ui:LogMessage DisplayName="Log: Portal processing error" sap:VirtualizedContainerService.HintSize="486,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Error" Message="[&quot;ORCHESTRATOR ERROR on portal &quot; &amp; v_PortalName &amp; &quot;: &quot; &amp; exception.Message]" />
                       </ActivityAction>
                     </Catch>
                   </TryCatch.Catches>
                 </TryCatch>
-
               </ActivityAction>
             </ui:ForEach.Body>
           </ui:ForEach>
-
-          <!-- ═══ BLOCK 6 — After loop: Invoke ReminderEngine once ═══ -->
-          <ui:LogMessage DisplayName="Log: Loop complete" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Portal loop complete. Total reminders to dispatch: &quot; &amp; v_MasterReminderList.Count.ToString]" />
-
-          <If Condition="[v_MasterReminderList.Count &gt; 0]" DisplayName="Check: Any reminders to send?" sap2010:WorkflowViewState.IdRef="If_5">
-            <If.Then>
-              <Sequence DisplayName="Then — Dispatch reminders" sap2010:WorkflowViewState.IdRef="Sequence_8">
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke ReminderEngine" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="ReminderEngine.xaml">
-                  <ui:InvokeWorkflowFile.Arguments>
-                    <scg:Dictionary x:TypeArguments="x:String, Argument">
-                      <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="in_ReminderList">[v_MasterReminderList]</InArgument>
-                      <OutArgument x:TypeArguments="x:Int32" x:Key="out_SentCount">[v_SentCount]</OutArgument>
-                      <OutArgument x:TypeArguments="x:Int32" x:Key="out_FailedCount">[v_FailedCount]</OutArgument>
-                    </scg:Dictionary>
-                  </ui:InvokeWorkflowFile.Arguments>
-                </ui:InvokeWorkflowFile>
-                <ui:LogMessage DisplayName="Log: ReminderEngine result" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;ReminderEngine complete. Sent: &quot; &amp; v_SentCount.ToString &amp; &quot; | Failed: &quot; &amp; v_FailedCount.ToString]" />
-              </Sequence>
-            </If.Then>
-            <If.Else>
-              <ui:LogMessage DisplayName="Log: Nothing to send" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;No reminders to dispatch. All portals are clear.&quot;]" />
-            </If.Else>
-          </If>
-
+          <ui:LogMessage DisplayName="Log: Loop complete" sap:VirtualizedContainerService.HintSize="514,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Portal loop complete. Total reminders to dispatch: &quot; &amp; v_MasterReminderList.Count.ToString]" />
         </Sequence>
       </If.Else>
     </If>
-
-    <ui:LogMessage DisplayName="Log: Orchestrator finished" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;═══ WebMonitor Pro Orchestrator finished ═══&quot;]" />
-
+    <ui:LogMessage DisplayName="Log: Orchestrator finished" sap:VirtualizedContainerService.HintSize="550,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;═══ WebMonitor Pro Orchestrator finished ═══&quot;]" />
   </Sequence>
 </Activity>
