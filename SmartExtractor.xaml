@@ -4,6 +4,7 @@
     <x:Property Name="out_Success" Type="OutArgument(x:Boolean)" />
     <x:Property Name="out_ExtractedData" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_PortalConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_BrowserSession" Type="InArgument(ui:Browser)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
@@ -114,6 +115,7 @@
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="extractedData" />
       <Variable x:TypeArguments="x:String" Name="pdfText" />
       <Variable x:TypeArguments="x:String" Name="pdfTempPath" />
+      <Variable x:TypeArguments="scg:IEnumerable(ui:UiElement)" Name="pdfLinks" />
       <Variable x:TypeArguments="x:String" Name="tempFolder" />
       <Variable x:TypeArguments="x:Boolean" Default="False" Name="anchorSuccess" />
       <Variable x:TypeArguments="x:Boolean" Default="False" Name="selectorSuccess" />
@@ -198,62 +200,27 @@
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:RetryScope LogRetriedExceptions="{x:Null}" RetriedExceptionsLogLevel="{x:Null}" DisplayName="Retry Scope" sap:VirtualizedContainerService.HintSize="492,708.6666666666666" sap2010:WorkflowViewState.IdRef="RetryScope_1" NumberOfRetries="3" RetryInterval="00:00:05">
-            <ui:RetryScope.ActivityBody>
-              <ActivityAction>
-                <Sequence DisplayName="Action" sap:VirtualizedContainerService.HintSize="486,501.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Use Application/Browser" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="452,441.3333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" IsDisplayNameAuto="True" ScopeGuid="3c12a64c-5015-44f7-a2ad-004ed3e2205b" Version="V2">
-                    <uix:NApplicationCard.Body>
-                      <ActivityAction x:TypeArguments="x:Object">
-                        <ActivityAction.Argument>
-                          <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
-                        </ActivityAction.Argument>
-                        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="450,194" sap2010:WorkflowViewState.IdRef="Sequence_1">
-                          <sap:WorkflowViewStateService.ViewState>
-                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                            </scg:Dictionary>
-                          </sap:WorkflowViewStateService.ViewState>
-                          <uix:NGetText DisplayName="Get Text" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="416,134" sap2010:WorkflowViewState.IdRef="NGetText_1" ScopeIdentifier="3c12a64c-5015-44f7-a2ad-004ed3e2205b" Version="V5" />
-                        </Sequence>
-                      </ActivityAction>
-                    </uix:NApplicationCard.Body>
-                    <uix:NApplicationCard.OCREngine>
-                      <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
-                        <ActivityFunc.Argument>
-                          <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
-                        </ActivityFunc.Argument>
-                      </ActivityFunc>
-                    </uix:NApplicationCard.OCREngine>
-                    <uix:NApplicationCard.TargetApp>
-                      <uix:TargetApp Area="0, 0, 0, 0" Url="[portalURL]" Version="V2">
-                        <uix:TargetApp.Arguments>
-                          <InArgument x:TypeArguments="x:String" />
-                        </uix:TargetApp.Arguments>
-                        <uix:TargetApp.FilePath>
-                          <InArgument x:TypeArguments="x:String" />
-                        </uix:TargetApp.FilePath>
-                        <uix:TargetApp.Selector>
-                          <InArgument x:TypeArguments="x:String" />
-                        </uix:TargetApp.Selector>
-                        <uix:TargetApp.WorkingDirectory>
-                          <InArgument x:TypeArguments="x:String" />
-                        </uix:TargetApp.WorkingDirectory>
-                      </uix:TargetApp>
-                    </uix:NApplicationCard.TargetApp>
-                  </uix:NApplicationCard>
-                </Sequence>
-              </ActivityAction>
-            </ui:RetryScope.ActivityBody>
-            <ui:RetryScope.Condition>
-              <ActivityFunc x:TypeArguments="x:Boolean" />
-            </ui:RetryScope.Condition>
-          </ui:RetryScope>
+           <ui:BrowserScope Browser="[in_BrowserSession]" BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" DisplayName="Attach Browser for Extraction" sap:VirtualizedContainerService.HintSize="492,500" sap2010:WorkflowViewState.IdRef="BrowserScope_Extract">
+             <ui:BrowserScope.Body>
+               <ActivityAction x:TypeArguments="x:Object">
+                 <ActivityAction.Argument>
+                   <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetExtract" />
+                 </ActivityAction.Argument>
+                 <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="450,300" sap2010:WorkflowViewState.IdRef="Sequence_BrowserDo">
+                   <sap:WorkflowViewStateService.ViewState>
+                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                     </scg:Dictionary>
+                   </sap:WorkflowViewStateService.ViewState>
+                   <ui:GetText DisplayName="Get Full Page Text" sap:VirtualizedContainerService.HintSize="416,119.33333333333333" sap2010:WorkflowViewState.IdRef="GetText_FullPage" Value="[fullPageText]">
+                     <ui:GetText.Target>
+                       <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;html /&gt;" TimeoutMS="15000" WaitForReady="COMPLETE" />
+                     </ui:GetText.Target>
+                   </ui:GetText>
+                 </Sequence>
+               </ActivityAction>
+             </ui:BrowserScope.Body>
+           </ui:BrowserScope>
           <ui:LogMessage DisplayName="Log: Page text length" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PageTextLength" Level="Info" Message="[&quot;Full page text length: &quot; &amp; If(fullPageText Is Nothing, &quot;0&quot;, fullPageText.Length.ToString) &amp; &quot; chars&quot;]" />
           <If Condition="[in_PortalConfig.ContainsKey(&quot;Fields&quot;) AndAlso in_PortalConfig(&quot;Fields&quot;) IsNot Nothing]" DisplayName="Check: Fields array exists in config" sap:VirtualizedContainerService.HintSize="492,4938" sap2010:WorkflowViewState.IdRef="If_FieldsArray">
             <If.Then>
@@ -327,7 +294,20 @@
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:Comment sap:VirtualizedContainerService.HintSize="416,147.33333333333334" sap2010:WorkflowViewState.IdRef="Comment_Tier1" Text="DRAG 'Get Text' HERE for TIER 1. Edit its target selector string dynamically using: &quot;&lt;webctrl css='&quot; &amp; currentSelector &amp; &quot;' /&gt;&quot;. Output the text to variable 'fieldValue'" />
+                                <ui:BrowserScope Browser="[in_BrowserSession]" BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" DisplayName="Attach Browser Tier1" sap:VirtualizedContainerService.HintSize="416,300" sap2010:WorkflowViewState.IdRef="BrowserScope_Tier1">
+                                  <ui:BrowserScope.Body>
+                                    <ActivityAction x:TypeArguments="x:Object">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetTier1" />
+                                      </ActivityAction.Argument>
+                                      <ui:GetText ContinueOnError="{x:Null}" DisplayName="Get Text Tier 1" sap:VirtualizedContainerService.HintSize="334,119.33333333333333" sap2010:WorkflowViewState.IdRef="GetText_Tier1" Value="[fieldValue]">
+                                        <ui:GetText.Target>
+                                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="[currentSelector]" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                        </ui:GetText.Target>
+                                      </ui:GetText>
+                                    </ActivityAction>
+                                  </ui:BrowserScope.Body>
+                                </ui:BrowserScope>
                                 <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier1Success">
                                   <Assign.To>
                                     <OutArgument x:TypeArguments="x:Boolean">[selectorSuccess]</OutArgument>
@@ -370,7 +350,36 @@
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:Comment sap:VirtualizedContainerService.HintSize="416,147.33333333333334" sap2010:WorkflowViewState.IdRef="Comment_Tier2" Text="DRAG 'Get Text' HERE for TIER 2. Use 'Indicate on Screen' to target the anchor label, then target the adjacent value. Output the text to variable 'fieldValue'" />
+                                <ui:BrowserScope Browser="[in_BrowserSession]" BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" DisplayName="Attach Browser Tier2" sap:VirtualizedContainerService.HintSize="416,350" sap2010:WorkflowViewState.IdRef="BrowserScope_Tier2">
+                                  <ui:BrowserScope.Body>
+                                    <ActivityAction x:TypeArguments="x:Object">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetTier2" />
+                                      </ActivityAction.Argument>
+                                      <ui:AnchorBase AnchorPosition="Auto" DisplayName="Anchor Base Tier 2" sap:VirtualizedContainerService.HintSize="384,198" sap2010:WorkflowViewState.IdRef="AnchorBase_Tier2">
+                                        <ui:AnchorBase.Action>
+                                          <ActivityAction x:TypeArguments="ui:Anchor">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="ui:Anchor" Name="ContextAnchor" />
+                                            </ActivityAction.Argument>
+                                            <ui:GetText ContinueOnError="{x:Null}" DisplayName="Get Text Action" sap:VirtualizedContainerService.HintSize="334,119.33333333333333" sap2010:WorkflowViewState.IdRef="GetText_Tier2Action" Value="[fieldValue]">
+                                              <ui:GetText.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;webctrl tag='*' /&gt;" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                              </ui:GetText.Target>
+                                            </ui:GetText>
+                                          </ActivityAction>
+                                        </ui:AnchorBase.Action>
+                                        <ui:AnchorBase.AnchorProvider>
+                                          <ui:WaitUiElementAppear FoundElement="{x:Null}" WaitActive="{x:Null}" WaitVisible="{x:Null}" DisplayName="Find Element Anchor" sap:VirtualizedContainerService.HintSize="334,119.33333333333333" sap2010:WorkflowViewState.IdRef="WaitUiElementAppear_Tier2Anchor">
+                                            <ui:WaitUiElementAppear.Target>
+                                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="[&quot;&lt;webctrl innertext='*&quot; &amp; currentAnchor &amp; &quot;*' /&gt;&quot;]" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                            </ui:WaitUiElementAppear.Target>
+                                          </ui:WaitUiElementAppear>
+                                        </ui:AnchorBase.AnchorProvider>
+                                      </ui:AnchorBase>
+                                    </ActivityAction>
+                                  </ui:BrowserScope.Body>
+                                </ui:BrowserScope>
                                 <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier2Success">
                                   <Assign.To>
                                     <OutArgument x:TypeArguments="x:Boolean">[anchorSuccess]</OutArgument>
@@ -509,7 +518,90 @@
                         <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("DocumentLinkSelector"), in_PortalConfig("DocumentLinkSelector").ToString(), "a[href*='.pdf']")]</InArgument>
                       </Assign.Value>
                     </Assign>
-                    <ui:Comment sap:VirtualizedContainerService.HintSize="418,138" sap2010:WorkflowViewState.IdRef="Comment_PDF" Text="DRAG 'Find Children' HERE to map PDF links dynamically. Loop them, then drag 'HTTP Request' to download to 'pdfTempPath' and 'Read PDF Text' to add text to 'fullPageText'" />
+                    <ui:BrowserScope Browser="[in_BrowserSession]" BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" DisplayName="Attach Browser for PDF" sap:VirtualizedContainerService.HintSize="418,900" sap2010:WorkflowViewState.IdRef="BrowserScope_PDF">
+                      <ui:BrowserScope.Body>
+                        <ActivityAction x:TypeArguments="x:Object">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetPDF" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="PDF extraction steps" sap:VirtualizedContainerService.HintSize="384,792" sap2010:WorkflowViewState.IdRef="Seq_PDFSteps">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:FindChildren Children="[pdfLinks]" DisplayName="Find Children PDF Links" Filter="[&quot;&lt;webctrl css='&quot; &amp; currentSelector &amp; &quot;' /&gt;&quot;]" sap:VirtualizedContainerService.HintSize="334,119.33333333333333" sap2010:WorkflowViewState.IdRef="FindChildren_PDFLinks" Scope="FIND_DESCENDANTS">
+                              <ui:FindChildren.Target>
+                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;html /&gt;" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                              </ui:FindChildren.Target>
+                            </ui:FindChildren>
+                            <ui:ForEach x:TypeArguments="ui:UiElement" CurrentIndex="{x:Null}" DisplayName="For Each PDF Link" sap:VirtualizedContainerService.HintSize="334,582" sap2010:WorkflowViewState.IdRef="ForEach_PDFLink" Values="[pdfLinks]">
+                              <ui:ForEach.Body>
+                                <ActivityAction x:TypeArguments="ui:UiElement">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="ui:UiElement" Name="pdfLink" />
+                                  </ActivityAction.Argument>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="300,394" sap2010:WorkflowViewState.IdRef="Seq_PDFLink">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="pdfHref" />
+                                    </Sequence.Variables>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute href" sap:VirtualizedContainerService.HintSize="258,187" sap2010:WorkflowViewState.IdRef="GetAttribute_href">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:String">[pdfHref]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[pdfLink]" Id="{x:Null}" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                      </ui:GetAttribute.Target>
+                                    </ui:GetAttribute>
+                                    <If Condition="[Not String.IsNullOrWhiteSpace(pdfHref)]" sap:VirtualizedContainerService.HintSize="258,55" sap2010:WorkflowViewState.IdRef="If_DownloadPDF">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <Sequence sap:VirtualizedContainerService.HintSize="418,500" sap2010:WorkflowViewState.IdRef="Seq_DownloadPDF">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_pdfTempPath">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:String">[pdfTempPath]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ".pdf")]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <ui:InvokeCode Code="Using webClient As New System.Net.WebClient()&#xA;    webClient.DownloadFile(pdfUrl, downloadPath)&#xA;End Using" ContinueOnError="False" DisplayName="Download PDF File" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Download">
+                                            <ui:InvokeCode.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[pdfHref]</InArgument>
+                                              <InArgument x:TypeArguments="x:String" x:Key="downloadPath">[pdfTempPath]</InArgument>
+                                            </ui:InvokeCode.Arguments>
+                                          </ui:InvokeCode>
+                                          <ui:InvokeCode Code="Dim myProcess As New System.Diagnostics.Process()&#xA;myProcess.StartInfo.FileName = downloadPath&#xA;myProcess.Start()&#xA;' For now we just log it since PDF extraction needs UiPath.PDF.Activities.&#xA; Console.WriteLine(&quot;Downloaded PDF to: &quot; &amp; downloadPath)" ContinueOnError="True" DisplayName="Execute PDF/Log Placeholder" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_PDFReadWrapper">
+                                            <ui:InvokeCode.Arguments>
+                                              <InArgument x:TypeArguments="x:String" x:Key="downloadPath">[pdfTempPath]</InArgument>
+                                            </ui:InvokeCode.Arguments>
+                                          </ui:InvokeCode>
+                                        </Sequence>
+                                      </If.Then>
+                                    </If>
+                                  </Sequence>
+                                </ActivityAction>
+                              </ui:ForEach.Body>
+                            </ui:ForEach>
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:BrowserScope.Body>
+                    </ui:BrowserScope>
                   </Sequence>
                 </TryCatch.Try>
                 <TryCatch.Catches>
@@ -613,7 +705,7 @@
                   <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_ExtractedData]</OutArgument>
                 </Assign.To>
                 <Assign.Value>
-                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, String)()]</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object)()]</InArgument>
                 </Assign.Value>
               </Assign>
               <Assign DisplayName="Catch: set out_ErrorMessage" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchOutMsg">

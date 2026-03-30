@@ -116,6 +116,7 @@
       <Variable x:TypeArguments="x:String" Name="rawJson" />
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="config" />
       <Variable x:TypeArguments="x:String" Name="v_SetupChoice" />
+      <Variable x:TypeArguments="ui:Browser" Name="v_BrowserSession" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -258,21 +259,30 @@
                         <ui:InvokeWorkflowFile.Arguments>
                           <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
                           <OutArgument x:TypeArguments="x:Boolean" x:Key="out_LoginSuccess">[v_LoginSuccess]</OutArgument>
-                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_BrowserSession" />
+                          <OutArgument x:TypeArguments="ui:Browser" x:Key="out_BrowserSession">[v_BrowserSession]</OutArgument>
                           <InArgument x:TypeArguments="ss:SecureString" x:Key="in_Password">[v_Password]</InArgument>
                           <InArgument x:TypeArguments="x:String" x:Key="in_Username">[v_Username]</InArgument>
                           <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[portalConfig]</InArgument>
                         </ui:InvokeWorkflowFile.Arguments>
                       </ui:InvokeWorkflowFile>
-                      <If Condition="[v_LoginSuccess]" DisplayName="Check: Login successful?" sap:VirtualizedContainerService.HintSize="452,524.6666666666666" sap2010:WorkflowViewState.IdRef="If_2">
+                      <If Condition="[v_LoginSuccess]" DisplayName="Check: Login successful?" sap:VirtualizedContainerService.HintSize="452,525" sap2010:WorkflowViewState.IdRef="If_2">
                         <If.Then>
-                          <Sequence DisplayName="Then — Extract and parse" sap:VirtualizedContainerService.HintSize="450,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                          <Sequence DisplayName="Then — Extract and parse" sap:VirtualizedContainerService.HintSize="450,450" sap2010:WorkflowViewState.IdRef="Sequence_5">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:LogMessage DisplayName="Log: Login OK" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Login successful for &quot; &amp; v_PortalName &amp; &quot;. Stopping after SmartNavigator for now.&quot;]" />
+                            <ui:LogMessage DisplayName="Log: Login OK" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Login successful for &quot; &amp; v_PortalName &amp; &quot;. Moving to SmartExtractor.&quot;]" />
+                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartExtractor" sap:VirtualizedContainerService.HintSize="416,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_Extractor" UnSafe="False" WorkflowFileName="SmartExtractor.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[portalConfig]</InArgument>
+                                <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[v_BrowserSession]</InArgument>
+                                <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[v_ExtractionSuccess]</OutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_ErrorMessage]</OutArgument>
+                                <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_ExtractedData">[v_ExtractedData]</OutArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
                           </Sequence>
                         </If.Then>
                         <If.Else>
