@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/credentials" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="PortalSetup" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/credentials" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -121,28 +121,15 @@
       <Variable x:TypeArguments="x:String" Name="errorMessage" />
       <Variable x:TypeArguments="x:String" Name="setupChoice" />
       <Variable x:TypeArguments="x:String" Name="browserChoice" />
+      <Variable x:TypeArguments="x:String" Name="navStepsJson" />
+      <Variable x:TypeArguments="x:String" Name="postLoginCheckJson" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign DisplayName="Ask: Setup Choice" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_setupChoice">
-      <Assign.To>
-        <OutArgument x:TypeArguments="x:String">[setupChoice]</OutArgument>
-      </Assign.To>
-      <Assign.Value>
-        <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Do you want to add a new portal or update existing? (Yes/No)", "WebMonitor Setup", "Yes")]</InArgument>
-      </Assign.Value>
-    </Assign>
-    <If Condition="[setupChoice.ToLower.Trim = &quot;yes&quot;]" DisplayName="Check: User wants setup?" sap:VirtualizedContainerService.HintSize="452,4500" sap2010:WorkflowViewState.IdRef="If_SetupChoice">
-      <If.Then>
-        <Sequence DisplayName="Then — Run Setup" sap:VirtualizedContainerService.HintSize="450,4400" sap2010:WorkflowViewState.IdRef="Sequence_RunSetup">
-          <sap:WorkflowViewStateService.ViewState>
-            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            </scg:Dictionary>
-          </sap:WorkflowViewStateService.ViewState>
+
     <Assign DisplayName="Ask: Portal Name" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalName">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
@@ -206,7 +193,7 @@
               <OutArgument x:TypeArguments="x:String">[passwordText]</OutArgument>
             </Assign.To>
             <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter your password for this portal", "WebMonitor Setup - Step 5 of 6", "")]</InArgument>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter your password for this portal", "WebMonitor Setup - Step 6 of 6", "")]</InArgument>
             </Assign.Value>
           </Assign>
           <Assign DisplayName="Init SecureString" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_initSecure">
@@ -295,6 +282,16 @@
               <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Which browser should be used? Type one: Chrome / Edge / Firefox", "Browser Selection", "Edge")]</InArgument>
             </Assign.Value>
           </Assign>
+          <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim steps As New List(Of String)()&#xA;Dim more As String = &quot;Yes&quot;&#xA;Dim findByHint As String = &quot;Common examples:&quot; &amp; vbCrLf &amp; &quot;id → HTML id e.g. 'username', 'loginBtn'&quot; &amp; vbCrLf &amp; &quot;name → HTML name e.g. 'user', 'pass'&quot; &amp; vbCrLf &amp; &quot;css → CSS selector e.g. '.btn-login', '#submit'&quot; &amp; vbCrLf &amp; &quot;text → visible text e.g. 'Sign In', 'Submit'&quot; &amp; vbCrLf &amp; &quot;placeholder → placeholder text e.g. 'Enter email'&quot; &amp; vbCrLf &amp; &quot;raw → paste a full UiPath selector directly&quot;&#xA;&#xA;Do While more.ToLower.Trim = &quot;yes&quot;&#xA;    Dim type As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Step Type: TypeInto, Click, GoTo, or Delay&quot;, &quot;Navigation Step&quot;, &quot;&quot;)&#xA;    If String.IsNullOrEmpty(type) Then Exit Do&#xA;    &#xA;    Dim stepObj As String = &quot;{&quot;&quot;Type&quot;&quot;:&quot;&quot;&quot; &amp; type &amp; &quot;&quot;&quot;&quot;&#xA;    &#xA;    Select Case type.ToLower&#xA;        Case &quot;typeinto&quot;&#xA;            Dim findBy As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;How should UiPath find this element?&quot; &amp; vbCrLf &amp; &quot;Enter one of: id / name / css / xpath / text / placeholder / raw&quot; &amp; vbCrLf &amp; vbCrLf &amp; findByHint, &quot;Step Selector - Find Method&quot;, &quot;id&quot;)&#xA;            Dim findValue As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Enter the value for '&quot; &amp; findBy &amp; &quot;'&quot; &amp; vbCrLf &amp; &quot;(e.g. for id: 'username', for css: '.login-btn')&quot;, &quot;Step Selector - Find Value&quot;, &quot;&quot;)&#xA;            Dim text As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Text (use {username} or {password})&quot;, &quot;Step Details&quot;, &quot;&quot;)&#xA;            stepObj &amp;= &quot;,&quot;&quot;FindBy&quot;&quot;:&quot;&quot;&quot; &amp; findBy &amp; &quot;&quot;&quot;,&quot;&quot;FindValue&quot;&quot;:&quot;&quot;&quot; &amp; findValue &amp; &quot;&quot;&quot;,&quot;&quot;Text&quot;&quot;:&quot;&quot;&quot; &amp; text &amp; &quot;&quot;&quot;&quot;&#xA;        Case &quot;click&quot;&#xA;            Dim findBy As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;How should UiPath find this element?&quot; &amp; vbCrLf &amp; &quot;Enter one of: id / name / css / xpath / text / placeholder / raw&quot; &amp; vbCrLf &amp; vbCrLf &amp; findByHint, &quot;Step Selector - Find Method&quot;, &quot;id&quot;)&#xA;            Dim findValue As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Enter the value for '&quot; &amp; findBy &amp; &quot;'&quot; &amp; vbCrLf &amp; &quot;(e.g. for id: 'submitBtn', for text: 'Sign In')&quot;, &quot;Step Selector - Find Value&quot;, &quot;&quot;)&#xA;            stepObj &amp;= &quot;,&quot;&quot;FindBy&quot;&quot;:&quot;&quot;&quot; &amp; findBy &amp; &quot;&quot;&quot;,&quot;&quot;FindValue&quot;&quot;:&quot;&quot;&quot; &amp; findValue &amp; &quot;&quot;&quot;&quot;&#xA;        Case &quot;goto&quot;&#xA;            Dim url As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;URL for GoTo&quot;, &quot;Step Details&quot;, &quot;&quot;)&#xA;            stepObj &amp;= &quot;,&quot;&quot;Url&quot;&quot;:&quot;&quot;&quot; &amp; url &amp; &quot;&quot;&quot;&quot;&#xA;        Case &quot;delay&quot;&#xA;            Dim seconds As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Seconds for Delay&quot;, &quot;Step Details&quot;, &quot;2&quot;)&#xA;            stepObj &amp;= &quot;,&quot;&quot;Seconds&quot;&quot;:&quot; &amp; If(IsNumeric(seconds), seconds, &quot;5&quot;)&#xA;    End Select&#xA;    &#xA;    stepObj &amp;= &quot;}&quot;&#xA;    steps.Add(stepObj)&#xA;    &#xA;    more = Microsoft.VisualBasic.Interaction.InputBox(&quot;Add another step? (Yes/No)&quot;, &quot;Navigation Step&quot;, &quot;No&quot;)&#xA;Loop&#xA;&#xA;navStepsJson = &quot;[&quot; &amp; String.Join(&quot;,&quot;, steps) &amp; &quot;]&quot;" DisplayName="Collect Navigation Steps" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+            <ui:InvokeCode.Arguments>
+              <OutArgument x:TypeArguments="x:String" x:Key="navStepsJson">[navStepsJson]</OutArgument>
+            </ui:InvokeCode.Arguments>
+          </ui:InvokeCode>
+          <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim findByHint As String = &quot;Common examples:&quot; &amp; vbCrLf &amp; &quot;id → HTML id e.g. 'dashboard-header'&quot; &amp; vbCrLf &amp; &quot;text → visible text e.g. 'Welcome', 'Logged In'&quot; &amp; vbCrLf &amp; &quot;css → CSS selector e.g. '.logged-in', '#welcome'&quot; &amp; vbCrLf &amp; &quot;raw → paste a full UiPath selector directly&quot;&#xA;&#xA;Dim postLoginFindBy As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;How should UiPath verify login was successful?&quot; &amp; vbCrLf &amp; &quot;Enter one of: id / text / css / tag / raw&quot; &amp; vbCrLf &amp; vbCrLf &amp; findByHint, &quot;PostLogin Check - Find Method&quot;, &quot;text&quot;)&#xA;&#xA;If String.IsNullOrEmpty(postLoginFindBy) Then&#xA;    postLoginCheckJson = &quot;&quot;&#xA;Else&#xA;    Dim postLoginFindValue As String = Microsoft.VisualBasic.Interaction.InputBox(&quot;Enter the value for '&quot; &amp; postLoginFindBy &amp; &quot;'&quot; &amp; vbCrLf &amp; &quot;(e.g. for text: 'Welcome', for id: 'dashboard')&quot;, &quot;PostLogin Check - Find Value&quot;, &quot;&quot;)&#xA;    If String.IsNullOrEmpty(postLoginFindValue) Then&#xA;        postLoginCheckJson = &quot;&quot;&#xA;    Else&#xA;        postLoginCheckJson = &quot;{&quot;&quot;FindBy&quot;&quot;:&quot;&quot;&quot; &amp; postLoginFindBy &amp; &quot;&quot;&quot;,&quot;&quot;FindValue&quot;&quot;:&quot;&quot;&quot; &amp; postLoginFindValue &amp; &quot;&quot;&quot;}&quot;&#xA;    End If&#xA;End If" DisplayName="Collect PostLoginCheck" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_PostLoginCheck">
+            <ui:InvokeCode.Arguments>
+              <OutArgument x:TypeArguments="x:String" x:Key="postLoginCheckJson">[postLoginCheckJson]</OutArgument>
+            </ui:InvokeCode.Arguments>
+          </ui:InvokeCode>
           <Assign DisplayName="Build credentialAssetName" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_credentialAssetName">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">[credentialAssetName]</OutArgument>
@@ -329,7 +326,9 @@
 """ReminderThreshold2"": " &amp; threshold2.ToString &amp; "," &amp;
 """RecipientEmail"": """ &amp; recipientEmail &amp; """," &amp;
 """BrowserType"": """ &amp; browserChoice.Trim &amp; """," &amp;
-"""ExtractionMethod"": ""WebScrape""," &amp;
+"""NavigationSteps"": " &amp; If(String.IsNullOrEmpty(navStepsJson), "[]", navStepsJson) &amp; "," &amp;
+"""PostLoginCheck"": " &amp; If(String.IsNullOrEmpty(postLoginCheckJson), "null", postLoginCheckJson) &amp; "," &amp;
+"""ExtractionMode"": ""WebScrape""," &amp;
 """Fields"": [" &amp;
 "{""Name"":""AmountDue"",""Selector"":"""",""Anchor"":""Amount Due""}," &amp;
 "{""Name"":""DueDate"",""Selector"":"""",""Anchor"":""Due Date""}," &amp;
@@ -360,11 +359,6 @@
         </Sequence>
       </If.Else>
     </If>
-        </Sequence>
-      </If.Then>
-      <If.Else>
-        <ui:LogMessage DisplayName="Log: Setup skipped" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_SetupSkipped" Level="Info" Message="[&quot;PortalSetup skipped by user choice.&quot;]" />
-      </If.Else>
-    </If>
+
   </Sequence>
 </Activity>

@@ -1,1 +1,69 @@
-﻿{"PortalName": "practicetest","URL": "https://practicetestautomation.com/practice-test-login/","AuthType": "UsernamePassword","CredentialAssetName": "Portal_PRACTICETEST","ServiceType": "login test","HasDocuments": false,"DocumentLinkSelector": "a[href*='.pdf']","NotificationChannels": ["Email"],"ReminderThreshold1": 7,"ReminderThreshold2": 30,"RecipientEmail": "yb@gmail.com","BrowserType": "Chrome","ExtractionMethod": "WebScrape","Fields": [{"Name":"AmountDue","Selector":"","Anchor":"Amount Due"},{"Name":"DueDate","Selector":"","Anchor":"Due Date"},{"Name":"ApplicantName","Selector":"","Anchor":"Name"}]}
+﻿{
+    "PortalName": "practicetest",
+    "URL": "https://practicetestautomation.com/practice-test-login/",
+    "AuthType": "UsernamePassword",
+    "CredentialAssetName": "Portal_PRACTICETEST",
+    "ServiceType": "login test",
+    "HasDocuments": false,
+    "DocumentLinkSelector": "a[href*='.pdf']",
+    "NotificationChannels": [
+        "Email"
+    ],
+    "ReminderThreshold1": 7,
+    "ReminderThreshold2": 30,
+    "RecipientEmail": "yb@gmail.com",
+    "BrowserType": "Edge",
+    "ExtractionMethod": "WebScrape",
+    "PostLoginCheck": "<webctrl tag='H1' innertext='Logged In Successfully' />",
+    "NavigationSteps": [
+        {
+            "Type": "Delay",
+            "Seconds": "5"
+        },
+        {
+            "Type": "TypeInto",
+            "FindBy": "id",
+            "FindValue": "username",
+            "Text": "{username}",
+            "TimeoutSeconds": "20"
+        },
+        {
+            "Type": "Delay",
+            "Seconds": "1"
+        },
+        {
+            "Type": "TypeInto",
+            "FindBy": "id",
+            "FindValue": "password",
+            "Text": "{password}",
+            "TimeoutSeconds": "20"
+        },
+        {
+            "Type": "Delay",
+            "Seconds": "1"
+        },
+        {
+            "Type": "Click",
+            "FindBy": "id",
+            "FindValue": "submit",
+            "TimeoutSeconds": "20"
+        }
+    ],
+    "Fields": [
+        {
+            "Name": "AmountDue",
+            "Selector": "",
+            "Anchor": "Amount Due"
+        },
+        {
+            "Name": "DueDate",
+            "Selector": "",
+            "Anchor": "Due Date"
+        },
+        {
+            "Name": "ApplicantName",
+            "Selector": "",
+            "Anchor": "Name"
+        }
+    ]
+}
