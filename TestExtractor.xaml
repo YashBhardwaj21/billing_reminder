@@ -1,0 +1,146 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="TestExtractor" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="TestExtractor" sap:VirtualizedContainerService.HintSize="772,888" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="ui:Browser" Name="v_Browser" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="v_Config" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="v_ExtractedData" />
+      <Variable x:TypeArguments="x:Boolean" Name="v_Success" />
+      <Variable x:TypeArguments="x:String" Name="v_Error" />
+      <Variable x:TypeArguments="x:String" Name="v_TableDataResult" />
+      <Variable x:TypeArguments="njl:JArray" Name="v_FilteredRows" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="v_InvoiceData" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Assign Config" sap:VirtualizedContainerService.HintSize="484,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[v_Config]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object) From {{"PortalName", "rpachallengeocr"}, {"URL", "https://rpachallengeocr.azurewebsites.net/"}, {"ExtractionMode", "TableScrape"}, {"HasPagination", "true"}, {"NextButtonSelector", "a[href*='page']:last-child, .pagination .next"}, {"HasDocuments", "false"}}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log Config Built" sap:VirtualizedContainerService.HintSize="484,92" sap2010:WorkflowViewState.IdRef="LogMessage_ConfigBuilt" Level="Info" Message="[&quot;Config built for: &quot; &amp; v_Config(&quot;PortalName&quot;).ToString]" />
+    <ui:OpenBrowser AutomaticallyDownloadWebDriver="{x:Null}" CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" BrowserType="Edge" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="484,334" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" UiBrowser="[v_Browser]" Url="https://rpachallengeocr.azurewebsites.net/">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="450,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Sequence>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+    <Delay Duration="00:00:05" sap:VirtualizedContainerService.HintSize="484,115" sap2010:WorkflowViewState.IdRef="Delay_1" />
+    <ui:LogMessage DisplayName="Log Browser Opened" sap:VirtualizedContainerService.HintSize="484,92" sap2010:WorkflowViewState.IdRef="LogMessage_BrowserOpened" Level="Info" Message="[&quot;Browser opened successfully: &quot; &amp; v_Config(&quot;URL&quot;).ToString]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke SmartExtractor" sap:VirtualizedContainerService.HintSize="484,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="SmartExtractor.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[v_Config]</InArgument>
+        <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[v_Browser]</InArgument>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_ExtractedData">[v_ExtractedData]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success">[v_Success]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage">[v_Error]</OutArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_TableData">[v_TableDataResult]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:LogMessage DisplayName="Log Extractor Return" sap:VirtualizedContainerService.HintSize="484,92" sap2010:WorkflowViewState.IdRef="LogMessage_ExtractorReturn" Level="Info" Message="[&quot;SmartExtractor TableScrape returned. Success=&quot; &amp; v_Success.ToString &amp; &quot; Error=&quot; &amp; v_Error]" />
+    
+    <If Condition="[v_Success]" DisplayName="If Scraping Successful" sap:VirtualizedContainerService.HintSize="484,800" sap2010:WorkflowViewState.IdRef="If_ScrapeSuccess">
+      <If.Then>
+        <Sequence sap:VirtualizedContainerService.HintSize="496,1000" sap2010:WorkflowViewState.IdRef="Seq_ProcessTables">
+          <ui:LogMessage DisplayName="Log Processing" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;TableScrape successful. Processing table data...&quot;]" />
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="False" DisplayName="Invoke TableProcessor" sap:VirtualizedContainerService.HintSize="334,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_TableProcessor" UnSafe="False" WorkflowFileName="TableProcessor.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TableData">[v_TableDataResult]</InArgument>
+              <OutArgument x:TypeArguments="njl:JArray" x:Key="out_FilteredRows">[v_FilteredRows]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          
+          <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For Each Row" sap:VirtualizedContainerService.HintSize="434,800" sap2010:WorkflowViewState.IdRef="ForEach_FilteredRow" Values="[v_FilteredRows]">
+            <ui:ForEach.Body>
+              <ActivityAction x:TypeArguments="njl:JToken">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="njl:JToken" Name="row" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,700" sap2010:WorkflowViewState.IdRef="Sequence_RowBody">
+                  <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_DirectDoc">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Object">[v_Config("DirectDocumentURL")]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Object">[row("invoiceHref").ToString()]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_HasDoc">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Object">[v_Config("HasDocuments")]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Object">["true"]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_ExtractMode">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Object">[v_Config("ExtractionMode")]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Object">["WebScrape"]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="False" DisplayName="Invoke SmartExtractor PDF" sap:VirtualizedContainerService.HintSize="334,177" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_SmartExtractorPDF" UnSafe="False" WorkflowFileName="SmartExtractor.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[v_Config]</InArgument>
+                      <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[v_Browser]</InArgument>
+                      <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_ExtractedData">[v_InvoiceData]</OutArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Success" />
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_ErrorMessage" />
+                      <OutArgument x:TypeArguments="x:String" x:Key="out_TableData" />
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:LogMessage sap:VirtualizedContainerService.HintSize="334,144" sap2010:WorkflowViewState.IdRef="LogMessage_ProcessedRow" Level="Info" Message="[&quot;Processed row &quot; &amp; row(&quot;id&quot;).ToString() &amp; &quot; | PDF Text chars: &quot; &amp; If(v_InvoiceData IsNot Nothing AndAlso v_InvoiceData.ContainsKey(&quot;InvoiceText&quot;), v_InvoiceData(&quot;InvoiceText&quot;).ToString().Length.ToString(), &quot;0&quot;)]" />
+                </Sequence>
+              </ActivityAction>
+            </ui:ForEach.Body>
+          </ui:ForEach>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+         <ui:LogMessage sap:VirtualizedContainerService.HintSize="334,92" Level="Error" Message="[&quot;Initial TableScrape failed. Terminating.&quot;]" />
+      </If.Else>
+    </If>
+  </Sequence>
+</Activity>

@@ -3,6 +3,9 @@
     <x:Property Name="out_ErrorMessage" Type="OutArgument(x:String)" />
     <x:Property Name="out_LoginSuccess" Type="OutArgument(x:Boolean)" />
     <x:Property Name="out_BrowserSession" Type="OutArgument(ui:Browser)" />
+    <x:Property Name="out_ExtractionSuccess" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_ExtractedData" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_ExtractionError" Type="OutArgument(x:String)" />
     <x:Property Name="in_Password" Type="InArgument(ss:SecureString)" />
     <x:Property Name="in_Username" Type="InArgument(x:String)" />
     <x:Property Name="in_PortalConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
@@ -74,6 +77,9 @@
       <Variable x:TypeArguments="x:String" Name="v_LogMsg" />
       <Variable x:TypeArguments="x:String" Name="v_ExceptionMsg" />
       <Variable x:TypeArguments="s:Random" Default="[New System.Random()]" Name="v_SharedRandom" />
+      <Variable x:TypeArguments="x:Boolean" Name="v_ExtractionSuccess" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="v_ExtractedData" />
+      <Variable x:TypeArguments="x:String" Name="v_ExtractionError" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -907,7 +913,7 @@
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Global Outputs Wireup" sap:VirtualizedContainerService.HintSize="662,580.6666666666666" sap2010:WorkflowViewState.IdRef="Seq_Finalize">
+        <Sequence DisplayName="Global Outputs Wireup" sap:VirtualizedContainerService.HintSize="662,1100" sap2010:WorkflowViewState.IdRef="Seq_Finalize">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -935,6 +941,30 @@
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="x:String">[v_Error]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="628,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FinalExtractionSuccess">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[out_ExtractionSuccess]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[v_ExtractionSuccess]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="628,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FinalExtractedData">
+            <Assign.To>
+              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_ExtractedData]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[v_ExtractedData]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign sap:VirtualizedContainerService.HintSize="628,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FinalExtractionError">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_ExtractionError]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[v_ExtractionError]</InArgument>
             </Assign.Value>
           </Assign>
         </Sequence>

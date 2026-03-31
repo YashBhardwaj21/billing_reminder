@@ -1,4 +1,7 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="PortalSetup" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/credentials" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="PortalSetup" VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:p="http://schemas.uipath.com/workflow/activities/credentials" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_ConfigPath" Type="OutArgument(x:String)" />
+  </x:Members>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -97,6 +100,11 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="746.6666666666666,4430.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="configFolder" />
+      <Variable x:TypeArguments="s:String[]" Name="configFiles" />
+      <Variable x:TypeArguments="x:String" Name="menu" />
+      <Variable x:TypeArguments="x:String" Name="selectedIndexText" />
+      <Variable x:TypeArguments="x:Int32" Name="selectedIndex" />
       <Variable x:TypeArguments="x:String" Name="hasDocsText" />
       <Variable x:TypeArguments="x:String" Name="threshold2Text" />
       <Variable x:TypeArguments="x:String" Name="threshold1Text" />
@@ -130,14 +138,82 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
 
-    <Assign DisplayName="Ask: Portal Name" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalName">
-      <Assign.To>
-        <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
-      </Assign.To>
-      <Assign.Value>
-        <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter a name for this portal (e.g. BESCOM Electricity)", "WebMonitor Setup - Step 1 of 6", "")]</InArgument>
-      </Assign.Value>
-    </Assign>
+    <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog - Mode Selection" sap:VirtualizedContainerService.HintSize="452,278" sap2010:WorkflowViewState.IdRef="InputDialog_Mode" IsPassword="False" Label="[&quot;Choose option:&quot; &amp; vbCrLf &amp; &quot;1 → Create new portal&quot; &amp; vbCrLf &amp; &quot;2 → Use existing config&quot;]" Title="Portal Setup">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[setupChoice]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <If Condition="[setupChoice.Trim = &quot;2&quot;]" sap:VirtualizedContainerService.HintSize="452,1549.3333333333333" sap2010:WorkflowViewState.IdRef="If_ModeChoice">
+      <If.Then>
+        <Sequence DisplayName="Use Existing Config" sap:VirtualizedContainerService.HintSize="450,1114" sap2010:WorkflowViewState.IdRef="Sequence_ExistingConfig">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign configFolder" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_configFolder">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[configFolder]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Data\Config\Portals")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign configFiles" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_configFiles">
+            <Assign.To>
+              <OutArgument x:TypeArguments="s:String[]">[configFiles]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="s:String[]">[System.IO.Directory.GetFiles(configFolder, "*.json")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign menu" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_menu">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[menu]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[String.Join(Environment.NewLine, configFiles.Select(Function(f, i) i.ToString + " → " + System.IO.Path.GetFileName(f)))]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Dialog - Select Config" sap:VirtualizedContainerService.HintSize="416,278" sap2010:WorkflowViewState.IdRef="InputDialog_SelectConfig" IsPassword="False" Label="[&quot;Select config index:&quot; &amp; vbCrLf &amp; menu]" Title="Select Config">
+            <ui:InputDialog.Result>
+              <OutArgument x:TypeArguments="x:String">[selectedIndexText]</OutArgument>
+            </ui:InputDialog.Result>
+          </ui:InputDialog>
+          <Assign DisplayName="Assign selectedIndex" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_selectedIndex">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[selectedIndex]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[CInt(selectedIndexText)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Assign out_ConfigPath" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_outConfigPath">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_ConfigPath]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[configFiles(selectedIndex)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="Log Message - Existing Config" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_UsingConfig" Level="Info" Message="[&quot;Using existing config: &quot; &amp; out_ConfigPath]" />
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Create New Config" sap:VirtualizedContainerService.HintSize="450,4500" sap2010:WorkflowViewState.IdRef="Sequence_NewConfig">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Ask: Portal Name" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_portalName">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Microsoft.VisualBasic.Interaction.InputBox("Enter a name for this portal (e.g. BESCOM Electricity)", "WebMonitor Setup - Step 1 of 6", "")]</InArgument>
+            </Assign.Value>
+          </Assign>
     <If Condition="[String.IsNullOrWhiteSpace(portalName)]" sap:VirtualizedContainerService.HintSize="452,4231.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_2">
@@ -354,8 +430,20 @@
             </If.Then>
           </If>
           <p:AddCredential Password="{x:Null}" CredentialType="Generic" DisplayName="Add Credentials" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="AddCredential_1" PasswordSecureString="[password]" PersistanceType="LocalComputer" Target="[credentialAssetName]" Username="[username]" />
+          <Assign DisplayName="Set out_ConfigPath" sap:VirtualizedContainerService.HintSize="416,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_outConfigPath_New">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_ConfigPath]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[configFilePath]</InArgument>
+            </Assign.Value>
+          </Assign>
           <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Success Message" sap:VirtualizedContainerService.HintSize="416,124" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;Portal '&quot; &amp; portalName &amp; &quot;' added successfully!&quot; &amp; Environment.NewLine &amp; &quot;Config saved to: &quot;&quot;&quot; &amp; configFilePath &amp; &quot;&quot;&quot;&quot; &amp; Environment.NewLine &amp; &quot;Credential stored as: &quot; &amp; credentialAssetName &amp; Environment.NewLine &amp; Environment.NewLine &amp; &quot;This portal will be monitored from the next scheduled run.&quot;]" />
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;PortalSetup complete: &quot; &amp; portalName &amp; &quot; | Asset: &quot; &amp; credentialAssetName]" />
+        </Sequence>
+      </If.Else>
+    </If>
+
         </Sequence>
       </If.Else>
     </If>
