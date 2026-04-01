@@ -1,8 +1,7 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="DateParser" this:DateParser.in_Threshold2="30" this:DateParser.in_Threshold1="7" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System.Text.RegularExpressions" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="out_ReminderList" Type="OutArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
-    <x:Property Name="in_ContextRecord" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
-    <x:Property Name="in_RawText" Type="InArgument(x:String)" />
+    <x:Property Name="in_ExtractedDataList" Type="InArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
     <x:Property Name="in_Threshold2" Type="InArgument(x:Int32)" />
     <x:Property Name="in_Threshold1" Type="InArgument(x:Int32)" />
   </x:Members>
@@ -130,7 +129,14 @@
         <InArgument x:TypeArguments="s:String[]">[New String() {"\b\d{2}/\d{2}/\d{4}\b", "\b\d{2}-\d{2}-\d{4}\b", "\b\d{1,2}\s[A-Za-z]{3}\s\d{4}\b", "\b[A-Za-z]+\s\d{1,2},\s\d{4}\b", "\b\d{4}-\d{2}-\d{2}\b"}]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each pattern" sap:VirtualizedContainerService.HintSize="560,2164.6666666666665" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[datePatterns]">
+    <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each currentRecord in list" sap:VirtualizedContainerService.HintSize="630,2400" sap2010:WorkflowViewState.IdRef="ForEachList" Values="[in_ExtractedDataList]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="currentRecord" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="600,2300" sap2010:WorkflowViewState.IdRef="SeqCurrentRecord">
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each pattern" sap:VirtualizedContainerService.HintSize="560,2164.6666666666665" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[datePatterns]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
@@ -142,7 +148,7 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:Matches FirstMatch="{x:Null}" DisplayName="Find Matching Patterns" sap:VirtualizedContainerService.HintSize="524,92" sap2010:WorkflowViewState.IdRef="Matches_1" Input="[in_RawText]" IsBuilderTabModified="False" Pattern="[pattern]" RegexOption="IgnoreCase, Compiled" Result="[matches]" />
+            <ui:Matches FirstMatch="{x:Null}" DisplayName="Find Matching Patterns" sap:VirtualizedContainerService.HintSize="524,92" sap2010:WorkflowViewState.IdRef="Matches_1" Input="[If(currentRecord.ContainsKey(&quot;RawText&quot;) AndAlso currentRecord(&quot;RawText&quot;) IsNot Nothing, currentRecord(&quot;RawText&quot;).ToString(), &quot;&quot;)]" IsBuilderTabModified="False" Pattern="[pattern]" RegexOption="IgnoreCase, Compiled" Result="[matches]" />
             <ui:ForEach x:TypeArguments="str:Match" CurrentIndex="{x:Null}" DisplayName="For Each m" sap:VirtualizedContainerService.HintSize="524,1880.6666666666667" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[matches]">
               <ui:ForEach.Body>
                 <ActivityAction x:TypeArguments="str:Match">
@@ -168,7 +174,7 @@
                               <OutArgument x:TypeArguments="s:DateTime">[parsedDate]</OutArgument>
                             </Assign.To>
                             <Assign.Value>
-                              <InArgument x:TypeArguments="s:DateTime">[DateTime.ParseExact(m.value, New String(){"dd/MM/yyyy","dd-MM-yyyy","dd MMM yyyy","MMMM dd, yyyy","yyyy-MM-dd"}, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None)]</InArgument>
+                              <InArgument x:TypeArguments="s:DateTime">[DateTime.ParseExact(m.value, New String(){"MM/dd/yyyy","M/d/yyyy","dd/MM/yyyy","d/M/yyyy","MM-dd-yyyy","dd-MM-yyyy","dd MMM yyyy","d MMM yyyy","MMMM dd, yyyy","MMM dd, yyyy","yyyy-MM-dd"}, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None)]</InArgument>
                             </Assign.Value>
                           </Assign>
                           <Assign DisplayName="Assign - daysLeft" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_5">
@@ -200,7 +206,7 @@
                                     <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[entry]</OutArgument>
                                   </Assign.To>
                                   <Assign.Value>
-                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object) From {{"ApplicantName", If(in_ContextRecord.ContainsKey("ApplicantName"), in_ContextRecord("ApplicantName"), CObj("Customer"))}, {"ApplicationNumber", If(in_ContextRecord.ContainsKey("ApplicationNumber"), in_ContextRecord("ApplicationNumber"), CObj("N/A"))}, {"ServiceType", If(in_ContextRecord.ContainsKey("ServiceType"), in_ContextRecord("ServiceType"), CObj("Bill"))}, {"AmountDue", If(in_ContextRecord.ContainsKey("AmountDue"), in_ContextRecord("AmountDue"), CObj("N/A"))}, {"DueDate", parsedDate}, {"DaysLeft", daysLeft}, {"Severity", severity}, {"SourceURL", If(in_ContextRecord.ContainsKey("SourceURL"), in_ContextRecord("SourceURL"), CObj(""))}, {"RecipientEmail", If(in_ContextRecord.ContainsKey("RecipientEmail"), in_ContextRecord("RecipientEmail"), CObj(""))}, {"PortalName", If(in_ContextRecord.ContainsKey("PortalName"), in_ContextRecord("PortalName"), CObj("Unknown"))}, {"NotificationChannels", If(in_ContextRecord.ContainsKey("NotificationChannels"), in_ContextRecord("NotificationChannels"), CObj("email"))}, {"ExtractedAt", If(in_ContextRecord.ContainsKey("ExtractedAt"), in_ContextRecord("ExtractedAt"), CObj(DateTime.Now))}}]</InArgument>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object) From {{"ApplicantName", If(currentRecord.ContainsKey("ApplicantName"), currentRecord("ApplicantName"), CObj("Customer"))}, {"ApplicationNumber", If(currentRecord.ContainsKey("ApplicationNumber"), currentRecord("ApplicationNumber"), CObj("N/A"))}, {"ServiceType", If(currentRecord.ContainsKey("ServiceType"), currentRecord("ServiceType"), CObj("Bill"))}, {"AmountDue", If(currentRecord.ContainsKey("AmountDue"), currentRecord("AmountDue"), CObj("N/A"))}, {"DueDate", parsedDate}, {"DaysLeft", daysLeft}, {"Severity", severity}, {"SourceURL", If(currentRecord.ContainsKey("SourceURL"), currentRecord("SourceURL"), CObj(""))}, {"RecipientEmail", If(currentRecord.ContainsKey("RecipientEmail"), currentRecord("RecipientEmail"), CObj(""))}, {"PortalName", If(currentRecord.ContainsKey("PortalName"), currentRecord("PortalName"), CObj("Unknown"))}, {"NotificationChannels", If(currentRecord.ContainsKey("NotificationChannels"), currentRecord("NotificationChannels"), CObj("email"))}, {"ExtractedAt", If(currentRecord.ContainsKey("ExtractedAt"), currentRecord("ExtractedAt"), CObj(DateTime.Now))}}]</InArgument>
                                   </Assign.Value>
                                 </Assign>
                                 <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_10">
@@ -255,6 +261,10 @@
                   </Sequence>
                 </ActivityAction>
               </ui:ForEach.Body>
+            </ui:ForEach>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
             </ui:ForEach>
           </Sequence>
         </ActivityAction>

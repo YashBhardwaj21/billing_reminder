@@ -2,7 +2,7 @@
   <x:Members>
     <x:Property Name="out_ErrorMessage" Type="OutArgument(x:String)" />
     <x:Property Name="out_Success" Type="OutArgument(x:Boolean)" />
-    <x:Property Name="out_ExtractedData" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_ExtractedData" Type="OutArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
     <x:Property Name="in_PortalConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_BrowserSession" Type="InArgument(ui:Browser)" />
     <x:Property Name="out_TableData" Type="OutArgument(x:String)" />
@@ -112,7 +112,7 @@
       <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="772,11382.666666666666" sap2010:WorkflowViewState.IdRef="Sequence_6">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="666,19596" sap2010:WorkflowViewState.IdRef="Sequence_6">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Default="[False]" Name="extractionSuccess" />
       <Variable x:TypeArguments="x:String" Name="errorMessage" />
@@ -133,13 +133,25 @@
       <Variable x:TypeArguments="x:String" Name="extractionMethod" />
       <Variable x:TypeArguments="x:String" Name="portalURL" />
       <Variable x:TypeArguments="x:String" Name="portalName" />
+      <Variable x:TypeArguments="ui:Image" Name="loadedImage" />
+      <Variable x:TypeArguments="x:String" Name="mimeType" />
+      <Variable x:TypeArguments="x:Boolean" Name="isHtml" />
+      <Variable x:TypeArguments="x:String" Name="htmlContent" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="594,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_InitOut">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedData]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String, Object))()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[extractedData]</OutArgument>
       </Assign.To>
@@ -147,7 +159,7 @@
         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object)()]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="594,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[tempFolder]</OutArgument>
       </Assign.To>
@@ -155,7 +167,7 @@
         <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "UiPath\PortalSetup\Data\Temp")]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
       </Assign.To>
@@ -163,7 +175,7 @@
         <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("PortalName"), in_PortalConfig("PortalName").ToString(), "Unknown")]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_4">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_4">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[portalURL]</OutArgument>
       </Assign.To>
@@ -171,7 +183,7 @@
         <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("URL"), in_PortalConfig("URL").ToString(), "")]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_5">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_5">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[extractionMethod]</OutArgument>
       </Assign.To>
@@ -179,7 +191,7 @@
         <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("ExtractionMode"), in_PortalConfig("ExtractionMode").ToString(), "WebScrape")]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_6">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_6">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[hasDocumentsStr]</OutArgument>
       </Assign.To>
@@ -187,7 +199,7 @@
         <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("HasDocuments"), in_PortalConfig("HasDocuments").ToString(), "false")]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_7">
+    <Assign sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_7">
       <Assign.To>
         <OutArgument x:TypeArguments="x:Boolean">[hasDocuments]</OutArgument>
       </Assign.To>
@@ -195,80 +207,90 @@
         <InArgument x:TypeArguments="x:Boolean">[(hasDocumentsStr.ToLower.Trim = "true")]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="528,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;SmartExtractor started for: &quot; &amp; portalName &amp; &quot; | Method: &quot; &amp; extractionMethod]" />
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="594,9946.666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="666,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;SmartExtractor started for: &quot; &amp; portalName &amp; &quot; | Method: &quot; &amp; extractionMethod]" />
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="666,17983.333333333332" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="592,8780" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="630,16794" sap2010:WorkflowViewState.IdRef="Sequence_3">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Log Browser Attached" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;Browser attached successfully for: &quot; &amp; portalName]" />
-          <Switch x:TypeArguments="x:String" DisplayName="Switch on ExtractionMethod" Expression="[extractionMethod]" sap:VirtualizedContainerService.HintSize="800,7000" sap2010:WorkflowViewState.IdRef="Switch_ExtractionMethod">
+          <ui:LogMessage DisplayName="Log Browser Attached" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Browser attached successfully for: &quot; &amp; portalName]" />
+          <Switch x:TypeArguments="x:String" DisplayName="Switch on ExtractionMethod" Expression="[extractionMethod]" sap:VirtualizedContainerService.HintSize="596,15683.333333333334" sap2010:WorkflowViewState.IdRef="Switch_ExtractionMethod">
             <Switch.Default>
-              <ui:LogMessage Level="Warn" Message="[&quot;Unsupported extraction method: &quot; &amp; extractionMethod]" />
+              <ui:LogMessage sap:VirtualizedContainerService.HintSize="594,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_27" Level="Warn" Message="[&quot;Unsupported extraction method: &quot; &amp; extractionMethod]" />
             </Switch.Default>
-            
-            <!-- TABLE SCRAPE MODE -->
-            <Sequence x:Key="TableScrape" DisplayName="TableScrape Mode" sap:VirtualizedContainerService.HintSize="600,2000" sap2010:WorkflowViewState.IdRef="Sequence_TableScrape">
+            <Sequence x:Key="TableScrape" DisplayName="TableScrape Mode" sap:VirtualizedContainerService.HintSize="584,2576.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_TableScrape">
               <Sequence.Variables>
-                <Variable x:TypeArguments="njl:JArray" Name="cumulativeTableData" Default="[New Newtonsoft.Json.Linq.JArray()]" />
-                <Variable x:TypeArguments="x:Boolean" Name="hasNextPage" Default="True" />
+                <Variable x:TypeArguments="njl:JArray" Default="[New Newtonsoft.Json.Linq.JArray()]" Name="cumulativeTableData" />
+                <Variable x:TypeArguments="x:Boolean" Default="True" Name="hasNextPage" />
                 <Variable x:TypeArguments="x:String" Name="pageJson" />
                 <Variable x:TypeArguments="x:String" Name="hasNextPageStr" />
               </Sequence.Variables>
-              
-              <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" DisplayName="Do While Pagination" sap:VirtualizedContainerService.HintSize="550,1600" sap2010:WorkflowViewState.IdRef="DoWhile_Pagination">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:InterruptibleDoWhile CurrentIndex="{x:Null}" Condition="[hasNextPage]" DisplayName="Do While Pagination" sap:VirtualizedContainerService.HintSize="550,2172.6666666666665" sap2010:WorkflowViewState.IdRef="DoWhile_Pagination">
                 <ui:InterruptibleDoWhile.Body>
-                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="516,1500" sap2010:WorkflowViewState.IdRef="Sequence_PaginationBody">
-                    <ui:LogMessage Level="Info" Message="[&quot;Extracting table page...&quot;]" />
-                    <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for Table" sap:VirtualizedContainerService.HintSize="482,735" sap2010:WorkflowViewState.IdRef="BrowserScope_Table">
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="522,2040.6666666666667" sap2010:WorkflowViewState.IdRef="Sequence_PaginationBody">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage sap:VirtualizedContainerService.HintSize="470,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Extracting table page...&quot;]" />
+                    <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for Table" sap:VirtualizedContainerService.HintSize="470,278.6666666666667" sap2010:WorkflowViewState.IdRef="BrowserScope_Table">
                       <ui:BrowserScope.Body>
                         <ActivityAction x:TypeArguments="x:Object">
                           <ActivityAction.Argument>
                             <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetTable" />
                           </ActivityAction.Argument>
-                          <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Scrape Rows JS" sap:VirtualizedContainerService.HintSize="334,135" sap2010:WorkflowViewState.IdRef="InjectJsScript_Table" ScriptCode="function(e, i) { var rows = document.querySelectorAll('table tbody tr'); var result = []; for(var r=0; r&lt;rows.length; r++){ var cells = rows[r].querySelectorAll('td'); var link = rows[r].querySelector('a'); result.push({ id: cells[1] ? cells[1].innerText.trim() : '', dueDate: cells[2] ? cells[2].innerText.trim() : '', invoiceHref: link ? link.href : '' }); } return JSON.stringify(result); }">
+                          <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Scrape Rows JS" sap:VirtualizedContainerService.HintSize="400,137.33333333333334" sap2010:WorkflowViewState.IdRef="InjectJsScript_Table" ScriptCode="function(e, i) { var rows = document.querySelectorAll('table tbody tr'); var result = []; for(var r=0; r&lt;rows.length; r++){ var cells = rows[r].querySelectorAll('td'); var link = rows[r].querySelector('a'); result.push({ id: cells[1] ? cells[1].innerText.trim() : '', dueDate: cells[2] ? cells[2].innerText.trim() : '', invoiceHref: link ? link.href : '' }); } return JSON.stringify(result); }">
                             <ui:InjectJsScript.ScriptOutput>
                               <OutArgument x:TypeArguments="x:String">[pageJson]</OutArgument>
                             </ui:InjectJsScript.ScriptOutput>
                             <ui:InjectJsScript.Target>
-                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;html /&gt;" TimeoutMS="15000" WaitForReady="COMPLETE" />
+                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="00000000-0000-0000-0000-000000000000" Selector="&lt;webctrl /&gt;" TimeoutMS="15000" WaitForReady="COMPLETE" />
                             </ui:InjectJsScript.Target>
                           </ui:InjectJsScript>
                         </ActivityAction>
                       </ui:BrowserScope.Body>
                     </ui:BrowserScope>
-                    
-                    <ui:InvokeCode Code="cumulativeTableData.Merge(Newtonsoft.Json.Linq.JArray.Parse(pageJson))" ContinueOnError="False" DisplayName="Merge JSON output" sap:VirtualizedContainerService.HintSize="482,165" sap2010:WorkflowViewState.IdRef="InvokeCode_MergeJson">
+                    <ui:InvokeCode Code="cumulativeTableData.Merge(Newtonsoft.Json.Linq.JArray.Parse(pageJson))" ContinueOnError="False" DisplayName="Merge JSON output" sap:VirtualizedContainerService.HintSize="488,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_MergeJson">
                       <ui:InvokeCode.Arguments>
                         <InOutArgument x:TypeArguments="njl:JArray" x:Key="cumulativeTableData">[cumulativeTableData]</InOutArgument>
                         <InArgument x:TypeArguments="x:String" x:Key="pageJson">[pageJson]</InArgument>
                       </ui:InvokeCode.Arguments>
                     </ui:InvokeCode>
-
-                    <If Condition="[in_PortalConfig.ContainsKey(&quot;HasPagination&quot;) AndAlso in_PortalConfig(&quot;HasPagination&quot;).ToString.ToLower = &quot;true&quot;]" DisplayName="Check Pagination Next" sap:VirtualizedContainerService.HintSize="482,500" sap2010:WorkflowViewState.IdRef="If_NextButtonCheck">
+                    <If Condition="[in_PortalConfig.ContainsKey(&quot;HasPagination&quot;) AndAlso in_PortalConfig(&quot;HasPagination&quot;).ToString.ToLower = &quot;true&quot;]" DisplayName="Check Pagination Next" sap:VirtualizedContainerService.HintSize="488,1328" sap2010:WorkflowViewState.IdRef="If_NextButtonCheck">
                       <If.Then>
-                        <Sequence sap:VirtualizedContainerService.HintSize="418,500" sap2010:WorkflowViewState.IdRef="Sequence_NextEval">
-                          <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for Next Check">
+                        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="486,1030.6666666666667" sap2010:WorkflowViewState.IdRef="Sequence_NextEval">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for Next Check" sap:VirtualizedContainerService.HintSize="452,278.6666666666667" sap2010:WorkflowViewState.IdRef="BrowserScope_1">
                             <ui:BrowserScope.Body>
                               <ActivityAction x:TypeArguments="x:Object">
                                 <ActivityAction.Argument>
                                   <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetNext" />
                                 </ActivityAction.Argument>
-                                <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Check Last Page JS" sap:VirtualizedContainerService.HintSize="334,135" sap2010:WorkflowViewState.IdRef="InjectJsScript_Next" ScriptCode="function(e,i){ var btn = document.querySelector('a[href*=\&quot;page\&quot;]:last-child, .pagination .next'); return btn &amp;&amp; !btn.classList.contains('disabled') ? 'true' : 'false'; }">
+                                <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Check Last Page JS" sap:VirtualizedContainerService.HintSize="400,137.33333333333334" sap2010:WorkflowViewState.IdRef="InjectJsScript_Next" ScriptCode="function(e,i){ var btn = document.querySelector('a[href*=\&quot;page\&quot;]:last-child, .pagination .next'); return btn &amp;&amp; !btn.classList.contains('disabled') ? 'true' : 'false'; }">
                                   <ui:InjectJsScript.ScriptOutput>
                                     <OutArgument x:TypeArguments="x:String">[hasNextPageStr]</OutArgument>
                                   </ui:InjectJsScript.ScriptOutput>
                                   <ui:InjectJsScript.Target>
-                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;html /&gt;" TimeoutMS="15000" WaitForReady="COMPLETE" />
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="00000000-0000-0000-0000-000000000000" Selector="&lt;webctrl /&gt;" TimeoutMS="15000" WaitForReady="COMPLETE" />
                                   </ui:InjectJsScript.Target>
                                 </ui:InjectJsScript>
                               </ActivityAction>
                             </ui:BrowserScope.Body>
                           </ui:BrowserScope>
-                          <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_HasNextPage">
+                          <Assign sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_HasNextPage">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:Boolean">[hasNextPage]</OutArgument>
                             </Assign.To>
@@ -276,10 +298,15 @@
                               <InArgument x:TypeArguments="x:Boolean">[hasNextPageStr = "true"]</InArgument>
                             </Assign.Value>
                           </Assign>
-                          <If Condition="[hasNextPage]" sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="If_ClickNextPage">
+                          <If Condition="[hasNextPage]" sap:VirtualizedContainerService.HintSize="452,515.3333333333334" sap2010:WorkflowViewState.IdRef="If_ClickNextPage">
                             <If.Then>
-                              <Sequence>
-                                <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="True" ClickType="CLICK_SINGLE" DisplayName="Click Next Button" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="Click_NextPage" KeyModifiers="None" MouseButton="BTN_LEFT">
+                              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,294" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click Next Button" sap:VirtualizedContainerService.HintSize="416,119.33333333333333" sap2010:WorkflowViewState.IdRef="Click_NextPage" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
                                   <ui:Click.CursorPosition>
                                     <ui:CursorPosition Position="Center">
                                       <ui:CursorPosition.OffsetX>
@@ -291,17 +318,26 @@
                                     </ui:CursorPosition>
                                   </ui:Click.CursorPosition>
                                   <ui:Click.Target>
-                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="[&quot;&lt;html /&gt;&lt;webctrl css='&quot; &amp; in_PortalConfig(&quot;NextButtonSelector&quot;).ToString() &amp; &quot;' /&gt;&quot;]" TimeoutMS="10000" WaitForReady="COMPLETE" />
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="00000000-0000-0000-0000-000000000000" Selector="[&quot;&lt;html /&gt;&lt;webctrl css='&quot; &amp; in_PortalConfig(&quot;NextButtonSelector&quot;).ToString() &amp; &quot;' /&gt;&quot;]" TimeoutMS="10000" WaitForReady="COMPLETE" />
                                   </ui:Click.Target>
                                 </ui:Click>
-                                <Delay Duration="00:00:02" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Delay_WaitPage" />
+                                <Delay Duration="00:00:02" sap:VirtualizedContainerService.HintSize="416,114.66666666666667" sap2010:WorkflowViewState.IdRef="Delay_WaitPage" />
                               </Sequence>
                             </If.Then>
+                            <If.Else>
+                              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Sequence>
+                            </If.Else>
                           </If>
                         </Sequence>
                       </If.Then>
                       <If.Else>
-                        <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_HasNextPageNo">
+                        <Assign sap:VirtualizedContainerService.HintSize="486,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_HasNextPageNo">
                           <Assign.To>
                             <OutArgument x:TypeArguments="x:Boolean">[hasNextPage]</OutArgument>
                           </Assign.To>
@@ -313,10 +349,15 @@
                     </If>
                   </Sequence>
                 </ui:InterruptibleDoWhile.Body>
-                <ui:InterruptibleDoWhile.Condition>
-                  <VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="hasNextPage" />
-                </ui:InterruptibleDoWhile.Condition>
               </ui:InterruptibleDoWhile>
+              <ui:InvokeCode Code="out_ExtractedData = New List(Of Dictionary(Of String, Object))()&#xA;For Each item As Newtonsoft.Json.Linq.JObject In cumulativeTableData.Children(Of Newtonsoft.Json.Linq.JObject)()&#xA;    Dim dict As New Dictionary(Of String, Object)()&#xA;    For Each prop As Newtonsoft.Json.Linq.JProperty In item.Properties()&#xA;        dict(prop.Name) = prop.Value.ToString()&#xA;    Next&#xA;    dict(&quot;_PortalName&quot;) = portalName&#xA;    dict(&quot;RecipientEmail&quot;) = If(in_PortalConfig.ContainsKey(&quot;NotificationEmail&quot;), in_PortalConfig(&quot;NotificationEmail&quot;).ToString(), &quot;&quot;)&#xA;    out_ExtractedData.Add(dict)&#xA;Next" ContinueOnError="False" DisplayName="Convert Table to List Dict" sap:VirtualizedContainerService.HintSize="550,165" sap2010:WorkflowViewState.IdRef="InvokeCode_TableListConvert">
+                <ui:InvokeCode.Arguments>
+                  <InArgument x:TypeArguments="njl:JArray" x:Key="cumulativeTableData">[cumulativeTableData]</InArgument>
+                  <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_ExtractedData">[out_ExtractedData]</InOutArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="portalName">[portalName]</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[in_PortalConfig]</InArgument>
+                </ui:InvokeCode.Arguments>
+              </ui:InvokeCode>
               <Assign DisplayName="Set out_TableData" sap:VirtualizedContainerService.HintSize="550,82" sap2010:WorkflowViewState.IdRef="Assign_OutTableData">
                 <Assign.To>
                   <OutArgument x:TypeArguments="x:String">[out_TableData]</OutArgument>
@@ -325,467 +366,602 @@
                   <InArgument x:TypeArguments="x:String">[cumulativeTableData.ToString(Newtonsoft.Json.Formatting.None)]</InArgument>
                 </Assign.Value>
               </Assign>
-              <ui:LogMessage DisplayName="Log TableScrape Complete" sap:VirtualizedContainerService.HintSize="550,92" Level="Info" Message="[&quot;TableScrape completed. Total rows extracted: &quot; &amp; cumulativeTableData.Count.ToString()]" />
+              <ui:LogMessage DisplayName="Log TableScrape Complete" sap:VirtualizedContainerService.HintSize="550,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;TableScrape completed. Total rows extracted: &quot; &amp; cumulativeTableData.Count.ToString()]" />
             </Sequence>
-
-            <!-- WEB SCRAPE MODE -->
-            <Sequence x:Key="WebScrape" DisplayName="WebScrape Mode" sap:VirtualizedContainerService.HintSize="600,6000" sap2010:WorkflowViewState.IdRef="Sequence_WebScrape">
-              <If Condition="[Not in_PortalConfig.ContainsKey(&quot;DirectDocumentURL&quot;)]" DisplayName="If not direct document download, scrape fields" sap:VirtualizedContainerService.HintSize="580,5800" sap2010:WorkflowViewState.IdRef="If_NotDirectDoc">
+            <Sequence x:Key="WebScrape" DisplayName="WebScrape Mode" sap:VirtualizedContainerService.HintSize="594,12684" sap2010:WorkflowViewState.IdRef="Sequence_WebScrape">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <If Condition="[True]" DisplayName="Always scrape page fields" sap:VirtualizedContainerService.HintSize="560,6316" sap2010:WorkflowViewState.IdRef="If_NotDirectDoc">
                 <If.Then>
-                  <Sequence>
-                    <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Full Page Text via JS" sap:VirtualizedContainerService.HintSize="334,135" sap2010:WorkflowViewState.IdRef="InjectJsScript_FullPage" ScriptCode="function(e, i) { return document.body.innerText; }">
-                      <ui:InjectJsScript.ScriptOutput>
-                        <OutArgument x:TypeArguments="x:String">[fullPageText]</OutArgument>
-                      </ui:InjectJsScript.ScriptOutput>
-                      <ui:InjectJsScript.Target>
-                        <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="{x:Null}" TimeoutMS="15000" WaitForReady="COMPLETE" />
-                      </ui:InjectJsScript.Target>
-                    </ui:InjectJsScript>
-                    <ui:LogMessage DisplayName="Log: Page text length" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PageTextLength" Level="Info" Message="[&quot;Full page text length: &quot; &amp; If(fullPageText Is Nothing, &quot;0&quot;, fullPageText.Length.ToString) &amp; &quot; chars&quot;]" />
-                    <If Condition="[in_PortalConfig.ContainsKey(&quot;Fields&quot;) AndAlso in_PortalConfig(&quot;Fields&quot;) IsNot Nothing]" DisplayName="Check: Fields array exists in config" sap:VirtualizedContainerService.HintSize="558,4867.333333333333" sap2010:WorkflowViewState.IdRef="If_FieldsArray">
-            <If.Then>
-              <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For Each: field in Fields config" sap:VirtualizedContainerService.HintSize="490,4685.333333333333" sap2010:WorkflowViewState.IdRef="ForEach_Field" Values="[CType(in_PortalConfig(&quot;Fields&quot;), Newtonsoft.Json.Linq.JArray)]">
-                <ui:ForEach.Body>
-                  <ActivityAction x:TypeArguments="njl:JToken">
-                    <ActivityAction.Argument>
-                      <DelegateInArgument x:TypeArguments="njl:JToken" Name="fieldDef" />
-                    </ActivityAction.Argument>
-                    <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="488,4585.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_FieldBody">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                      <Assign DisplayName="Unpack: currentFieldName" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldName">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[currentFieldName]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[fieldDef("Name").ToString()]</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <Assign DisplayName="Unpack: currentSelector" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldSelector">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[currentSelector]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[If(fieldDef("Selector") IsNot Nothing, fieldDef("Selector").ToString(), "")]</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <Assign DisplayName="Unpack: currentAnchor" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldAnchor">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[currentAnchor]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[If(fieldDef("Anchor") IsNot Nothing, fieldDef("Anchor").ToString(), "")]</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <Assign DisplayName="Reset: selectorSuccess" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetSelectorSuccess">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:Boolean">[selectorSuccess]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:Boolean">False</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <Assign DisplayName="Reset: anchorSuccess" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetAnchorSuccess">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:Boolean">[anchorSuccess]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:Boolean">False</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <Assign DisplayName="Reset: fieldValue" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetFieldValue">
-                        <Assign.To>
-                          <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
-                        </Assign.To>
-                        <Assign.Value>
-                          <InArgument x:TypeArguments="x:String">[""]</InArgument>
-                        </Assign.Value>
-                      </Assign>
-                      <If Condition="[Not String.IsNullOrWhiteSpace(currentSelector)]" DisplayName="Tier1: Has selector?" sap:VirtualizedContainerService.HintSize="454,1004.6666666666666" sap2010:WorkflowViewState.IdRef="If_Tier1">
-                        <If.Then>
-                          <TryCatch DisplayName="TryCatch: Tier1 selector attempt" sap:VirtualizedContainerService.HintSize="452,752" sap2010:WorkflowViewState.IdRef="TryCatch_Tier1">
-                            <TryCatch.Try>
-                              <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,374.6666666666667" sap2010:WorkflowViewState.IdRef="Seq_Tier1Try">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage DisplayName="Log Tier1 Try" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;Trying Tier1 selector for: &quot; &amp; currentFieldName]" />
-                                <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Tier1 Text via JS" sap:VirtualizedContainerService.HintSize="334,135" sap2010:WorkflowViewState.IdRef="InjectJsScript_Tier1" ScriptCode="[&quot;function(e, i) { var el = document.querySelector('&quot; &amp; currentSelector &amp; &quot;'); return el ? el.innerText : ''; }&quot;]">
-                                  <ui:InjectJsScript.ScriptOutput>
-                                    <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
-                                  </ui:InjectJsScript.ScriptOutput>
-                                  <ui:InjectJsScript.Target>
-                                    <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="{x:Null}" TimeoutMS="5000" WaitForReady="COMPLETE" />
-                                  </ui:InjectJsScript.Target>
-                                </ui:InjectJsScript>
-                                <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier1Success">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:Boolean">[selectorSuccess]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:Boolean">[Not String.IsNullOrWhiteSpace(fieldValue)]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                              </Sequence>
-                            </TryCatch.Try>
-                            <TryCatch.Catches>
-                              <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Tier1">
-                                <ActivityAction x:TypeArguments="s:Exception">
-                                  <ActivityAction.Argument>
-                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                                  </ActivityAction.Argument>
-                                  <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Tier1Err" Level="Warn" Message="[&quot;Tier1 failed for &quot; &amp; currentFieldName &amp; &quot;: &quot; &amp; exception.Message]" />
-                                </ActivityAction>
-                              </Catch>
-                            </TryCatch.Catches>
-                            <TryCatch.Finally>
-                              <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_7">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                              </Sequence>
-                            </TryCatch.Finally>
-                          </TryCatch>
-                        </If.Then>
-                      </If>
-                      <If Condition="[Not selectorSuccess AndAlso Not String.IsNullOrWhiteSpace(currentAnchor)]" DisplayName="Tier2: Try anchor if Tier1 failed?" sap:VirtualizedContainerService.HintSize="454,1004.6666666666666" sap2010:WorkflowViewState.IdRef="If_Tier2">
-                        <If.Then>
-                          <TryCatch DisplayName="TryCatch: Tier2 anchor attempt" sap:VirtualizedContainerService.HintSize="452,752" sap2010:WorkflowViewState.IdRef="TryCatch_Tier2">
-                            <TryCatch.Try>
-                              <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,374.6666666666667" sap2010:WorkflowViewState.IdRef="Seq_Tier2Try">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage DisplayName="Log Tier2 Try" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;Tier1 failed, trying Tier2 anchor for: &quot; &amp; currentFieldName]" />
-                                <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Tier2 Anchor Text via JS" sap:VirtualizedContainerService.HintSize="334,135" sap2010:WorkflowViewState.IdRef="InjectJsScript_Tier2" ScriptCode="[&quot;function(e, i) { var els = document.querySelectorAll('*'); for(var i=0;i&lt;els.length;i++){if(els[i].innerText.includes('&quot; &amp; currentAnchor &amp; &quot;')){var sib=els[i].nextElementSibling; if(sib) return sib.innerText;}} return ''; }&quot;]">
-                                  <ui:InjectJsScript.ScriptOutput>
-                                    <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
-                                  </ui:InjectJsScript.ScriptOutput>
-                                  <ui:InjectJsScript.Target>
-                                    <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="{x:Null}" TimeoutMS="5000" WaitForReady="COMPLETE" />
-                                  </ui:InjectJsScript.Target>
-                                </ui:InjectJsScript>
-                                <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier2Success">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:Boolean">[anchorSuccess]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:Boolean">[Not String.IsNullOrWhiteSpace(fieldValue)]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                              </Sequence>
-                            </TryCatch.Try>
-                            <TryCatch.Catches>
-                              <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Tier2">
-                                <ActivityAction x:TypeArguments="s:Exception">
-                                  <ActivityAction.Argument>
-                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                                  </ActivityAction.Argument>
-                                  <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Tier2Err" Level="Warn" Message="[&quot;Tier2 anchor failed for &quot; &amp; currentFieldName &amp; &quot;: &quot; &amp; exception.Message]" />
-                                </ActivityAction>
-                              </Catch>
-                            </TryCatch.Catches>
-                            <TryCatch.Finally>
-                              <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_8">
-                                <sap:WorkflowViewStateService.ViewState>
-                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                  </scg:Dictionary>
-                                </sap:WorkflowViewStateService.ViewState>
-                              </Sequence>
-                            </TryCatch.Finally>
-                          </TryCatch>
-                        </If.Then>
-                        <If.Else>
-                          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="452,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_9">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                          </Sequence>
-                        </If.Else>
-                      </If>
-                      <If Condition="[Not selectorSuccess AndAlso Not anchorSuccess AndAlso Not String.IsNullOrWhiteSpace(fullPageText)]" DisplayName="Tier3: Try full page text if Tier1+2 failed?" sap:VirtualizedContainerService.HintSize="454,931.3333333333334" sap2010:WorkflowViewState.IdRef="If_Tier3">
-                        <If.Then>
-                          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,700.6666666666666" sap2010:WorkflowViewState.IdRef="Seq_Tier3Try">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                            <ui:LogMessage DisplayName="Log Tier3 Try" sap:VirtualizedContainerService.HintSize="416,144" Level="Info" Message="[&quot;Tier1+2 failed, trying Tier3 regex for: &quot; &amp; currentFieldName]" />
-                            <If Condition="[currentFieldName.ToLower.Contains(&quot;date&quot;) OrElse currentFieldName.ToLower.Contains(&quot;due&quot;)]" DisplayName="Tier3: Is this a date field?" sap:VirtualizedContainerService.HintSize="416,473.3333333333333" sap2010:WorkflowViewState.IdRef="If_Tier3Date">
-                              <If.Then>
-                                <Assign DisplayName="Tier3: Regex scan date" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Tier3Date">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(fullPageText, "\b\d{2}[\/\-\.]\d{2}[\/\-\.]\d{4}\b|\b\d{1,2}\s[A-Za-z]{3}\s\d{4}\b|\b[A-Za-z]+\s\d{1,2},\s\d{4}\b").Value]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                              </If.Then>
-                              <If.Else>
-                                <Assign DisplayName="Tier3: Regex scan near anchor label" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Tier3Text">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(fullPageText, "(?&lt;=" &amp; System.Text.RegularExpressions.Regex.Escape(If(String.IsNullOrEmpty(currentAnchor), currentFieldName, currentAnchor)) &amp; "[^\n]{0,30})\S[^\n]{1,50}").Value.Trim()]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                              </If.Else>
-                            </If>
-                            <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_Tier3" Level="Info" Message="[&quot;Tier3 result for &quot; &amp; currentFieldName &amp; &quot;: '&quot; &amp; fieldValue &amp; &quot;'&quot;]" />
-                          </Sequence>
-                        </If.Then>
-                        <If.Else>
-                          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_10">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                          </Sequence>
-                        </If.Else>
-                      </If>
-                      <If Condition="[Not String.IsNullOrWhiteSpace(fieldValue)]" DisplayName="Store field if value found" sap:VirtualizedContainerService.HintSize="454,524.6666666666666" sap2010:WorkflowViewState.IdRef="If_StoreField">
-                        <If.Then>
-                          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,227.33333333333334" sap2010:WorkflowViewState.IdRef="Seq_StoreField">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                            <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_StoreField">
-                              <Assign.To>
-                                <OutArgument x:TypeArguments="x:Object">[extractedData(currentFieldName)]</OutArgument>
-                              </Assign.To>
-                              <Assign.Value>
-                                <InArgument x:TypeArguments="x:String">[fieldValue.Trim()]</InArgument>
-                              </Assign.Value>
-                            </Assign>
-<ui:LogMessage DisplayName="Log Stored Field" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;Stored field: &quot; &amp; currentFieldName &amp; &quot; = &quot; &amp; fieldValue]" />
-                          </Sequence>
-                        </If.Then>
-                        <If.Else>
-                          <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_FailAll" Level="Warn" Message="[&quot;All 3 tiers failed for field: &quot; &amp; currentFieldName]" />
-                        </If.Else>
-                      </If>
-                    </Sequence>
-                  </ActivityAction>
-                </ui:ForEach.Body>
-              </ui:ForEach>
-            </If.Then>
-          </If>
-                  </Sequence>
-                </If.Then>
-              </If>
-          <If Condition="[hasDocuments]" DisplayName="Check: HasDocuments = true?" sap:VirtualizedContainerService.HintSize="558,2293.3333333333335" sap2010:WorkflowViewState.IdRef="If_PDF">
-            <If.Then>
-              <TryCatch DisplayName="TryCatch: PDF download and extract" sap:VirtualizedContainerService.HintSize="556,2040.6666666666667" sap2010:WorkflowViewState.IdRef="TryCatch_PDF">
-                <TryCatch.Try>
-                  <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="554,1346" sap2010:WorkflowViewState.IdRef="Seq_PDFTry">
+                  <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="526,6085.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_13">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <Assign DisplayName="Build temp folder path" sap:VirtualizedContainerService.HintSize="520,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_TempFolderCreate">
-                      <Assign.To>
-                        <OutArgument x:TypeArguments="x:String">[tempFolder]</OutArgument>
-                      </Assign.To>
-                      <Assign.Value>
-                        <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Temp\PDFs")]</InArgument>
-                      </Assign.Value>
-                    </Assign>
-                    <ui:InvokeCode Code="System.IO.Directory.CreateDirectory(tempFolder)" ContinueOnError="[False]" DisplayName="Create temp folder" sap:VirtualizedContainerService.HintSize="520,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_CreateTempFolder">
-                      <ui:InvokeCode.Arguments>
-                        <InOutArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InOutArgument>
-                      </ui:InvokeCode.Arguments>
-                    </ui:InvokeCode>
-                    <Assign DisplayName="Unpack: DocumentLinkSelector" sap:VirtualizedContainerService.HintSize="520,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_DocLink">
-                      <Assign.To>
-                        <OutArgument x:TypeArguments="x:String">[currentSelector]</OutArgument>
-                      </Assign.To>
-                      <Assign.Value>
-                        <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("DocumentLinkSelector"), in_PortalConfig("DocumentLinkSelector").ToString(), "a[href*='.pdf']")]</InArgument>
-                      </Assign.Value>
-                    </Assign>
-                    <If Condition="[in_PortalConfig.ContainsKey(&quot;DirectDocumentURL&quot;)]" DisplayName="If Direct Document URL provided" sap:VirtualizedContainerService.HintSize="520,700" sap2010:WorkflowViewState.IdRef="If_DirectDocURL">
+                    <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Full Page Text via JS" sap:VirtualizedContainerService.HintSize="492,169.33333333333334" sap2010:WorkflowViewState.IdRef="InjectJsScript_FullPage" ScriptCode="function(e, i) { return document.body.innerText; }">
+                      <ui:InjectJsScript.ScriptOutput>
+                        <OutArgument x:TypeArguments="x:String">[fullPageText]</OutArgument>
+                      </ui:InjectJsScript.ScriptOutput>
+                      <ui:InjectJsScript.Target>
+                        <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="15000" WaitForReady="COMPLETE" />
+                      </ui:InjectJsScript.Target>
+                    </ui:InjectJsScript>
+                    <ui:LogMessage DisplayName="Log: Page text length" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PageTextLength" Level="Info" Message="[&quot;Full page text length: &quot; &amp; If(fullPageText Is Nothing, &quot;0&quot;, fullPageText.Length.ToString) &amp; &quot; chars&quot;]" />
+                    <If Condition="[in_PortalConfig.ContainsKey(&quot;Fields&quot;) AndAlso in_PortalConfig(&quot;Fields&quot;) IsNot Nothing]" DisplayName="Check: Fields array exists in config" sap:VirtualizedContainerService.HintSize="492,5679.333333333333" sap2010:WorkflowViewState.IdRef="If_FieldsArray">
                       <If.Then>
-                        <Sequence sap:VirtualizedContainerService.HintSize="418,500" sap2010:WorkflowViewState.IdRef="Seq_DirectPDF">
-                          <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_pdfTempPath_Direct">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:String">[pdfTempPath]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ".pdf")]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                          <ui:InvokeCode Code="Using webClient As New System.Net.WebClient()&#xA;    webClient.DownloadFile(pdfUrl, downloadPath)&#xA;End Using" ContinueOnError="False" DisplayName="Download PDF File" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Download_Direct">
-                            <ui:InvokeCode.Arguments>
-                              <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[in_PortalConfig("DirectDocumentURL").ToString()]</InArgument>
-                              <InArgument x:TypeArguments="x:String" x:Key="downloadPath">[pdfTempPath]</InArgument>
-                            </ui:InvokeCode.Arguments>
-                          </ui:InvokeCode>
-                          <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="ReadPDFText_Direct" Range="All" Text="[pdfText]" />
-                          <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_pdfTextToExtractedData_Direct">
-                            <Assign.To>
-                              <OutArgument x:TypeArguments="x:Object">[extractedData("InvoiceText")]</OutArgument>
-                            </Assign.To>
-                            <Assign.Value>
-                              <InArgument x:TypeArguments="x:String">[pdfText]</InArgument>
-                            </Assign.Value>
-                          </Assign>
-                        </Sequence>
-                      </If.Then>
-                      <If.Else>
-                    <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for PDF" sap:VirtualizedContainerService.HintSize="520,735.3333333333334" sap2010:WorkflowViewState.IdRef="BrowserScope_PDF">
-                      <ui:BrowserScope.Body>
-                        <ActivityAction x:TypeArguments="x:Object">
-                          <ActivityAction.Argument>
-                            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetPDF" />
-                          </ActivityAction.Argument>
-                          <Sequence DisplayName="PDF extraction steps" sap:VirtualizedContainerService.HintSize="486,603.3333333333334" sap2010:WorkflowViewState.IdRef="Seq_PDFSteps">
-                            <sap:WorkflowViewStateService.ViewState>
-                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              </scg:Dictionary>
-                            </sap:WorkflowViewStateService.ViewState>
-                            <ui:LogMessage DisplayName="Log Browser Attached" sap:VirtualizedContainerService.HintSize="334,92" Level="Info" Message="[&quot;Browser attached successfully for: &quot; &amp; portalName]" />
-<ui:FindChildren Children="[pdfLinks]" DisplayName="Find Children PDF Links" Filter="[&quot;&lt;webctrl css='&quot; &amp; currentSelector &amp; &quot;' /&gt;&quot;]" sap:VirtualizedContainerService.HintSize="452,119.33333333333333" sap2010:WorkflowViewState.IdRef="FindChildren_PDFLinks" Scope="FIND_DESCENDANTS">
-                              <ui:FindChildren.Target>
-                                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="{x:Null}" Selector="&lt;html /&gt;" TimeoutMS="5000" WaitForReady="COMPLETE" />
-                              </ui:FindChildren.Target>
-                            </ui:FindChildren>
-                            <ui:ForEach x:TypeArguments="ui:UiElement" CurrentIndex="{x:Null}" DisplayName="For Each PDF Link" sap:VirtualizedContainerService.HintSize="452,424" sap2010:WorkflowViewState.IdRef="ForEach_PDFLink" Values="[pdfLinks]">
-                              <ui:ForEach.Body>
-                                <ActivityAction x:TypeArguments="ui:UiElement">
-                                  <ActivityAction.Argument>
-                                    <DelegateInArgument x:TypeArguments="ui:UiElement" Name="pdfLink" />
-                                  </ActivityAction.Argument>
-                                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="450,301.3333333333333" sap2010:WorkflowViewState.IdRef="Seq_PDFLink">
-                                    <Sequence.Variables>
-                                      <Variable x:TypeArguments="x:String" Name="pdfHref" />
-                                    </Sequence.Variables>
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                    <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute href" sap:VirtualizedContainerService.HintSize="258,187" sap2010:WorkflowViewState.IdRef="GetAttribute_href">
-                                      <ui:GetAttribute.Result>
-                                        <OutArgument x:TypeArguments="x:String">[pdfHref]</OutArgument>
-                                      </ui:GetAttribute.Result>
-                                      <ui:GetAttribute.Target>
-                                        <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[pdfLink]" Id="{x:Null}" TimeoutMS="5000" WaitForReady="COMPLETE" />
-                                      </ui:GetAttribute.Target>
-                                    </ui:GetAttribute>
-                                    <If Condition="[Not String.IsNullOrWhiteSpace(pdfHref)]" sap:VirtualizedContainerService.HintSize="258,55" sap2010:WorkflowViewState.IdRef="If_DownloadPDF">
-                                      <sap:WorkflowViewStateService.ViewState>
-                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                                        </scg:Dictionary>
-                                      </sap:WorkflowViewStateService.ViewState>
-                                      <If.Then>
-                                        <Sequence sap:VirtualizedContainerService.HintSize="418,500" sap2010:WorkflowViewState.IdRef="Seq_DownloadPDF">
+                        <ui:ForEach x:TypeArguments="njl:JToken" CurrentIndex="{x:Null}" DisplayName="For Each: field in Fields config" sap:VirtualizedContainerService.HintSize="490,5436" sap2010:WorkflowViewState.IdRef="ForEach_Field" Values="[CType(in_PortalConfig(&quot;Fields&quot;), Newtonsoft.Json.Linq.JArray)]">
+                          <ui:ForEach.Body>
+                            <ActivityAction x:TypeArguments="njl:JToken">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="njl:JToken" Name="fieldDef" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="488,5336" sap2010:WorkflowViewState.IdRef="Sequence_FieldBody">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign DisplayName="Unpack: currentFieldName" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldName">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[currentFieldName]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[fieldDef("Name").ToString()]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Unpack: currentSelector" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldSelector">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[currentSelector]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[If(fieldDef("Selector") IsNot Nothing, fieldDef("Selector").ToString(), "")]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Unpack: currentAnchor" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_FieldAnchor">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[currentAnchor]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[If(fieldDef("Anchor") IsNot Nothing, fieldDef("Anchor").ToString(), "")]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Reset: selectorSuccess" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetSelectorSuccess">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Boolean">[selectorSuccess]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Reset: anchorSuccess" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetAnchorSuccess">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Boolean">[anchorSuccess]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <Assign DisplayName="Reset: fieldValue" sap:VirtualizedContainerService.HintSize="454,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_ResetFieldValue">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[""]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <If Condition="[Not String.IsNullOrWhiteSpace(currentSelector)]" DisplayName="Tier1: Has selector?" sap:VirtualizedContainerService.HintSize="454,1203.3333333333333" sap2010:WorkflowViewState.IdRef="If_Tier1">
+                                  <If.Then>
+                                    <TryCatch DisplayName="TryCatch: Tier1 selector attempt" sap:VirtualizedContainerService.HintSize="452,950.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_Tier1">
+                                      <TryCatch.Try>
+                                        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,573.3333333333334" sap2010:WorkflowViewState.IdRef="Seq_Tier1Try">
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                             </scg:Dictionary>
                                           </sap:WorkflowViewStateService.ViewState>
-                                          <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_pdfTempPath">
+                                          <ui:LogMessage DisplayName="Log Tier1 Try" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Trying Tier1 selector for: &quot; &amp; currentFieldName]" />
+                                          <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Tier1 Text via JS" sap:VirtualizedContainerService.HintSize="416,169.33333333333334" sap2010:WorkflowViewState.IdRef="InjectJsScript_Tier1" ScriptCode="[&quot;function(e, i) { var el = document.querySelector('&quot; &amp; currentSelector &amp; &quot;'); return el ? el.innerText : ''; }&quot;]">
+                                            <ui:InjectJsScript.ScriptOutput>
+                                              <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
+                                            </ui:InjectJsScript.ScriptOutput>
+                                            <ui:InjectJsScript.Target>
+                                              <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                            </ui:InjectJsScript.Target>
+                                          </ui:InjectJsScript>
+                                          <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier1Success">
                                             <Assign.To>
-                                              <OutArgument x:TypeArguments="x:String">[pdfTempPath]</OutArgument>
+                                              <OutArgument x:TypeArguments="x:Boolean">[selectorSuccess]</OutArgument>
                                             </Assign.To>
                                             <Assign.Value>
-                                              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ".pdf")]</InArgument>
+                                              <InArgument x:TypeArguments="x:Boolean">[Not String.IsNullOrWhiteSpace(fieldValue)]</InArgument>
                                             </Assign.Value>
                                           </Assign>
-                                          <ui:InvokeCode Code="Using webClient As New System.Net.WebClient()&#xA;    webClient.DownloadFile(pdfUrl, downloadPath)&#xA;End Using" ContinueOnError="False" DisplayName="Download PDF File" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Download">
-                                            <ui:InvokeCode.Arguments>
-                                              <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[pdfHref]</InArgument>
-                                              <InArgument x:TypeArguments="x:String" x:Key="downloadPath">[pdfTempPath]</InArgument>
-                                            </ui:InvokeCode.Arguments>
-                                          </ui:InvokeCode>
-                                            <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Fallback" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="ReadPDFText_Fallback" Range="All" Text="[pdfText]" />
-                                            <Assign sap:VirtualizedContainerService.HintSize="334,82" sap2010:WorkflowViewState.IdRef="Assign_pdfTextToExtractedData_Fallback">
-                                              <Assign.To>
-                                                <OutArgument x:TypeArguments="x:Object">[extractedData("InvoiceText")]</OutArgument>
-                                              </Assign.To>
-                                              <Assign.Value>
-                                                <InArgument x:TypeArguments="x:String">[pdfText]</InArgument>
-                                              </Assign.Value>
-                                            </Assign>
                                         </Sequence>
-                                      </If.Then>
-                                    </If>
-                                  </Sequence>
-                                </ActivityAction>
-                              </ui:ForEach.Body>
-                            </ui:ForEach>
-                          </Sequence>
-                        </ActivityAction>
-                      </ui:BrowserScope.Body>
-                    </ui:BrowserScope>
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Tier1">
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Tier1Err" Level="Warn" Message="[&quot;Tier1 failed for &quot; &amp; currentFieldName &amp; &quot;: &quot; &amp; exception.Message]" />
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                      <TryCatch.Finally>
+                                        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                        </Sequence>
+                                      </TryCatch.Finally>
+                                    </TryCatch>
+                                  </If.Then>
+                                  <If.Else>
+                                    <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="452,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Sequence>
+                                  </If.Else>
+                                </If>
+                                <If Condition="[Not selectorSuccess AndAlso Not String.IsNullOrWhiteSpace(currentAnchor)]" DisplayName="Tier2: Try anchor if Tier1 failed?" sap:VirtualizedContainerService.HintSize="454,1203.3333333333333" sap2010:WorkflowViewState.IdRef="If_Tier2">
+                                  <If.Then>
+                                    <TryCatch DisplayName="TryCatch: Tier2 anchor attempt" sap:VirtualizedContainerService.HintSize="452,950.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_Tier2">
+                                      <TryCatch.Try>
+                                        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,573.3333333333334" sap2010:WorkflowViewState.IdRef="Seq_Tier2Try">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Tier2 Try" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Tier1 failed, trying Tier2 anchor for: &quot; &amp; currentFieldName]" />
+                                          <ui:InjectJsScript InputParameter="{x:Null}" DisplayName="Get Tier2 Anchor Text via JS" sap:VirtualizedContainerService.HintSize="416,169.33333333333334" sap2010:WorkflowViewState.IdRef="InjectJsScript_Tier2" ScriptCode="[&quot;function(e, i) { var els = document.querySelectorAll('*'); for(var i=0;i&lt;els.length;i++){if(els[i].innerText.includes('&quot; &amp; currentAnchor &amp; &quot;')){var sib=els[i].nextElementSibling; if(sib) return sib.innerText;}} return ''; }&quot;]">
+                                            <ui:InjectJsScript.ScriptOutput>
+                                              <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
+                                            </ui:InjectJsScript.ScriptOutput>
+                                            <ui:InjectJsScript.Target>
+                                              <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                            </ui:InjectJsScript.Target>
+                                          </ui:InjectJsScript>
+                                          <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_Tier2Success">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Boolean">[anchorSuccess]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Boolean">[Not String.IsNullOrWhiteSpace(fieldValue)]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </Sequence>
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_Tier2">
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Tier2Err" Level="Warn" Message="[&quot;Tier2 anchor failed for &quot; &amp; currentFieldName &amp; &quot;: &quot; &amp; exception.Message]" />
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                      <TryCatch.Finally>
+                                        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                        </Sequence>
+                                      </TryCatch.Finally>
+                                    </TryCatch>
+                                  </If.Then>
+                                  <If.Else>
+                                    <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="452,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Sequence>
+                                  </If.Else>
+                                </If>
+                                <If Condition="[Not selectorSuccess AndAlso Not anchorSuccess AndAlso Not String.IsNullOrWhiteSpace(fullPageText)]" DisplayName="Tier3: Try full page text if Tier1+2 failed?" sap:VirtualizedContainerService.HintSize="454,1108" sap2010:WorkflowViewState.IdRef="If_Tier3">
+                                  <If.Then>
+                                    <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,877.3333333333334" sap2010:WorkflowViewState.IdRef="Seq_Tier3Try">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:LogMessage DisplayName="Log Tier3 Try" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Tier1+2 failed, trying Tier3 regex for: &quot; &amp; currentFieldName]" />
+                                      <If Condition="[currentFieldName.ToLower.Contains(&quot;date&quot;) OrElse currentFieldName.ToLower.Contains(&quot;due&quot;)]" DisplayName="Tier3: Is this a date field?" sap:VirtualizedContainerService.HintSize="416,473.3333333333333" sap2010:WorkflowViewState.IdRef="If_Tier3Date">
+                                        <If.Then>
+                                          <Assign DisplayName="Tier3: Regex scan date" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Tier3Date">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(fullPageText, "\b\d{2}[\/\-\.]\d{2}[\/\-\.]\d{4}\b|\b\d{1,2}\s[A-Za-z]{3}\s\d{4}\b|\b[A-Za-z]+\s\d{1,2},\s\d{4}\b").Value]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Assign DisplayName="Tier3: Regex scan near anchor label" sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Tier3Text">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:String">[fieldValue]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:String">[System.Text.RegularExpressions.Regex.Match(fullPageText, "(?&lt;=" &amp; System.Text.RegularExpressions.Regex.Escape(If(String.IsNullOrEmpty(currentAnchor), currentFieldName, currentAnchor)) &amp; "[^\n]{0,30})\S[^\n]{1,50}").Value.Trim()]</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </If.Else>
+                                      </If>
+                                      <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_Tier3" Level="Info" Message="[&quot;Tier3 result for &quot; &amp; currentFieldName &amp; &quot;: '&quot; &amp; fieldValue &amp; &quot;'&quot;]" />
+                                    </Sequence>
+                                  </If.Then>
+                                  <If.Else>
+                                    <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Sequence>
+                                  </If.Else>
+                                </If>
+                                <If Condition="[Not String.IsNullOrWhiteSpace(fieldValue)]" DisplayName="Store field if value found" sap:VirtualizedContainerService.HintSize="454,701.3333333333334" sap2010:WorkflowViewState.IdRef="If_StoreField">
+                                  <If.Then>
+                                    <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,404" sap2010:WorkflowViewState.IdRef="Seq_StoreField">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <Assign sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_StoreField">
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:Object">[extractedData(currentFieldName)]</OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:String">[fieldValue.Trim()]</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <ui:LogMessage DisplayName="Log Stored Field" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Stored field: &quot; &amp; currentFieldName &amp; &quot; = &quot; &amp; fieldValue]" />
+                                    </Sequence>
+                                  </If.Then>
+                                  <If.Else>
+                                    <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_FailAll" Level="Warn" Message="[&quot;All 3 tiers failed for field: &quot; &amp; currentFieldName]" />
+                                  </If.Else>
+                                </If>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ForEach.Body>
+                        </ui:ForEach>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="490,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </Sequence>
                       </If.Else>
                     </If>
                   </Sequence>
-                </TryCatch.Try>
-                <TryCatch.Catches>
-                  <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_PDF">
-                    <ActivityAction x:TypeArguments="s:Exception">
-                      <ActivityAction.Argument>
-                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
-                      </ActivityAction.Argument>
-                      <ui:LogMessage sap:VirtualizedContainerService.HintSize="452,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PDFErr" Level="Warn" Message="[&quot;PDF extraction failed for &quot; &amp; portalName &amp; &quot;: &quot; &amp; exception.Message]" />
-                    </ActivityAction>
-                  </Catch>
-                </TryCatch.Catches>
-                <TryCatch.Finally>
-                  <If Condition="[Not String.IsNullOrEmpty(pdfTempPath) AndAlso System.IO.File.Exists(pdfTempPath)]" sap:VirtualizedContainerService.HintSize="452,386" sap2010:WorkflowViewState.IdRef="If_PDFClean">
-                    <If.Then>
-                      <ui:InvokeCode Code="System.IO.File.Delete(pdfTempPath)" ContinueOnError="[True]" DisplayName="Delete temp PDF" sap:VirtualizedContainerService.HintSize="450,165.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_DeletePDF">
-                        <ui:InvokeCode.Arguments>
-                          <InArgument x:TypeArguments="x:String" x:Key="pdfTempPath">[pdfTempPath]</InArgument>
-                        </ui:InvokeCode.Arguments>
-                      </ui:InvokeCode>
-                    </If.Then>
-                    <If.Else>
-                      <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="526,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                </If.Else>
+              </If>
+              <If Condition="[hasDocuments]" DisplayName="Check: HasDocuments = true?" sap:VirtualizedContainerService.HintSize="560,5943.333333333333" sap2010:WorkflowViewState.IdRef="If_PDF">
+                <If.Then>
+                  <TryCatch DisplayName="TryCatch: PDF download and extract" sap:VirtualizedContainerService.HintSize="558,5690.666666666667" sap2010:WorkflowViewState.IdRef="TryCatch_PDF">
+                    <TryCatch.Try>
+                      <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="556,4996" sap2010:WorkflowViewState.IdRef="Seq_PDFTry">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="Build temp folder path" sap:VirtualizedContainerService.HintSize="522,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_TempFolderCreate">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[tempFolder]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Temp\PDFs")]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:InvokeCode Code="System.IO.Directory.CreateDirectory(tempFolder)" ContinueOnError="[False]" DisplayName="Create temp folder" sap:VirtualizedContainerService.HintSize="522,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_CreateTempFolder">
+                          <ui:InvokeCode.Arguments>
+                            <InOutArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InOutArgument>
+                          </ui:InvokeCode.Arguments>
+                        </ui:InvokeCode>
+                        <ui:LogMessage DisplayName="Log: HasDocuments processing" sap:VirtualizedContainerService.HintSize="522,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;HasDocuments=true. Starting document extraction for: &quot; &amp; portalName]" />
+                        <Assign DisplayName="Unpack: DocumentLinkSelector" sap:VirtualizedContainerService.HintSize="522,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_DocLink">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[currentSelector]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("DocumentLinkSelector"), in_PortalConfig("DocumentLinkSelector").ToString(), "a[href$='.pdf'], a[href$='.jpg'], a[href$='.jpeg'], a[href$='.png']")]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:LogMessage DisplayName="Log: DocumentLinkSelector" sap:VirtualizedContainerService.HintSize="522,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;DocumentLinkSelector resolved to: &quot; &amp; currentSelector]" />
+                        <If Condition="[in_PortalConfig.ContainsKey(&quot;DirectDocumentURL&quot;)]" DisplayName="If Direct Document URL provided" sap:VirtualizedContainerService.HintSize="522,4032" sap2010:WorkflowViewState.IdRef="If_DirectDocURL">
+                          <If.Then>
+                            <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="520,2965.3333333333335" sap2010:WorkflowViewState.IdRef="Seq_DirectDoc">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:LogMessage DisplayName="Log: DirectDocumentURL" sap:VirtualizedContainerService.HintSize="486,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Direct document URL provided: &quot; &amp; in_PortalConfig(&quot;DirectDocumentURL&quot;).ToString()]" />
+                              <ui:InvokeCode Code="Dim uri As Uri&#xA;If Not Uri.TryCreate(pdfUrl, UriKind.Absolute, uri) Then&#xA;    If Not Uri.TryCreate(New Uri(baseUri), pdfUrl, uri) Then&#xA;        Throw New ArgumentException(&quot;Invalid url: &quot; &amp; pdfUrl)&#xA;    End If&#xA;End If&#xA;Dim req As System.Net.HttpWebRequest = CType(System.Net.WebRequest.Create(uri), System.Net.HttpWebRequest)&#xA;req.Method = &quot;GET&quot;&#xA;req.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&quot;&#xA;req.Accept = &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;&#xA;req.Headers.Add(&quot;Accept-Language&quot;, &quot;en-US,en;q=0.5&quot;)&#xA;&#xA;Dim resp As System.Net.HttpWebResponse = Nothing&#xA;Try&#xA;    resp = CType(req.GetResponse(), System.Net.HttpWebResponse)&#xA;Catch ex As System.Net.WebException&#xA;    resp = CType(ex.Response, System.Net.HttpWebResponse)&#xA;End Try&#xA;&#xA;If resp IsNot Nothing Then&#xA;    outMimeType = resp.ContentType.ToLower()&#xA;    If outMimeType.Contains(&quot;text/html&quot;) Then&#xA;        outIsHtml = True&#xA;        Using reader As New System.IO.StreamReader(resp.GetResponseStream())&#xA;            outHtmlContent = reader.ReadToEnd()&#xA;        End Using&#xA;    Else&#xA;        outIsHtml = False&#xA;        Dim ext As String = &quot;.bin&quot;&#xA;        If outMimeType.Contains(&quot;pdf&quot;) OrElse outMimeType.Contains(&quot;application/octet-stream&quot;) Then&#xA;            ext = &quot;.pdf&quot;&#xA;        ElseIf outMimeType.Contains(&quot;jpeg&quot;) OrElse outMimeType.Contains(&quot;jpg&quot;) Then&#xA;            ext = &quot;.jpg&quot;&#xA;        ElseIf outMimeType.Contains(&quot;png&quot;) Then&#xA;            ext = &quot;.png&quot;&#xA;        End If&#xA;        outFilePath = System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ext)&#xA;        Using fileStream As System.IO.FileStream = System.IO.File.Create(outFilePath)&#xA;            resp.GetResponseStream().CopyTo(fileStream)&#xA;        End Using&#xA;    End If&#xA;    resp.Close()&#xA;Else&#xA;    Throw New Exception(&quot;Failed to get response from: &quot; &amp; uri.ToString())&#xA;End If" ContinueOnError="False" DisplayName="Download Payload Detect" sap:VirtualizedContainerService.HintSize="486,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_Download_Direct">
+                                <ui:InvokeCode.Arguments>
+                                  <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[in_PortalConfig("DirectDocumentURL").ToString()]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="baseUri">[portalURL]</InArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InArgument>
+                                  <OutArgument x:TypeArguments="x:String" x:Key="outFilePath">[pdfTempPath]</OutArgument>
+                                  <OutArgument x:TypeArguments="x:String" x:Key="outMimeType">[mimeType]</OutArgument>
+                                  <OutArgument x:TypeArguments="x:Boolean" x:Key="outIsHtml">[isHtml]</OutArgument>
+                                  <OutArgument x:TypeArguments="x:String" x:Key="outHtmlContent">[htmlContent]</OutArgument>
+                                </ui:InvokeCode.Arguments>
+                              </ui:InvokeCode>
+                              <ui:LogMessage sap:VirtualizedContainerService.HintSize="486,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Payload detection complete. IsHTML: &quot; &amp; isHtml.ToString() &amp; &quot;, MimeType: &quot; &amp; mimeType]" />
+                              <If Condition="[isHtml]" DisplayName="If HTML Payload" sap:VirtualizedContainerService.HintSize="486,1834" sap2010:WorkflowViewState.IdRef="If_Html_1">
+                                <If.Then>
+                                  <Assign sap:VirtualizedContainerService.HintSize="452,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Html_1">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[pdfText]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">[htmlContent]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Then>
+                                <If.Else>
+                                  <If Condition="[pdfTempPath.ToLower().EndsWith(&quot;.jpg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.jpeg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.png&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.bmp&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.tiff&quot;)]" DisplayName="If Image File (Direct)" sap:VirtualizedContainerService.HintSize="452,1505.3333333333333" sap2010:WorkflowViewState.IdRef="If_1">
+                                    <If.Then>
+                                      <Sequence DisplayName="OCR Image Direct" sap:VirtualizedContainerService.HintSize="450,580.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Image file detected. Running OCR on: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                        <ui:LoadImage DisplayName="Load Image Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="416,119.33333333333333" sap2010:WorkflowViewState.IdRef="LoadImage_1" Image="[loadedImage]" />
+                                        <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Direct" ExtractWords="False" sap:VirtualizedContainerService.HintSize="416,57.333333333333336" sap2010:WorkflowViewState.IdRef="GoogleOCR_1" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                                        <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;OCR complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                      </Sequence>
+                                    </If.Then>
+                                    <If.Else>
+                                      <Sequence DisplayName="Read PDF Direct" sap:VirtualizedContainerService.HintSize="450,816.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;PDF file detected. Reading text from: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                        <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="416,116" sap2010:WorkflowViewState.IdRef="ReadPDFText_Direct" Range="All" Text="[pdfText]" />
+                                        <If Condition="[pdfText IsNot Nothing AndAlso pdfText.Trim().Length &lt; 50]" sap:VirtualizedContainerService.HintSize="416,464" sap2010:WorkflowViewState.IdRef="If_Scanned_1">
+                                          <If.Then>
+                                            <ui:LogMessage sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="Log_Scanned_1" Level="Warn" Message="[&quot;PDF returned &lt; 50 chars. Scanned PDF fallback OCR triggered!&quot;]" />
+                                          </If.Then>
+                                          <If.Else>
+                                            <ui:LogMessage sap:VirtualizedContainerService.HintSize="334,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;PDF read complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                          </If.Else>
+                                        </If>
+                                      </Sequence>
+                                    </If.Else>
+                                  </If>
+                                </If.Else>
+                              </If>
+                              <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then extractedData(&quot;PDFList&quot;) = New List(Of String)()&#xA;CType(extractedData(&quot;PDFList&quot;), List(Of String)).Add(If(pdfText Is Nothing, &quot;&quot;, pdfText))" ContinueOnError="False" DisplayName="Append PDF Text Direct" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_AppendPDFDirect">
+                                <ui:InvokeCode.Arguments>
+                                  <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InOutArgument>
+                                  <InArgument x:TypeArguments="x:String" x:Key="pdfText">[pdfText]</InArgument>
+                                </ui:InvokeCode.Arguments>
+                              </ui:InvokeCode>
+                              <ui:LogMessage sap:VirtualizedContainerService.HintSize="486,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Document text appended to PDFList.&quot;]" />
+                            </Sequence>
+                          </If.Then>
+                          <If.Else>
+                            <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for PDF" sap:VirtualizedContainerService.HintSize="520,914" sap2010:WorkflowViewState.IdRef="BrowserScope_PDF">
+                              <ui:BrowserScope.Body>
+                                <ActivityAction x:TypeArguments="x:Object">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetPDF" />
+                                  </ActivityAction.Argument>
+                                  <Sequence DisplayName="PDF extraction steps" sap:VirtualizedContainerService.HintSize="486,804.6666666666666" sap2010:WorkflowViewState.IdRef="Seq_PDFSteps">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log Browser Attached" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Browser attached successfully for: &quot; &amp; portalName]" />
+                                    <ui:FindChildren Children="[pdfLinks]" DisplayName="Find Children PDF Links" Filter="[&quot;&lt;webctrl css=&quot;&quot;&quot; &amp; currentSelector &amp; &quot;&quot;&quot; /&gt;&quot;]" sap:VirtualizedContainerService.HintSize="452,119.33333333333333" sap2010:WorkflowViewState.IdRef="FindChildren_PDFLinks" Scope="FIND_DESCENDANTS">
+                                      <ui:FindChildren.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                      </ui:FindChildren.Target>
+                                    </ui:FindChildren>
+                                    <ui:ForEach x:TypeArguments="ui:UiElement" CurrentIndex="{x:Null}" DisplayName="For Each PDF Link" sap:VirtualizedContainerService.HintSize="452,448.6666666666667" sap2010:WorkflowViewState.IdRef="ForEach_PDFLink" Values="[pdfLinks]">
+                                      <ui:ForEach.Body>
+                                        <ActivityAction x:TypeArguments="ui:UiElement">
+                                          <ActivityAction.Argument>
+                                            <DelegateInArgument x:TypeArguments="ui:UiElement" Name="pdfLink" />
+                                          </ActivityAction.Argument>
+                                          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="450,326" sap2010:WorkflowViewState.IdRef="Seq_PDFLink">
+                                            <Sequence.Variables>
+                                              <Variable x:TypeArguments="x:String" Name="pdfHref" />
+                                              <Variable x:TypeArguments="x:String" Name="mimeType" />
+                                            </Sequence.Variables>
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute href" sap:VirtualizedContainerService.HintSize="416,218" sap2010:WorkflowViewState.IdRef="GetAttribute_href">
+                                              <ui:GetAttribute.Result>
+                                                <OutArgument x:TypeArguments="x:String">[pdfHref]</OutArgument>
+                                              </ui:GetAttribute.Result>
+                                              <ui:GetAttribute.Target>
+                                                <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[pdfLink]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                              </ui:GetAttribute.Target>
+                                            </ui:GetAttribute>
+                                            <If Condition="[Not String.IsNullOrWhiteSpace(pdfHref)]" sap:VirtualizedContainerService.HintSize="416,48" sap2010:WorkflowViewState.IdRef="If_DownloadPDF">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                              <If.Then>
+                                                <Sequence sap:VirtualizedContainerService.HintSize="418,900" sap2010:WorkflowViewState.IdRef="Seq_DownloadDoc">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:LogMessage DisplayName="Log: Downloading linked doc" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Info" Message="[&quot;Downloading document from href: &quot; &amp; pdfHref]" />
+                                                  <ui:InvokeCode Code="Dim uri As Uri&#xA;If Not Uri.TryCreate(pdfUrl, UriKind.Absolute, uri) Then&#xA;    If Not Uri.TryCreate(New Uri(baseUri), pdfUrl, uri) Then&#xA;        Throw New ArgumentException(&quot;Invalid url: &quot; &amp; pdfUrl)&#xA;    End If&#xA;End If&#xA;Dim req As System.Net.HttpWebRequest = CType(System.Net.WebRequest.Create(uri), System.Net.HttpWebRequest)&#xA;req.Method = &quot;GET&quot;&#xA;req.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&quot;&#xA;req.Accept = &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;&#xA;req.Headers.Add(&quot;Accept-Language&quot;, &quot;en-US,en;q=0.5&quot;)&#xA;&#xA;Dim resp As System.Net.HttpWebResponse = Nothing&#xA;Try&#xA;    resp = CType(req.GetResponse(), System.Net.HttpWebResponse)&#xA;Catch ex As System.Net.WebException&#xA;    resp = CType(ex.Response, System.Net.HttpWebResponse)&#xA;End Try&#xA;&#xA;If resp IsNot Nothing Then&#xA;    outMimeType = resp.ContentType.ToLower()&#xA;    If outMimeType.Contains(&quot;text/html&quot;) Then&#xA;        outIsHtml = True&#xA;        Using reader As New System.IO.StreamReader(resp.GetResponseStream())&#xA;            outHtmlContent = reader.ReadToEnd()&#xA;        End Using&#xA;    Else&#xA;        outIsHtml = False&#xA;        Dim ext As String = &quot;.bin&quot;&#xA;        If outMimeType.Contains(&quot;pdf&quot;) OrElse outMimeType.Contains(&quot;application/octet-stream&quot;) Then&#xA;            ext = &quot;.pdf&quot;&#xA;        ElseIf outMimeType.Contains(&quot;jpeg&quot;) OrElse outMimeType.Contains(&quot;jpg&quot;) Then&#xA;            ext = &quot;.jpg&quot;&#xA;        ElseIf outMimeType.Contains(&quot;png&quot;) Then&#xA;            ext = &quot;.png&quot;&#xA;        End If&#xA;        outFilePath = System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ext)&#xA;        Using fileStream As System.IO.FileStream = System.IO.File.Create(outFilePath)&#xA;            resp.GetResponseStream().CopyTo(fileStream)&#xA;        End Using&#xA;    End If&#xA;    resp.Close()&#xA;Else&#xA;    Throw New Exception(&quot;Failed to get response from: &quot; &amp; uri.ToString())&#xA;End If" ContinueOnError="False" DisplayName="Download Payload Detect" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Download">
+                                                    <ui:InvokeCode.Arguments>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[pdfHref]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="baseUri">[portalURL]</InArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InArgument>
+                                                      <OutArgument x:TypeArguments="x:String" x:Key="outFilePath">[pdfTempPath]</OutArgument>
+                                                      <OutArgument x:TypeArguments="x:String" x:Key="outMimeType">[mimeType]</OutArgument>
+                                                      <OutArgument x:TypeArguments="x:Boolean" x:Key="outIsHtml">[isHtml]</OutArgument>
+                                                      <OutArgument x:TypeArguments="x:String" x:Key="outHtmlContent">[htmlContent]</OutArgument>
+                                                    </ui:InvokeCode.Arguments>
+                                                  </ui:InvokeCode>
+                                                  <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_28" Level="Info" Message="[&quot;Payload detection complete. IsHTML: &quot; &amp; isHtml.ToString() &amp; &quot;, MimeType: &quot; &amp; mimeType]" />
+                                                  <If Condition="[isHtml]" DisplayName="If HTML Payload" sap2010:WorkflowViewState.IdRef="If_Html_2">
+                                                    <If.Then>
+                                                      <Assign sap2010:WorkflowViewState.IdRef="Assign_Html_2">
+                                                        <Assign.To>
+                                                          <OutArgument x:TypeArguments="x:String">[pdfText]</OutArgument>
+                                                        </Assign.To>
+                                                        <Assign.Value>
+                                                          <InArgument x:TypeArguments="x:String">[htmlContent]</InArgument>
+                                                        </Assign.Value>
+                                                      </Assign>
+                                                    </If.Then>
+                                                    <If.Else>
+                                                      <If Condition="[pdfTempPath.ToLower().EndsWith(&quot;.jpg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.jpeg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.png&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.bmp&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.tiff&quot;)]" DisplayName="If Image File (Link)" sap2010:WorkflowViewState.IdRef="If_2">
+                                                        <If.Then>
+                                                          <Sequence DisplayName="OCR Image Link" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                                            <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Image file detected from link. Running OCR on: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                                            <ui:LoadImage DisplayName="Load Image Link" FileName="[pdfTempPath]" sap2010:WorkflowViewState.IdRef="LoadImage_2" Image="[loadedImage]" />
+                                                            <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Link" ExtractWords="False" sap2010:WorkflowViewState.IdRef="GoogleOCR_2" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                                                            <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;OCR complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                                          </Sequence>
+                                                        </If.Then>
+                                                        <If.Else>
+                                                          <Sequence DisplayName="Read PDF Link" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                                            <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[&quot;PDF file detected from link. Reading: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                                            <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Fallback" FileName="[pdfTempPath]" sap2010:WorkflowViewState.IdRef="ReadPDFText_Fallback" Range="All" Text="[pdfText]" />
+                                                            <If Condition="[pdfText IsNot Nothing AndAlso pdfText.Trim().Length &lt; 50]" sap2010:WorkflowViewState.IdRef="If_Scanned_2">
+                                                              <If.Then>
+                                                                <ui:LogMessage sap2010:WorkflowViewState.IdRef="Log_Scanned_2" Level="Warn" Message="[&quot;PDF returned &lt; 50 chars. Scanned PDF fallback OCR triggered!&quot;]" />
+                                                              </If.Then>
+                                                              <If.Else>
+                                                                <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[&quot;PDF read complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                                              </If.Else>
+                                                            </If>
+                                                          </Sequence>
+                                                        </If.Else>
+                                                      </If>
+                                                    </If.Else>
+                                                  </If>
+                                                  <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then extractedData(&quot;PDFList&quot;) = New List(Of String)()&#xA;CType(extractedData(&quot;PDFList&quot;), List(Of String)).Add(If(pdfText Is Nothing, &quot;&quot;, pdfText))" ContinueOnError="False" DisplayName="Append PDF Text Link" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_AppendPDFLink">
+                                                    <ui:InvokeCode.Arguments>
+                                                      <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InOutArgument>
+                                                      <InArgument x:TypeArguments="x:String" x:Key="pdfText">[pdfText]</InArgument>
+                                                    </ui:InvokeCode.Arguments>
+                                                  </ui:InvokeCode>
+                                                  <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Info" Message="[&quot;Link document text appended to PDFList.&quot;]" />
+                                                </Sequence>
+                                              </If.Then>
+                                            </If>
+                                          </Sequence>
+                                        </ActivityAction>
+                                      </ui:ForEach.Body>
+                                    </ui:ForEach>
+                                  </Sequence>
+                                </ActivityAction>
+                              </ui:BrowserScope.Body>
+                            </ui:BrowserScope>
+                          </If.Else>
+                        </If>
                       </Sequence>
-                    </If.Else>
-                  </If>
-                </TryCatch.Finally>
-              </TryCatch>
-            </If.Then>
-          </If>
-          <ui:InvokeCode Code="If extractedData.ContainsKey(&quot;AmountDue&quot;) Then&#xA;    Dim raw As String = extractedData(&quot;AmountDue&quot;).ToString()&#xA;    raw = System.Text.RegularExpressions.Regex.Replace(raw, &quot;[^\d\.]&quot;, &quot;&quot;)&#xA;    Dim parsed As Double = 0&#xA;    If Double.TryParse(raw, parsed) Then&#xA;        extractedData(&quot;AmountDue&quot;) = parsed.ToString(&quot;F2&quot;)&#xA;    End If&#xA;End If&#xA;If extractedData.ContainsKey(&quot;DueDate&quot;) Then&#xA;    Dim raw As String = extractedData(&quot;DueDate&quot;).ToString()&#xA;    Dim dt As DateTime = DateTime.MinValue&#xA;    If DateTime.TryParse(raw, dt) Then&#xA;        extractedData(&quot;DueDate&quot;) = dt.ToString(&quot;yyyy-MM-dd&quot;)&#xA;    End If&#xA;End If&#xA;extractedData(&quot;_PortalName&quot;) = portalName&#xA;extractedData(&quot;_ExtractionDate&quot;) = DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;)&#xA;extractedData(&quot;_ExtractionSuccess&quot;) = &quot;True&quot;" ContinueOnError="[False]" DisplayName="Normalize Extracted Data" sap:VirtualizedContainerService.HintSize="558,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_NormalizeData">
-            <ui:InvokeCode.Arguments>
-              <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InOutArgument>
-              <InArgument x:TypeArguments="x:String" x:Key="portalName">[portalName]</InArgument>
-            </ui:InvokeCode.Arguments>
-          </ui:InvokeCode>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_PDF">
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                          </ActivityAction.Argument>
+                          <ui:LogMessage sap:VirtualizedContainerService.HintSize="556,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PDFErr" Level="Warn" Message="[&quot;PDF extraction failed for &quot; &amp; portalName &amp; &quot;: &quot; &amp; exception.Message]" />
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                    <TryCatch.Finally>
+                      <If Condition="[Not String.IsNullOrEmpty(pdfTempPath) AndAlso System.IO.File.Exists(pdfTempPath)]" sap:VirtualizedContainerService.HintSize="556,386" sap2010:WorkflowViewState.IdRef="If_PDFClean">
+                        <If.Then>
+                          <ui:InvokeCode Code="System.IO.File.Delete(pdfTempPath)" ContinueOnError="[True]" DisplayName="Delete temp PDF" sap:VirtualizedContainerService.HintSize="450,165.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_DeletePDF">
+                            <ui:InvokeCode.Arguments>
+                              <InArgument x:TypeArguments="x:String" x:Key="pdfTempPath">[pdfTempPath]</InArgument>
+                            </ui:InvokeCode.Arguments>
+                          </ui:InvokeCode>
+                        </If.Then>
+                        <If.Else>
+                          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                    </TryCatch.Finally>
+                  </TryCatch>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="454,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </Sequence>
+                </If.Else>
+              </If>
+              <ui:LogMessage DisplayName="Log: Processing Line Items" sap:VirtualizedContainerService.HintSize="550,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_ProcessingLineItems" Level="Info" Message="[&quot;Building line items from PDFList for &quot; &amp; portalName &amp; &quot;...&quot;]" />
+              <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then&#xA;    extractedData(&quot;PDFList&quot;) = New List(Of String) From {&quot;&quot;}&#xA;End If&#xA;Dim pdfList As List(Of String) = CType(extractedData(&quot;PDFList&quot;), List(Of String))&#xA;If pdfList.Count = 0 Then pdfList.Add(&quot;&quot;)&#xA;&#xA;For Each pdfText As String In pdfList&#xA;    Dim currentDict As New Dictionary(Of String, Object)(extractedData)&#xA;    currentDict(&quot;InvoiceText&quot;) = pdfText&#xA;    currentDict(&quot;RawText&quot;) = pdfText&#xA;    currentDict.Remove(&quot;PDFList&quot;)&#xA;&#xA;    If Not String.IsNullOrWhiteSpace(pdfText) AndAlso config.ContainsKey(&quot;Fields&quot;) AndAlso config(&quot;Fields&quot;) IsNot Nothing Then&#xA;        Dim fields As Newtonsoft.Json.Linq.JArray&#xA;        If TypeOf config(&quot;Fields&quot;) Is String Then&#xA;            fields = Newtonsoft.Json.Linq.JArray.Parse(config(&quot;Fields&quot;).ToString())&#xA;        Else&#xA;            fields = CType(config(&quot;Fields&quot;), Newtonsoft.Json.Linq.JArray)&#xA;        End If&#xA;        For Each fieldDef As Newtonsoft.Json.Linq.JToken In fields&#xA;            Dim fieldName As String = fieldDef(&quot;Name&quot;).ToString()&#xA;            If fieldName = &quot;RawText&quot; Then Continue For&#xA;            Dim alreadyFound As Boolean = currentDict.ContainsKey(fieldName) AndAlso currentDict(fieldName) IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(currentDict(fieldName).ToString())&#xA;            If alreadyFound Then Continue For&#xA;            Dim anchor As String = If(fieldDef(&quot;Anchor&quot;) IsNot Nothing, fieldDef(&quot;Anchor&quot;).ToString(), fieldName)&#xA;            Dim pattern As String = &quot;(?i)&quot; &amp; System.Text.RegularExpressions.Regex.Escape(anchor) &amp; &quot;[\s:]*[\r\n]*\s*([^\r\n]{1,50})&quot;&#xA;            Dim m = System.Text.RegularExpressions.Regex.Match(pdfText, pattern)&#xA;            If m.Success AndAlso m.Groups.Count &gt; 1 Then&#xA;                currentDict(fieldName) = m.Groups(1).Value.Trim()&#xA;            End If&#xA;        Next&#xA;    End If&#xA;&#xA;    If currentDict.ContainsKey(&quot;AmountDue&quot;) Then&#xA;        Dim raw As String = currentDict(&quot;AmountDue&quot;).ToString()&#xA;        raw = System.Text.RegularExpressions.Regex.Replace(raw, &quot;[^\d\.]&quot;, &quot;&quot;)&#xA;        Dim parsed As Double = 0&#xA;        If Double.TryParse(raw, parsed) Then&#xA;            currentDict(&quot;AmountDue&quot;) = parsed.ToString(&quot;F2&quot;)&#xA;        End If&#xA;    End If&#xA;    If currentDict.ContainsKey(&quot;DueDate&quot;) Then&#xA;        Dim raw As String = currentDict(&quot;DueDate&quot;).ToString()&#xA;        Dim dt As DateTime = DateTime.MinValue&#xA;        If DateTime.TryParse(raw, dt) Then&#xA;            currentDict(&quot;DueDate&quot;) = dt.ToString(&quot;yyyy-MM-dd&quot;)&#xA;        End If&#xA;    End If&#xA;&#xA;    currentDict(&quot;_PortalName&quot;) = portalName&#xA;    currentDict(&quot;RecipientEmail&quot;) = If(config.ContainsKey(&quot;NotificationEmail&quot;), config(&quot;NotificationEmail&quot;).ToString(), &quot;&quot;)&#xA;    currentDict(&quot;_ExtractionDate&quot;) = DateTime.Now.ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;)&#xA;    currentDict(&quot;_ExtractionSuccess&quot;) = &quot;True&quot;&#xA;    out_ExtractedData.Add(currentDict)&#xA;Next" ContinueOnError="False" DisplayName="Post-Process Line Items" sap:VirtualizedContainerService.HintSize="560,188" sap2010:WorkflowViewState.IdRef="InvokeCode_PostProcessPDFList">
+                <ui:InvokeCode.Arguments>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InArgument>
+                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="config">[in_PortalConfig]</InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="portalName">[portalName]</InArgument>
+                  <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_ExtractedData">[out_ExtractedData]</InOutArgument>
+                </ui:InvokeCode.Arguments>
+              </ui:InvokeCode>
             </Sequence>
           </Switch>
-          <Assign DisplayName="Set extractionSuccess = True" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_SuccessTrue">
+          <Assign DisplayName="Set extractionSuccess = True" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_SuccessTrue">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Boolean">[extractionSuccess]</OutArgument>
             </Assign.To>
@@ -793,7 +969,7 @@
               <InArgument x:TypeArguments="x:Boolean">True</InArgument>
             </Assign.Value>
           </Assign>
-          <Assign DisplayName="Set out_Success" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutSuccessTrue">
+          <Assign DisplayName="Set out_Success" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutSuccessTrue">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Boolean">[out_Success]</OutArgument>
             </Assign.To>
@@ -801,15 +977,15 @@
               <InArgument x:TypeArguments="x:Boolean">True</InArgument>
             </Assign.Value>
           </Assign>
-          <Assign DisplayName="Set out_ExtractedData" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutExtracted">
+          <Assign DisplayName="Set out_ExtractedData (Merged list already done in InvokeCode)" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutExtracted">
             <Assign.To>
-              <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_ExtractedData]</OutArgument>
+              <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedData]</OutArgument>
             </Assign.To>
             <Assign.Value>
-              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[extractedData]</InArgument>
+              <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedData]</InArgument>
             </Assign.Value>
           </Assign>
-          <Assign DisplayName="Set out_ErrorMessage empty" sap:VirtualizedContainerService.HintSize="558,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutErrMsgEmpty">
+          <Assign DisplayName="Set out_ErrorMessage empty" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_OutErrMsgEmpty">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">[out_ErrorMessage]</OutArgument>
             </Assign.To>
@@ -817,7 +993,7 @@
               <InArgument x:TypeArguments="x:String">[""]</InArgument>
             </Assign.Value>
           </Assign>
-          <ui:LogMessage sap:VirtualizedContainerService.HintSize="558,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_Complete" Level="Info" Message="[&quot;SmartExtractor complete for: &quot; &amp; portalName &amp; &quot; | Fields extracted: &quot; &amp; extractedData.Count.ToString()]" />
+          <ui:LogMessage sap:VirtualizedContainerService.HintSize="596,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_Complete" Level="Info" Message="[&quot;SmartExtractor complete for: &quot; &amp; portalName &amp; &quot; | Fields extracted: &quot; &amp; extractedData.Count.ToString()]" />
         </Sequence>
       </TryCatch.Try>
       <TryCatch.Catches>
@@ -826,13 +1002,13 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="592,934" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="630,934" sap2010:WorkflowViewState.IdRef="Sequence_2">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <Assign DisplayName="Catch: store error message" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchErrMsg">
+              <Assign DisplayName="Catch: store error message" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchErrMsg">
                 <Assign.To>
                   <OutArgument x:TypeArguments="x:String">[errorMessage]</OutArgument>
                 </Assign.To>
@@ -840,7 +1016,7 @@
                   <InArgument x:TypeArguments="x:String">[exception.Message]</InArgument>
                 </Assign.Value>
               </Assign>
-              <Assign DisplayName="Catch: set out_Success False" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchSuccess">
+              <Assign DisplayName="Catch: set out_Success False" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchSuccess">
                 <Assign.To>
                   <OutArgument x:TypeArguments="x:Boolean">[out_Success]</OutArgument>
                 </Assign.To>
@@ -848,15 +1024,15 @@
                   <InArgument x:TypeArguments="x:Boolean">False</InArgument>
                 </Assign.Value>
               </Assign>
-              <Assign DisplayName="Catch: set out_ExtractedData to empty dict" sap:VirtualizedContainerService.HintSize="492,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchExtractedData">
+              <Assign DisplayName="Catch: set out_ExtractedData to empty list" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchExtractedData">
                 <Assign.To>
-                  <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_ExtractedData]</OutArgument>
+                  <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedData]</OutArgument>
                 </Assign.To>
                 <Assign.Value>
-                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object)()]</InArgument>
+                  <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String, Object))()]</InArgument>
                 </Assign.Value>
               </Assign>
-              <Assign DisplayName="Catch: set out_ErrorMessage" sap:VirtualizedContainerService.HintSize="558,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchOutMsg">
+              <Assign DisplayName="Catch: set out_ErrorMessage" sap:VirtualizedContainerService.HintSize="596,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_CatchOutMsg">
                 <Assign.To>
                   <OutArgument x:TypeArguments="x:String">[out_ErrorMessage]</OutArgument>
                 </Assign.To>
@@ -864,13 +1040,13 @@
                   <InArgument x:TypeArguments="x:String">["SmartExtractor failed on " &amp; portalName &amp; ": " &amp; errorMessage]</InArgument>
                 </Assign.Value>
               </Assign>
-              <ui:LogMessage sap:VirtualizedContainerService.HintSize="558,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_CatchErr" Level="Error" Message="[&quot;SmartExtractor ERROR on &quot; &amp; portalName &amp; &quot;: &quot; &amp; errorMessage]" />
+              <ui:LogMessage sap:VirtualizedContainerService.HintSize="596,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_CatchErr" Level="Error" Message="[&quot;SmartExtractor ERROR on &quot; &amp; portalName &amp; &quot;: &quot; &amp; errorMessage]" />
             </Sequence>
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="592,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_5">
+        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="630,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_5">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
