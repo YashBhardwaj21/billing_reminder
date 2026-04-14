@@ -1,0 +1,469 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="DocumentScraper" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ExtractedFields" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_PortalConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_BrowserSession" Type="InArgument(ui:Browser)" />
+    <x:Property Name="out_RawDataList" Type="OutArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Linq.Expressions</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities.Models</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="DocumentScraper" sap:VirtualizedContainerService.HintSize="452,2308.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_18">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="tempFolder" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="extractedData" />
+      <Variable x:TypeArguments="x:String" Name="pdfText" />
+      <Variable x:TypeArguments="x:String" Name="pdfTempPath" />
+      <Variable x:TypeArguments="scg:IEnumerable(ui:UiElement)" Name="pdfLinks" />
+      <Variable x:TypeArguments="x:String" Name="mimeType" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="isHtml" />
+      <Variable x:TypeArguments="x:String" Name="htmlContent" />
+      <Variable x:TypeArguments="x:String" Name="currentSelector" />
+      <Variable x:TypeArguments="ui:Image" Name="loadedImage" />
+      <Variable x:TypeArguments="x:String" Name="portalURL" />
+      <Variable x:TypeArguments="x:String" Name="portalName" />
+      <Variable x:TypeArguments="x:String" Name="pdfHref" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="Init tempFolder" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[tempFolder]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(System.Environment.CurrentDirectory, "Temp")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Get portalName" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[portalName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("PortalName"), in_PortalConfig("PortalName").ToString(), "")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Init list" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_RawDataList]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String, Object))()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Init ExtractedData" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[extractedData]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[If(in_ExtractedFields IsNot Nothing, in_ExtractedFields, New Dictionary(Of String, Object)())]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Get portal URL" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[portalURL]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("PortalUrl"), in_PortalConfig("PortalUrl").ToString(), If(in_PortalConfig.ContainsKey("URL"), in_PortalConfig("URL").ToString(), ""))]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <TryCatch DisplayName="TryCatch: PDF download and extract" sap:VirtualizedContainerService.HintSize="452,1382.6666666666667" sap2010:WorkflowViewState.IdRef="TryCatch_PDF">
+      <TryCatch.Try>
+        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="450,1044" sap2010:WorkflowViewState.IdRef="Seq_PDFTry">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Build temp folder path" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_TempFolderCreate">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[tempFolder]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(Environment.CurrentDirectory, "Temp\PDFs")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:InvokeCode Code="System.IO.Directory.CreateDirectory(tempFolder)" ContinueOnError="[False]" DisplayName="Create temp folder" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_CreateTempFolder">
+            <ui:InvokeCode.Arguments>
+              <InOutArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InOutArgument>
+            </ui:InvokeCode.Arguments>
+          </ui:InvokeCode>
+          <ui:LogMessage DisplayName="Log: HasDocuments processing" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot;HasDocuments=true. Starting document extraction for: &quot; &amp; portalName]" />
+          <Assign DisplayName="Unpack: DocumentLinkSelector" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_DocLink">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[currentSelector]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[If(in_PortalConfig.ContainsKey("DocumentLinkSelector"), in_PortalConfig("DocumentLinkSelector").ToString(), "a")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:LogMessage DisplayName="Log: DocumentLinkSelector" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;DocumentLinkSelector resolved to: &quot; &amp; currentSelector]" />
+          <If Condition="[in_PortalConfig.ContainsKey(&quot;DirectDocumentURL&quot;)]" DisplayName="If Direct Document URL provided" sap:VirtualizedContainerService.HintSize="522,4050.6666666666665" sap2010:WorkflowViewState.IdRef="If_DirectDocURL">
+            <If.Then>
+              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="520,3006.6666666666665" sap2010:WorkflowViewState.IdRef="Seq_DirectDoc">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log: DirectDocumentURL" sap:VirtualizedContainerService.HintSize="486,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Direct document URL provided: &quot; &amp; in_PortalConfig(&quot;DirectDocumentURL&quot;).ToString()]" />
+                <ui:InvokeCode Code="Dim uri As Uri&#xA;If Not Uri.TryCreate(pdfUrl, UriKind.Absolute, uri) Then&#xA;    If Not Uri.TryCreate(New Uri(baseUri), pdfUrl, uri) Then&#xA;        Throw New ArgumentException(&quot;Invalid url: &quot; &amp; pdfUrl)&#xA;    End If&#xA;End If&#xA;Dim req As System.Net.HttpWebRequest = CType(System.Net.WebRequest.Create(uri), System.Net.HttpWebRequest)&#xA;req.Method = &quot;GET&quot;&#xA;req.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&quot;&#xA;req.Accept = &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;&#xA;req.Headers.Add(&quot;Accept-Language&quot;, &quot;en-US,en;q=0.5&quot;)&#xA;&#xA;Dim resp As System.Net.HttpWebResponse = Nothing&#xA;Try&#xA;    resp = CType(req.GetResponse(), System.Net.HttpWebResponse)&#xA;Catch ex As System.Net.WebException&#xA;    resp = CType(ex.Response, System.Net.HttpWebResponse)&#xA;End Try&#xA;&#xA;If resp IsNot Nothing Then&#xA;    outMimeType = resp.ContentType.ToLower()&#xA;    If outMimeType.Contains(&quot;text/html&quot;) Then&#xA;        outIsHtml = True&#xA;        Using reader As New System.IO.StreamReader(resp.GetResponseStream())&#xA;            outHtmlContent = reader.ReadToEnd()&#xA;        End Using&#xA;    Else&#xA;        outIsHtml = False&#xA;        Dim ext As String = &quot;.bin&quot;&#xA;        If outMimeType.Contains(&quot;pdf&quot;) OrElse outMimeType.Contains(&quot;application/octet-stream&quot;) Then&#xA;            ext = &quot;.pdf&quot;&#xA;        ElseIf outMimeType.Contains(&quot;jpeg&quot;) OrElse outMimeType.Contains(&quot;jpg&quot;) Then&#xA;            ext = &quot;.jpg&quot;&#xA;        ElseIf outMimeType.Contains(&quot;png&quot;) Then&#xA;            ext = &quot;.png&quot;&#xA;        ElseIf outMimeType.Contains(&quot;wordprocessingml&quot;) OrElse outMimeType.Contains(&quot;msword&quot;) Then&#xA;            ext = &quot;.docx&quot;&#xA;        ElseIf outMimeType.Contains(&quot;spreadsheetml&quot;) OrElse outMimeType.Contains(&quot;excel&quot;) OrElse outMimeType.Contains(&quot;csv&quot;) Then&#xA;            ext = &quot;.xlsx&quot;&#xA;        End If&#xA;        outFilePath = System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ext)&#xA;        Using fileStream As System.IO.FileStream = System.IO.File.Create(outFilePath)&#xA;            resp.GetResponseStream().CopyTo(fileStream)&#xA;        End Using&#xA;    End If&#xA;    resp.Close()&#xA;Else&#xA;    Throw New Exception(&quot;Failed to get response from: &quot; &amp; uri.ToString())&#xA;End If" ContinueOnError="False" DisplayName="Download Payload Detect" sap:VirtualizedContainerService.HintSize="486,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_Download_Direct">
+                  <ui:InvokeCode.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[in_PortalConfig("DirectDocumentURL").ToString()]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="baseUri">[portalURL]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="outFilePath">[pdfTempPath]</OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="outMimeType">[mimeType]</OutArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="outIsHtml">[isHtml]</OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="outHtmlContent">[htmlContent]</OutArgument>
+                  </ui:InvokeCode.Arguments>
+                </ui:InvokeCode>
+                <ui:LogMessage sap:VirtualizedContainerService.HintSize="486,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Payload detection complete. IsHTML: &quot; &amp; isHtml.ToString() &amp; &quot;, MimeType: &quot; &amp; mimeType]" />
+                <If Condition="[isHtml]" DisplayName="If HTML Payload" sap:VirtualizedContainerService.HintSize="486,1834" sap2010:WorkflowViewState.IdRef="If_Html_1">
+                  <If.Then>
+                    <Assign sap:VirtualizedContainerService.HintSize="452,144.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_Html_1">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[pdfText]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[htmlContent]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </If.Then>
+                  <If.Else>
+                    <If Condition="[pdfTempPath.ToLower().EndsWith(&quot;.jpg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.jpeg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.png&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.bmp&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.tiff&quot;)]" DisplayName="If Image File (Direct)" sap:VirtualizedContainerService.HintSize="452,1505.3333333333333" sap2010:WorkflowViewState.IdRef="If_1">
+                      <If.Then>
+                        <Sequence DisplayName="OCR Image Direct" sap:VirtualizedContainerService.HintSize="450,580.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Image file detected. Running OCR on: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                          <ui:LoadImage DisplayName="Load Image Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="416,119.33333333333333" sap2010:WorkflowViewState.IdRef="LoadImage_1" Image="[loadedImage]" />
+                          <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Direct" ExtractWords="False" sap:VirtualizedContainerService.HintSize="416,57.333333333333336" sap2010:WorkflowViewState.IdRef="GoogleOCR_1" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                          <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Info" Message="[&quot;OCR complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Read PDF Direct" sap:VirtualizedContainerService.HintSize="450,816.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:LogMessage sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;PDF file detected. Reading text from: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                          <If Condition="[pdfTempPath.EndsWith(&quot;.pdf&quot;)]" DisplayName="If PDF File (Direct)" sap:VirtualizedContainerService.HintSize="416,980" sap2010:WorkflowViewState.IdRef="If_PdfGate_Direct">
+                            <If.Then>
+                              <Sequence DisplayName="Read PDF Direct Inner" sap:VirtualizedContainerService.HintSize="380,720" sap2010:WorkflowViewState.IdRef="Seq_ReadPDFInner_Direct">
+                                <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="350,116" sap2010:WorkflowViewState.IdRef="ReadPDFText_Direct" Range="All" Text="[pdfText]" />
+                                <If Condition="[pdfText IsNot Nothing AndAlso pdfText.Trim().Length &lt; 50]" sap:VirtualizedContainerService.HintSize="350,520" sap2010:WorkflowViewState.IdRef="If_Scanned_1">
+                                  <If.Then>
+                                    <Sequence DisplayName="OCR Fallback Direct" sap:VirtualizedContainerService.HintSize="320,380" sap2010:WorkflowViewState.IdRef="Seq_OCRFallback_Direct">
+                                      <ui:LogMessage sap:VirtualizedContainerService.HintSize="290,144" sap2010:WorkflowViewState.IdRef="Log_Scanned_1" Level="Warn" Message="[&quot;PDF returned &lt; 50 chars. Scanned PDF fallback OCR triggered!&quot;]" />
+                                      <ui:LoadImage DisplayName="Load Image OCR Direct" FileName="[pdfTempPath]" sap:VirtualizedContainerService.HintSize="290,119" sap2010:WorkflowViewState.IdRef="LoadImage_OCR_Direct" Image="[loadedImage]" />
+                                      <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Direct Fallback" ExtractWords="False" sap:VirtualizedContainerService.HintSize="290,57" sap2010:WorkflowViewState.IdRef="GoogleOCR_Direct_Fallback" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                                    </Sequence>
+                                  </If.Then>
+                                  <If.Else>
+                                    <ui:LogMessage sap:VirtualizedContainerService.HintSize="290,144" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;PDF read complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                  </If.Else>
+                                </If>
+                              </Sequence>
+                            </If.Then>
+                            <If.Else>
+                              <ui:LogMessage DisplayName="Log: Skipping non-PDF Direct" sap:VirtualizedContainerService.HintSize="380,144" sap2010:WorkflowViewState.IdRef="LogMessage_SkipNonPDF_Direct" Level="Warn" Message="[&quot;Skipping non-PDF file: &quot; &amp; pdfTempPath]" />
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </If.Else>
+                </If>
+                <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then extractedData(&quot;PDFList&quot;) = New List(Of String)()&#xA;CType(extractedData(&quot;PDFList&quot;), List(Of String)).Add(If(pdfText Is Nothing, &quot;&quot;, pdfText))" ContinueOnError="False" DisplayName="Append PDF Text Direct" sap:VirtualizedContainerService.HintSize="486,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_AppendPDFDirect">
+                  <ui:InvokeCode.Arguments>
+                    <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InOutArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="pdfText">[pdfText]</InArgument>
+                  </ui:InvokeCode.Arguments>
+                </ui:InvokeCode>
+                <ui:LogMessage sap:VirtualizedContainerService.HintSize="486,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Document text appended to PDFList.&quot;]" />
+                <ui:InvokeCode Code="System.IO.File.Delete(pdfTempPath)" ContinueOnError="[True]" DisplayName="Delete temp PDF" sap:VirtualizedContainerService.HintSize="486,188" sap2010:WorkflowViewState.IdRef="InvokeCode_DeletePDF1">
+                  <ui:InvokeCode.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="pdfTempPath">[pdfTempPath]</InArgument>
+                  </ui:InvokeCode.Arguments>
+                </ui:InvokeCode>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" Browser="[in_BrowserSession]" DisplayName="Attach Browser for PDF" sap:VirtualizedContainerService.HintSize="520,914" sap2010:WorkflowViewState.IdRef="BrowserScope_PDF" Selector="&lt;html app='*' /&gt;">
+                <ui:BrowserScope.Body>
+                  <ActivityAction x:TypeArguments="x:Object">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTargetPDF" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="PDF extraction steps" sap:VirtualizedContainerService.HintSize="486,804.6666666666666" sap2010:WorkflowViewState.IdRef="Seq_PDFSteps">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Browser Attached" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Browser attached successfully for: &quot; &amp; portalName]" />
+                      <ui:FindChildren Children="[pdfLinks]" DisplayName="Find Children PDF Links" Filter="[&quot;&lt;webctrl css=&quot;&quot;&quot; &amp; currentSelector &amp; &quot;&quot;&quot; /&gt;&quot;]" sap:VirtualizedContainerService.HintSize="452,119.33333333333333" sap2010:WorkflowViewState.IdRef="FindChildren_PDFLinks" Scope="FIND_DESCENDANTS">
+                        <ui:FindChildren.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[in_BrowserSession.Element]" Id="{x:Null}" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                        </ui:FindChildren.Target>
+                      </ui:FindChildren>
+                      <ui:ForEach x:TypeArguments="ui:UiElement" CurrentIndex="{x:Null}" DisplayName="For Each PDF Link" sap:VirtualizedContainerService.HintSize="452,448.6666666666667" sap2010:WorkflowViewState.IdRef="ForEach_PDFLink" Values="[pdfLinks]">
+                        <ui:ForEach.Body>
+                          <ActivityAction x:TypeArguments="ui:UiElement">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="ui:UiElement" Name="pdfLink" />
+                            </ActivityAction.Argument>
+                            <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="450,326" sap2010:WorkflowViewState.IdRef="Seq_PDFLink">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="x:String" Name="pdfHref" />
+                                <Variable x:TypeArguments="x:String" Name="mimeType" />
+                              </Sequence.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute href" sap:VirtualizedContainerService.HintSize="416,218" sap2010:WorkflowViewState.IdRef="GetAttribute_href">
+                                <ui:GetAttribute.Result>
+                                  <OutArgument x:TypeArguments="x:String">[pdfHref]</OutArgument>
+                                </ui:GetAttribute.Result>
+                                <ui:GetAttribute.Target>
+                                  <ui:Target ClippingRegion="{x:Null}" Selector="{x:Null}" Element="[pdfLink]" Id="00000000-0000-0000-0000-000000000000" TimeoutMS="5000" WaitForReady="COMPLETE" />
+                                </ui:GetAttribute.Target>
+                              </ui:GetAttribute>
+                              <If Condition="[Not String.IsNullOrWhiteSpace(pdfHref)]" sap:VirtualizedContainerService.HintSize="416,48" sap2010:WorkflowViewState.IdRef="If_DownloadPDF">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="418,900" sap2010:WorkflowViewState.IdRef="Seq_DownloadDoc">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log: Downloading linked doc" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Info" Message="[&quot;Downloading document from href: &quot; &amp; pdfHref]" />
+                                    <ui:InvokeCode Code="Dim uri As Uri&#xA;If Not Uri.TryCreate(pdfUrl, UriKind.Absolute, uri) Then&#xA;    If Not Uri.TryCreate(New Uri(baseUri), pdfUrl, uri) Then&#xA;        Throw New ArgumentException(&quot;Invalid url: &quot; &amp; pdfUrl)&#xA;    End If&#xA;End If&#xA;Dim req As System.Net.HttpWebRequest = CType(System.Net.WebRequest.Create(uri), System.Net.HttpWebRequest)&#xA;req.Method = &quot;GET&quot;&#xA;req.UserAgent = &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&quot;&#xA;req.Accept = &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;&#xA;req.Headers.Add(&quot;Accept-Language&quot;, &quot;en-US,en;q=0.5&quot;)&#xA;&#xA;Dim resp As System.Net.HttpWebResponse = Nothing&#xA;Try&#xA;    resp = CType(req.GetResponse(), System.Net.HttpWebResponse)&#xA;Catch ex As System.Net.WebException&#xA;    resp = CType(ex.Response, System.Net.HttpWebResponse)&#xA;End Try&#xA;&#xA;If resp IsNot Nothing Then&#xA;    outMimeType = resp.ContentType.ToLower()&#xA;    If outMimeType.Contains(&quot;text/html&quot;) Then&#xA;        outIsHtml = True&#xA;        Using reader As New System.IO.StreamReader(resp.GetResponseStream())&#xA;            outHtmlContent = reader.ReadToEnd()&#xA;        End Using&#xA;    Else&#xA;        outIsHtml = False&#xA;        Dim ext As String = &quot;.bin&quot;&#xA;        If outMimeType.Contains(&quot;pdf&quot;) OrElse outMimeType.Contains(&quot;application/octet-stream&quot;) Then&#xA;            ext = &quot;.pdf&quot;&#xA;        ElseIf outMimeType.Contains(&quot;jpeg&quot;) OrElse outMimeType.Contains(&quot;jpg&quot;) Then&#xA;            ext = &quot;.jpg&quot;&#xA;        ElseIf outMimeType.Contains(&quot;png&quot;) Then&#xA;            ext = &quot;.png&quot;&#xA;        ElseIf outMimeType.Contains(&quot;wordprocessingml&quot;) OrElse outMimeType.Contains(&quot;msword&quot;) Then&#xA;            ext = &quot;.docx&quot;&#xA;        ElseIf outMimeType.Contains(&quot;spreadsheetml&quot;) OrElse outMimeType.Contains(&quot;excel&quot;) OrElse outMimeType.Contains(&quot;csv&quot;) Then&#xA;            ext = &quot;.xlsx&quot;&#xA;        End If&#xA;        outFilePath = System.IO.Path.Combine(tempFolder, System.Guid.NewGuid().ToString() &amp; ext)&#xA;        Using fileStream As System.IO.FileStream = System.IO.File.Create(outFilePath)&#xA;            resp.GetResponseStream().CopyTo(fileStream)&#xA;        End Using&#xA;    End If&#xA;    resp.Close()&#xA;Else&#xA;    Throw New Exception(&quot;Failed to get response from: &quot; &amp; uri.ToString())&#xA;End If" ContinueOnError="False" DisplayName="Download Payload Detect" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Download">
+                                      <ui:InvokeCode.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="pdfUrl">[pdfHref]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="baseUri">[portalURL]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="tempFolder">[tempFolder]</InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="outFilePath">[pdfTempPath]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="outMimeType">[mimeType]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:Boolean" x:Key="outIsHtml">[isHtml]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="outHtmlContent">[htmlContent]</OutArgument>
+                                      </ui:InvokeCode.Arguments>
+                                    </ui:InvokeCode>
+                                    <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_28" Level="Info" Message="[&quot;Payload detection complete. IsHTML: &quot; &amp; isHtml.ToString() &amp; &quot;, MimeType: &quot; &amp; mimeType]" />
+                                    <If Condition="[isHtml]" DisplayName="If HTML Payload" sap2010:WorkflowViewState.IdRef="If_Html_2">
+                                      <If.Then>
+                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_Html_2">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:String">[pdfText]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:String">[htmlContent]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </If.Then>
+                                      <If.Else>
+                                        <If Condition="[pdfTempPath.ToLower().EndsWith(&quot;.jpg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.jpeg&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.png&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.bmp&quot;) OrElse pdfTempPath.ToLower().EndsWith(&quot;.tiff&quot;)]" DisplayName="If Image File (Link)" sap2010:WorkflowViewState.IdRef="If_2">
+                                          <If.Then>
+                                            <Sequence DisplayName="OCR Image Link" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                              <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Image file detected from link. Running OCR on: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                              <ui:LoadImage DisplayName="Load Image Link" FileName="[pdfTempPath]" sap2010:WorkflowViewState.IdRef="LoadImage_2" Image="[loadedImage]" />
+                                              <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Link" ExtractWords="False" sap2010:WorkflowViewState.IdRef="GoogleOCR_2" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                                              <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;OCR complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                            </Sequence>
+                                          </If.Then>
+                                          <If.Else>
+                                            <Sequence DisplayName="Read PDF Link" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                              <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[&quot;PDF file detected from link. Reading: &quot; &amp; System.IO.Path.GetFileName(pdfTempPath)]" />
+                                              <If Condition="[pdfTempPath.EndsWith(&quot;.pdf&quot;)]" DisplayName="If PDF File (Link)" sap2010:WorkflowViewState.IdRef="If_PdfGate_Link">
+                                                <If.Then>
+                                                  <Sequence DisplayName="Read PDF Link Inner" sap2010:WorkflowViewState.IdRef="Seq_ReadPDFInner_Link">
+                                                    <ui:ReadPDFText PreserveFormatting="{x:Null}" DisplayName="Read PDF Text Fallback" FileName="[pdfTempPath]" sap2010:WorkflowViewState.IdRef="ReadPDFText_Fallback" Range="All" Text="[pdfText]" />
+                                                    <If Condition="[pdfText IsNot Nothing AndAlso pdfText.Trim().Length &lt; 50]" sap2010:WorkflowViewState.IdRef="If_Scanned_2">
+                                                      <If.Then>
+                                                        <Sequence DisplayName="OCR Fallback Link" sap2010:WorkflowViewState.IdRef="Seq_OCRFallback_Link">
+                                                          <ui:LogMessage sap2010:WorkflowViewState.IdRef="Log_Scanned_2" Level="Warn" Message="[&quot;PDF returned &lt; 50 chars. Scanned PDF fallback OCR triggered!&quot;]" />
+                                                          <ui:LoadImage DisplayName="Load Image OCR Link" FileName="[pdfTempPath]" sap2010:WorkflowViewState.IdRef="LoadImage_OCR_Link" Image="[loadedImage]" />
+                                                          <ui:GoogleOCR AllowedCharacters="{x:Null}" DeniedCharacters="{x:Null}" FilterRegion="{x:Null}" Invert="{x:Null}" Language="{x:Null}" Output="{x:Null}" PredictionId="{x:Null}" Profile="{x:Null}" Scale="{x:Null}" ComputeSkewAngle="False" DisplayName="GoogleOCR Link Fallback" ExtractWords="False" sap2010:WorkflowViewState.IdRef="GoogleOCR_Link_Fallback" Image="[loadedImage]" NoopExecution="False" Text="[pdfText]" />
+                                                        </Sequence>
+                                                      </If.Then>
+                                                      <If.Else>
+                                                        <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[&quot;PDF read complete. Text length: &quot; &amp; If(pdfText Is Nothing, &quot;0&quot;, pdfText.Length.ToString())]" />
+                                                      </If.Else>
+                                                    </If>
+                                                  </Sequence>
+                                                </If.Then>
+                                                <If.Else>
+                                                  <ui:LogMessage DisplayName="Log: Skipping non-PDF Link" sap2010:WorkflowViewState.IdRef="LogMessage_SkipNonPDF_Link" Level="Warn" Message="[&quot;Skipping non-PDF file: &quot; &amp; pdfTempPath]" />
+                                                </If.Else>
+                                              </If>
+                                            </Sequence>
+                                          </If.Else>
+                                        </If>
+                                      </If.Else>
+                                    </If>
+                                    <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then extractedData(&quot;PDFList&quot;) = New List(Of String)()&#xA;CType(extractedData(&quot;PDFList&quot;), List(Of String)).Add(If(pdfText Is Nothing, &quot;&quot;, pdfText))" ContinueOnError="False" DisplayName="Append PDF Text Link" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_AppendPDFLink">
+                                      <ui:InvokeCode.Arguments>
+                                        <InOutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InOutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="pdfText">[pdfText]</InArgument>
+                                      </ui:InvokeCode.Arguments>
+                                    </ui:InvokeCode>
+                                    <ui:LogMessage sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Info" Message="[&quot;Link document text appended to PDFList.&quot;]" />
+                                    <ui:InvokeCode Code="System.IO.File.Delete(pdfTempPath)" ContinueOnError="[True]" DisplayName="Delete temp PDF" sap:VirtualizedContainerService.HintSize="334,165" sap2010:WorkflowViewState.IdRef="InvokeCode_DeletePDF2">
+                                      <ui:InvokeCode.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="pdfTempPath">[pdfTempPath]</InArgument>
+                                      </ui:InvokeCode.Arguments>
+                                    </ui:InvokeCode>
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                            </Sequence>
+                          </ActivityAction>
+                        </ui:ForEach.Body>
+                      </ui:ForEach>
+                    </Sequence>
+                  </ActivityAction>
+                </ui:BrowserScope.Body>
+              </ui:BrowserScope>
+            </If.Else>
+          </If>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_PDF">
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <ui:LogMessage sap:VirtualizedContainerService.HintSize="450,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_PDFErr" Level="Warn" Message="[&quot;PDF extraction failed for &quot; &amp; portalName &amp; &quot;: &quot; &amp; exception.Message]" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:InvokeCode Code="If Not extractedData.ContainsKey(&quot;PDFList&quot;) Then&#xA;    extractedData(&quot;PDFList&quot;) = New List(Of String) From {&quot;&quot;}&#xA;End If&#xA;Dim pdfList As List(Of String) = CType(extractedData(&quot;PDFList&quot;), List(Of String))&#xA;If pdfList.Count = 0 Then pdfList.Add(&quot;&quot;)&#xA;&#xA;For Each pdfText As String In pdfList&#xA;    Dim currentDict As New Dictionary(Of String, Object)(extractedData)&#xA;    currentDict(&quot;InvoiceText&quot;) = pdfText&#xA;    currentDict(&quot;RawText&quot;) = pdfText&#xA;    currentDict.Remove(&quot;PDFList&quot;)&#xA;&#xA;    If Not String.IsNullOrWhiteSpace(pdfText) AndAlso config.ContainsKey(&quot;Fields&quot;) AndAlso config(&quot;Fields&quot;) IsNot Nothing Then&#xA;        Dim fields As Newtonsoft.Json.Linq.JArray&#xA;        If TypeOf config(&quot;Fields&quot;) Is String Then&#xA;            fields = Newtonsoft.Json.Linq.JArray.Parse(config(&quot;Fields&quot;).ToString())&#xA;        Else&#xA;            fields = CType(config(&quot;Fields&quot;), Newtonsoft.Json.Linq.JArray)&#xA;        End If&#xA;        For Each fieldDef As Newtonsoft.Json.Linq.JToken In fields&#xA;            Dim fieldName As String = fieldDef(&quot;Name&quot;).ToString()&#xA;            If fieldName = &quot;RawText&quot; Then Continue For&#xA;            Dim alreadyFound As Boolean = currentDict.ContainsKey(fieldName) AndAlso currentDict(fieldName) IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(currentDict(fieldName).ToString())&#xA;            If alreadyFound Then Continue For&#xA;            Dim anchor As String = If(fieldDef(&quot;Anchor&quot;) IsNot Nothing, fieldDef(&quot;Anchor&quot;).ToString(), fieldName)&#xA;            Dim pattern As String = &quot;(?i)&quot; &amp; System.Text.RegularExpressions.Regex.Escape(anchor) &amp; &quot;[\s:]*[\r\n]*\s*([^\r\n]{1,50})&quot;&#xA;            Dim m = System.Text.RegularExpressions.Regex.Match(pdfText, pattern)&#xA;            If m.Success AndAlso m.Groups.Count &gt; 1 Then&#xA;                currentDict(fieldName) = m.Groups(1).Value.Trim()&#xA;            End If&#xA;        Next&#xA;    End If&#xA;&#xA;    out_RawDataList.Add(currentDict)&#xA;Next" ContinueOnError="False" DisplayName="Process PDF fields to out_RawDataList" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="extractedData">[extractedData]</InArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="config">[in_PortalConfig]</InArgument>
+        <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_RawDataList">[out_RawDataList]</InOutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+  </Sequence>
+</Activity>

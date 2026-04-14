@@ -242,7 +242,7 @@
           <OutArgument x:TypeArguments="ui:BrowserType">[v_BrowserType]</OutArgument>
         </Assign.To>
         <Assign.Value>
-          <InArgument x:TypeArguments="ui:BrowserType">[UiPath.Core.BrowserType.IE]</InArgument>
+          <InArgument x:TypeArguments="ui:BrowserType">[UiPath.Core.BrowserType.Edge]</InArgument>
         </Assign.Value>
       </Assign>
     </Switch>

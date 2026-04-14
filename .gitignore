@@ -23,3 +23,12 @@ Data/Temp/
 Data/Input/
 Data/Output/
 
+# Secrets — API keys and credentials (NEVER commit these)
+Data/Config/settings.json
+Data/Config/secrets.json
+*.secrets.json
+
+# Modern UiPath Studio Artifacts
+.screenshots/
+.autopilot/
+.storage/
