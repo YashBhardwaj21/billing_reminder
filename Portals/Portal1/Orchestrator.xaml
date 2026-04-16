@@ -76,7 +76,9 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5637.333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="979.3333333333334,6000" sap2010:WorkflowViewState.IdRef="TryCatch_Orchestrator">
+      <TryCatch.Try>
+        <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5637.333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
@@ -103,7 +105,13 @@
                 </ActivityAction>
               </ui:RetryScope.ActivityBody>
               <ui:RetryScope.Condition>
-                <ActivityFunc x:TypeArguments="x:Boolean" />
+                <ActivityFunc x:TypeArguments="x:Boolean">
+                  <ui:UiElementExists DisplayName="Element Exists 'Customer'" Exists="{x:Null}" sap:VirtualizedContainerService.HintSize="334,107.33333333333333" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+                    <ui:UiElementExists.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b2668541-11c7-458b-9e4a-bbda28f14b62" InformativeScreenshot="84da61bbdc951cb6f4b0ecbb0dbc2839.jpg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;&lt;webctrl aria-label='Customer' tag='A' /&gt;" TimeoutMS="5000" WaitForReady="INTERACTIVE" />
+                    </ui:UiElementExists.Target>
+                  </ui:UiElementExists>
+                </ActivityFunc>
               </ui:RetryScope.Condition>
             </ui:RetryScope>
             <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Customer'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_2" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
@@ -375,5 +383,14 @@
         </uix:TargetApp>
       </uix:NApplicationCard.TargetApp>
     </uix:NApplicationCard>
+      </TryCatch.Try>
+      <TryCatch.Finally>
+        <ui:CloseApplication ContinueOnError="True" DisplayName="Close Application Chrome" sap:VirtualizedContainerService.HintSize="334,107.33333333333333" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
+          <ui:CloseApplication.Target>
+            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="34e9e0d1-6c23-455b-b9d9-7ed7a3a2bc0d" Selector="&lt;html app='chrome.exe' /&gt;" TimeoutMS="3000" WaitForReady="NONE" />
+          </ui:CloseApplication.Target>
+        </ui:CloseApplication>
+      </TryCatch.Finally>
+    </TryCatch>
   </Sequence>
 </Activity>
