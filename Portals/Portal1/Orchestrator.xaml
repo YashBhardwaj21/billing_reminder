@@ -2,6 +2,8 @@
   <x:Members>
     <x:Property Name="in_ConsumerNumber" Type="InArgument(ss:SecureString)" />
     <x:Property Name="in_MobileNumber" Type="InArgument(ss:SecureString)" />
+    <x:Property Name="in_RecipientEmail" Type="InArgument(x:String)" />
+    <x:Property Name="out_ExtractedBills" Type="OutArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
   </x:Members>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
@@ -64,22 +66,23 @@
       <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Orchestrator" sap:VirtualizedContainerService.HintSize="979.3333333333334,5313.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Orchestrator" sap:VirtualizedContainerService.HintSize="979.3333333333334,6686" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="str_PDFUrl" />
+      <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="extractedBillsList" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5290.666666666667" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
+    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5637.333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="977.3333333333334,5096" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="977.3333333333334,5433.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <Sequence.Variables>
               <Variable x:TypeArguments="x:String" Name="out_OTP" />
               <Variable x:TypeArguments="x:Boolean" Name="bln_LoginSuccess" />
@@ -92,7 +95,7 @@
             <ui:RetryScope LogRetriedExceptions="{x:Null}" RetriedExceptionsLogLevel="{x:Null}" DisplayName="Retry Scope - Login Click" sap:VirtualizedContainerService.HintSize="943.3333333333334,440.6666666666667" sap2010:WorkflowViewState.IdRef="RetryScope_Login" NumberOfRetries="3" RetryInterval="00:00:05">
               <ui:RetryScope.ActivityBody>
                 <ActivityAction>
-                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Login'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="334,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_1" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                  <uix:NClick ActivateBefore="{x:Null}" ClickType="Single" DisplayName="Click 'Login'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="334,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_1" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
                     <uix:NClick.Target>
                       <uix:TargetAnchorable BrowserURL="tatapower-ddl.com" ContentHash="F4Cca1XWD0iuA9f3QOaqcg" DesignTimeRectangle="1765, 231, 127, 39" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Login' tag='A' /&gt;" Guid="cbd99055-7ccf-40ae-8536-eec0147600d8" InformativeScreenshot="a8c245dae678b516b20934634952b528.jpg" Reference="JpSPx8EROES2wmekerv2pw/ECB1ruAF_ki5As98rtBIMQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
                     </uix:NClick.Target>
@@ -133,6 +136,15 @@
                   </ActivityAction>
                 </Catch>
               </TryCatch.Catches>
+              <TryCatch.Finally>
+                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </TryCatch.Finally>
             </TryCatch>
             <Delay DisplayName="Wait for Login Page" Duration="00:00:05" sap:VirtualizedContainerService.HintSize="943.3333333333334,124" sap2010:WorkflowViewState.IdRef="Delay_LoginPage" />
             <TryCatch DisplayName="Dismiss Login Page Popup (if any)" sap:VirtualizedContainerService.HintSize="943.3333333333334,540.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_LoginPopup">
@@ -159,6 +171,15 @@
                   </ActivityAction>
                 </Catch>
               </TryCatch.Catches>
+              <TryCatch.Finally>
+                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </TryCatch.Finally>
             </TryCatch>
             <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'INPUT txtLogin'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_1" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Text="[new System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password]" Version="V5">
               <uix:NTypeInto.Target>
@@ -237,7 +258,7 @@
                 <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="ryZ_ffqE1kirXodhepbCjw" DesignTimeRectangle="554, 818, 225, 60" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aaname='View Bill' parentid='divBillingAreaWithData' tag='A' /&gt;" Guid="49f0097c-8176-44ec-b21d-4686bb17f877" InformativeScreenshot="becddcc6bb8c7a70c0ab0a65e195bbb5.jpg" Reference="JpSPx8EROES2wmekerv2pw/0r2x3IFuDUisZu3xUt3M0Q" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
               </uix:NClick.Target>
             </uix:NClick>
-            <uix:NMouseScroll KeyModifiers="{x:Null}" Direction="Down" DisplayName="Mouse Scroll" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,309.3333333333333" sap2010:WorkflowViewState.IdRef="NMouseScroll_1" InteractionMode="HardwareEvents" MovementUnits="10" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+            <uix:NMouseScroll KeyModifiers="{x:Null}" Direction="Down" DisplayName="Mouse Scroll" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,318.6666666666667" sap2010:WorkflowViewState.IdRef="NMouseScroll_1" InteractionMode="HardwareEvents" MovementUnits="10" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
               <uix:NMouseScroll.SearchedElement>
                 <uix:SearchedElement>
                   <uix:SearchedElement.InUiElement>
@@ -255,15 +276,19 @@
                 </uix:SearchedElement>
               </uix:NMouseScroll.SearchedElement>
             </uix:NMouseScroll>
-            <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute - PDF Link" sap:VirtualizedContainerService.HintSize="943.3333333333334,204.66666666666666" sap2010:WorkflowViewState.IdRef="GetAttribute_1">
+            <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute - PDF Link" sap:VirtualizedContainerService.HintSize="943.3333333333334,218" sap2010:WorkflowViewState.IdRef="GetAttribute_1">
               <ui:GetAttribute.Result>
                 <OutArgument x:TypeArguments="x:String">[str_PDFUrl]</OutArgument>
               </ui:GetAttribute.Result>
               <ui:GetAttribute.Target>
-                <ui:Target Element="{x:Null}" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="Interactive" />
+                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="8589598b-df85-4c7d-86c5-eecc7139871b" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
+                  <ui:Target.TimeoutMS>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:Target.TimeoutMS>
+                </ui:Target>
               </ui:GetAttribute.Target>
             </ui:GetAttribute>
-            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'View Bill PDF'" sap:VirtualizedContainerService.HintSize="943.3333333333334,107.33333333333333" sap2010:WorkflowViewState.IdRef="Click_PDF" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'View Bill PDF'" sap:VirtualizedContainerService.HintSize="943.3333333333334,110" sap2010:WorkflowViewState.IdRef="Click_PDF" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
               <ui:Click.CursorPosition>
                 <ui:CursorPosition Position="Center">
                   <ui:CursorPosition.OffsetX>
@@ -275,7 +300,11 @@
                 </ui:CursorPosition>
               </ui:Click.CursorPosition>
               <ui:Click.Target>
-                <ui:Target Element="{x:Null}" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="Interactive" />
+                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1e335678-7fc1-458b-a98a-66fc56a96186" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
+                  <ui:Target.TimeoutMS>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:Target.TimeoutMS>
+                </ui:Target>
               </ui:Click.Target>
             </ui:Click>
           </Sequence>
@@ -292,23 +321,58 @@
         <uix:TargetApp Area="-11, -11, 1942, 1150" BrowserType="Chrome" ContentHash="igciHsIoDU-waYvNeo7uhw" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACYUlEQVRYR+1VS4hOYRgesWElt8iEcZ2Z/8nkfl8whUTCxmUoNqPM/4xi5FLuDBJFoeS+ERLmfyZ2rMiOLCxYsLKQLGyUW++Z58/fycJ0ZiPnqa/zne97v/d9vvc873uqqnLkyJGjGwAVozeoGlDLQG0G1QxqKahR3ksfy44kcDEJPgfUZVBvQH0F9Q3Ud89j7TyoWhRLvXqMSNetS/FcD+o9qJ8V4zqoF54HmVugHoBag7YLydnMcNpngXqXCv4U1FhQN/wetz8L6odtZ2YmUNfSUSZwPBX8szUQeydAXQW1AdSHCpudsV8oltJu/x71vwmcSxE4BmoFqMWgxoOaAupJyuZoZgIBE6DFFo4fg9po0bVP3Nr5pwyF7aY4W9t8N+2yezCBwaBKoD75Zi8dqDMRHPUxReAeqCGZNVCGSYwDtQXUs4pAEfhtxfsXUBfdJ9JussEk+oJa4iw8cglGNh6COgxqEah+PR68EiZSJjMI1EDPk/V/D6B2gNoFah6o1aDmgloHag+ohaCWey9uGfsxn2yVR2ue6jOzQa3yiM8UPgYUus41uWyngWoBNQPUdFD9g8AVUK/8Y3kN6pqbSIgr1p6Duu96j253CtQBl2K79dBhwrF/ENRJ62I+KIDaDmo3qNu+7F6frQkCa102R9xKo5+H2kNkYRhObzrgPt+4zQ5jLYLdAdVqYmFzCNQlUCtBLTCp/aDOgDoNapt7R2sQGOH0RUpGO72TnOpI1RhQDaAKoIZZbCNBNUYK/T+YAKoaVJ0/R7xH2Q4tUH3svx7UcBMKP2HTmJZEjhw5/j/8Amdc9pzAV7dqAAAAAElFTkSuQmCC" InformativeScreenshot="84a9a62f7019ca66335471122a60f6fd.jpg" Reference="JpSPx8EROES2wmekerv2pw/ybx1T5HhxU6wRhP3oWuGhg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" Url="https://www.tatapower-ddl.com/" Version="V2" />
       </uix:NApplicationCard.TargetApp>
     </uix:NApplicationCard>
-    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Attach to PDF Tab (Dynamic)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,1000" sap2010:WorkflowViewState.IdRef="NApplicationCard_PDF" InteractionMode="DebuggerApi" ScopeGuid="5514734e-7f1g-5b85-9432-d77c05bcbb44" Version="V2">
+    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Attach to PDF Tab (Dynamic)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,1026" sap2010:WorkflowViewState.IdRef="NApplicationCard_PDF" InteractionMode="DebuggerApi" ScopeGuid="5514734e-7f1g-5b85-9432-d77c05bcbb44" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Extract PDF Data" sap:VirtualizedContainerService.HintSize="450,200" sap2010:WorkflowViewState.IdRef="Sequence_PDF">
+          <Sequence DisplayName="Extract PDF Data" sap:VirtualizedContainerService.HintSize="450,778.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_PDF">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke DocumentScraper" sap:VirtualizedContainerService.HintSize="416,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_DocScraper" UnSafe="False" WorkflowFileName="Extractors\DocumentScraper.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_ExtractedFields">[New Dictionary(Of String, Object)]</InArgument>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[New Dictionary(Of String, Object) From {{"DirectDocumentURL", str_PDFUrl}, {"Fields", "[{""Name"":""AmountPayable"", ""Anchor"":""Amount Payable""}]"}}]</InArgument>
+                <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[Nothing]</InArgument>
+                <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_RawDataList">[extractedBillsList]</OutArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <ui:LogMessage DisplayName="Log Extracted Amount" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Extraction" Level="Info" Message="[&quot;Extracted Amount Payable: &quot; &amp; If(extractedBillsList IsNot Nothing AndAlso extractedBillsList.Count &gt; 0 AndAlso extractedBillsList(0).ContainsKey(&quot;AmountPayable&quot;), extractedBillsList(0)(&quot;AmountPayable&quot;).ToString(), &quot;Not Found&quot;)]" />
+            <ui:InvokeCode Code="If extractedBillsList IsNot Nothing Then&#xA;For Each bill In extractedBillsList&#xA;  bill(&quot;RecipientEmail&quot;) = in_RecipientEmail&#xA;  bill(&quot;PortalName&quot;) = &quot;Portal 1&quot;&#xA;  Dim rawConsumer As String = New System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password&#xA;  bill(&quot;ConsumerNumber&quot;) = Convert.ToBase64String(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(rawConsumer)))&#xA;  rawConsumer = Nothing&#xA;  If bill.ContainsKey(&quot;AmountPayable&quot;) Then bill(&quot;AmountDue&quot;) = bill(&quot;AmountPayable&quot;)&#xA;Next&#xA;End If" ContinueOnError="False" DisplayName="Map to ExtractedBills" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_MapFields">
+              <ui:InvokeCode.Arguments>
+                <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="extractedBillsList">[extractedBillsList]</InOutArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_RecipientEmail">[in_RecipientEmail]</InArgument>
+                <InArgument x:TypeArguments="ss:SecureString" x:Key="in_ConsumerNumber">[in_ConsumerNumber]</InArgument>
+              </ui:InvokeCode.Arguments>
+            </ui:InvokeCode>
+            <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_OutBills">
+              <Assign.To>
+                <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedBills]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[extractedBillsList]</InArgument>
+              </Assign.Value>
+            </Assign>
           </Sequence>
         </ActivityAction>
       </uix:NApplicationCard.Body>
+      <uix:NApplicationCard.OCREngine>
+        <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+          <ActivityFunc.Argument>
+            <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+          </ActivityFunc.Argument>
+        </ActivityFunc>
+      </uix:NApplicationCard.OCREngine>
       <uix:NApplicationCard.TargetApp>
-        <uix:TargetApp BrowserType="Chrome" Selector="[string.Format(&quot;&lt;html app='chrome.exe' url='{0}' /&gt;&quot;, str_PDFUrl)]" Url="[str_PDFUrl]" />
+        <uix:TargetApp Area="0, 0, 0, 0" BrowserType="Chrome" Selector="[string.Format(&quot;&lt;html app='chrome.exe' url='{0}' /&gt;&quot;, str_PDFUrl)]" Url="[str_PDFUrl]">
+          <uix:TargetApp.FilePath>
+            <InArgument x:TypeArguments="x:String" />
+          </uix:TargetApp.FilePath>
+        </uix:TargetApp>
       </uix:NApplicationCard.TargetApp>
     </uix:NApplicationCard>
   </Sequence>

@@ -1,11 +1,7 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="ReminderEngine" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sl="clr-namespace:System.Linq;assembly=System.Linq" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ss="clr-namespace:System.Security;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_ReminderList" Type="InArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
-    <x:Property Name="in_SMTPHost" Type="InArgument(x:String)" />
-    <x:Property Name="in_SMTPPort" Type="InArgument(x:Int32)" />
-    <x:Property Name="in_SMTPUsername" Type="InArgument(x:String)" />
-    <x:Property Name="in_SMTPPassword" Type="InArgument(ss:SecureString)" />
-    <x:Property Name="in_SenderEmail" Type="InArgument(x:String)" />
+    <x:Property Name="in_SMTPConfig" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="out_SentCount" Type="OutArgument(x:Int32)" />
     <x:Property Name="out_FailedCount" Type="OutArgument(x:Int32)" />
   </x:Members>
@@ -86,29 +82,10 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="ReminderEngine" sap:VirtualizedContainerService.HintSize="514,5649.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="recipientEmail" />
-      <Variable x:TypeArguments="x:String" Name="portalName" />
-      <Variable x:TypeArguments="x:String" Name="serviceType" />
-      <Variable x:TypeArguments="x:String" Name="applicantName" />
-      <Variable x:TypeArguments="x:String" Name="applicationNumber" />
-      <Variable x:TypeArguments="x:String" Name="amountDue" />
-      <Variable x:TypeArguments="s:DateTime" Name="dueDate" />
-      <Variable x:TypeArguments="x:Int32" Name="daysLeft" />
-      <Variable x:TypeArguments="x:String" Name="severity" />
-      <Variable x:TypeArguments="x:String" Name="sourceURL" />
-      <Variable x:TypeArguments="x:String" Name="emailSubject" />
-      <Variable x:TypeArguments="x:String" Name="emailBody" />
-      <Variable x:TypeArguments="x:String" Name="channels" />
-      <Variable x:TypeArguments="x:Boolean" Name="sendEmail" />
-      <Variable x:TypeArguments="x:Boolean" Name="sendTeams" />
-      <Variable x:TypeArguments="x:Boolean" Name="sendToast" />
       <Variable x:TypeArguments="x:Int32" Name="sentCount" />
       <Variable x:TypeArguments="x:Int32" Name="failedCount" />
-      <Variable x:TypeArguments="x:String" Name="subjectPrefix" />
-      <Variable x:TypeArguments="x:String" Name="urgencyColor" />
       <Variable x:TypeArguments="x:String" Name="dedupeKey" />
       <Variable x:TypeArguments="scg:List(x:String)" Name="dedupeSet" />
-      <Variable x:TypeArguments="x:String" Name="teamsPayload" />
       <Variable x:TypeArguments="x:String" Name="dedupeFilePath" />
       <Variable x:TypeArguments="scg:IEnumerable(sl:IGrouping(x:String, scg:Dictionary(x:String, x:Object)))" Name="groupedReminders" />
       <Variable x:TypeArguments="x:String" Name="str_HtmlTable" />
@@ -184,7 +161,7 @@
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-                    <Assign DisplayName="Group Reminders" sap:VirtualizedContainerService.HintSize="800,82" sap2010:WorkflowViewState.IdRef="Assign_Grouped">
+          <Assign DisplayName="Group Reminders" sap:VirtualizedContainerService.HintSize="800,82" sap2010:WorkflowViewState.IdRef="Assign_Grouped">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:IEnumerable(sl:IGrouping(x:String, scg:Dictionary(x:String, x:Object)))">[groupedReminders]</OutArgument>
             </Assign.To>
@@ -199,6 +176,13 @@
                   <DelegateInArgument x:TypeArguments="sl:IGrouping(x:String, scg:Dictionary(x:String, x:Object))" Name="userGroup" />
                 </ActivityAction.Argument>
                 <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="760,1100" sap2010:WorkflowViewState.IdRef="SeqGroup">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="scg:List(x:String)" Name="locallySentBills" />
+                  </Sequence.Variables>
+                  <Assign sap:VirtualizedContainerService.HintSize="500,80">
+                    <Assign.To><OutArgument x:TypeArguments="scg:List(x:String)">[locallySentBills]</OutArgument></Assign.To>
+                    <Assign.Value><InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument></Assign.Value>
+                  </Assign>
                   <Assign DisplayName="Init Html" sap:VirtualizedContainerService.HintSize="500,80" sap2010:WorkflowViewState.IdRef="AssignHtmlInit">
                     <Assign.To><OutArgument x:TypeArguments="x:String">[str_HtmlTable]</OutArgument></Assign.To>
                     <Assign.Value><InArgument x:TypeArguments="x:String">["&lt;table border='1' cellpadding='5' style='border-collapse: collapse;'&gt;&lt;tr&gt;&lt;th&gt;Portal&lt;/th&gt;&lt;th&gt;Amount Due&lt;/th&gt;&lt;th&gt;Due Date&lt;/th&gt;&lt;th&gt;Urgency&lt;/th&gt;&lt;/tr&gt;"]</InArgument></Assign.Value>
@@ -210,10 +194,24 @@
                           <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="currentBill" />
                         </ActivityAction.Argument>
                         <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="460,500" sap2010:WorkflowViewState.IdRef="SeqBill">
-                          <Assign DisplayName="Append Row" sap:VirtualizedContainerService.HintSize="400,80" sap2010:WorkflowViewState.IdRef="AssignRow">
-                            <Assign.To><OutArgument x:TypeArguments="x:String">[str_HtmlTable]</OutArgument></Assign.To>
-                            <Assign.Value><InArgument x:TypeArguments="x:String">[str_HtmlTable &amp; "&lt;tr&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("PortalName"), currentBill("PortalName").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("AmountDue"), currentBill("AmountDue").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("DueDate"), currentBill("DueDate").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("Severity"), currentBill("Severity").ToString(), "") &amp; "&lt;/td&gt;&lt;/tr&gt;"]</InArgument></Assign.Value>
+                          <Assign DisplayName="Set DedupeKey (SHA-256)" sap:VirtualizedContainerService.HintSize="400,80">
+                            <Assign.To><OutArgument x:TypeArguments="x:String">[dedupeKey]</OutArgument></Assign.To>
+                            <Assign.Value><InArgument x:TypeArguments="x:String">[Convert.ToBase64String(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(userGroup.Key &amp; "|" &amp; If(currentBill.ContainsKey("ConsumerNumber") AndAlso currentBill("ConsumerNumber") IsNot Nothing, currentBill("ConsumerNumber").ToString(), "N/A") &amp; "|" &amp; If(currentBill.ContainsKey("DueDate") AndAlso currentBill("DueDate") IsNot Nothing, currentBill("DueDate").ToString(), "N/A"))))]</InArgument></Assign.Value>
                           </Assign>
+                          <If Condition="[Not dedupeSet.Contains(dedupeKey)]" sap:VirtualizedContainerService.HintSize="400,200">
+                            <If.Then>
+                              <Sequence>
+                                <Assign DisplayName="Append Row" sap:VirtualizedContainerService.HintSize="400,80" sap2010:WorkflowViewState.IdRef="AssignRow">
+                                  <Assign.To><OutArgument x:TypeArguments="x:String">[str_HtmlTable]</OutArgument></Assign.To>
+                                  <Assign.Value><InArgument x:TypeArguments="x:String">[str_HtmlTable &amp; If(currentBill.ContainsKey("Severity") AndAlso currentBill("Severity").ToString() = "URGENT", "&lt;tr style='background-color:#ffeeee;'&gt;&lt;td&gt;", "&lt;tr&gt;&lt;td&gt;") &amp; If(currentBill.ContainsKey("PortalName"), currentBill("PortalName").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("AmountDue"), currentBill("AmountDue").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("DueDate"), currentBill("DueDate").ToString(), "") &amp; "&lt;/td&gt;&lt;td&gt;" &amp; If(currentBill.ContainsKey("Severity") AndAlso currentBill("Severity").ToString() = "URGENT", "&lt;strong style='color:red;'&gt;URGENT&lt;/strong&gt;", If(currentBill.ContainsKey("Severity"), currentBill("Severity").ToString(), "")) &amp; "&lt;/td&gt;&lt;/tr&gt;"]</InArgument></Assign.Value>
+                                </Assign>
+                                <InvokeMethod MethodName="Add">
+                                  <InvokeMethod.TargetObject><InArgument x:TypeArguments="scg:List(x:String)">[locallySentBills]</InArgument></InvokeMethod.TargetObject>
+                                  <InArgument x:TypeArguments="x:String">[dedupeKey]</InArgument>
+                                </InvokeMethod>
+                              </Sequence>
+                            </If.Then>
+                          </If>
                         </Sequence>
                       </ActivityAction>
                     </ui:ForEach.Body>
@@ -222,21 +220,55 @@
                     <Assign.To><OutArgument x:TypeArguments="x:String">[str_HtmlTable]</OutArgument></Assign.To>
                     <Assign.Value><InArgument x:TypeArguments="x:String">[str_HtmlTable &amp; "&lt;/table&gt;"]</InArgument></Assign.Value>
                   </Assign>
-                  <ui:InvokeCode Code="Dim smtp As New System.Net.Mail.SmtpClient(smtpHost, smtpPort)&#xA;smtp.EnableSsl = True&#xA;smtp.Credentials = New System.Net.NetworkCredential(smtpUser, smtpPass)&#xA;Dim msg As New System.Net.Mail.MailMessage()&#xA;msg.From = New System.Net.Mail.MailAddress(senderAddr)&#xA;msg.[To].Add(toAddr)&#xA;msg.Subject = &quot;Consolidated Billing Summary&quot;&#xA;msg.Body = body&#xA;msg.IsBodyHtml = True&#xA;smtp.Send(msg)&#xA;msg.Dispose()&#xA;smtp.Dispose()" ContinueOnError="False" DisplayName="InvokeCode: Send SMTP Email" sap:VirtualizedContainerService.HintSize="500,200" sap2010:WorkflowViewState.IdRef="InvokeCode_SendGroup">
-                    <ui:InvokeCode.Arguments>
-                      <InArgument x:TypeArguments="x:String" x:Key="smtpHost">[in_SMTPHost]</InArgument>
-                      <InArgument x:TypeArguments="x:Int32" x:Key="smtpPort">[in_SMTPPort]</InArgument>
-                      <InArgument x:TypeArguments="x:String" x:Key="smtpUser">[in_SMTPUsername]</InArgument>
-                      <InArgument x:TypeArguments="ss:SecureString" x:Key="smtpPass">[in_SMTPPassword]</InArgument>
-                      <InArgument x:TypeArguments="x:String" x:Key="senderAddr">[in_SenderEmail]</InArgument>
-                      <InArgument x:TypeArguments="x:String" x:Key="toAddr">[userGroup.Key]</InArgument>
-                      <InArgument x:TypeArguments="x:String" x:Key="body">[str_HtmlTable]</InArgument>
-                    </ui:InvokeCode.Arguments>
-                  </ui:InvokeCode>
-                  <Assign sap:VirtualizedContainerService.HintSize="500,80" sap2010:WorkflowViewState.IdRef="AssignSentCountGroup">
-                    <Assign.To><OutArgument x:TypeArguments="x:Int32">[sentCount]</OutArgument></Assign.To>
-                    <Assign.Value><InArgument x:TypeArguments="x:Int32">[sentCount + 1]</InArgument></Assign.Value>
-                  </Assign>
+                  <If Condition="[locallySentBills.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="500,600">
+                    <If.Then>
+                      <Sequence>
+                        <TryCatch DisplayName="Try Catch - Send SMTP Email" sap:VirtualizedContainerService.HintSize="500,450" sap2010:WorkflowViewState.IdRef="TryCatch_SMTP_Send">
+                          <TryCatch.Try>
+                            <ui:InvokeCode Code="Dim smtp As New System.Net.Mail.SmtpClient(CStr(smtpConfig(&quot;Host&quot;)), CInt(smtpConfig(&quot;Port&quot;)))&#xA;smtp.EnableSsl = True&#xA;smtp.Credentials = New System.Net.NetworkCredential(CStr(smtpConfig(&quot;User&quot;)), CType(smtpConfig(&quot;Pass&quot;), System.Security.SecureString))&#xA;Dim msg As New System.Net.Mail.MailMessage()&#xA;msg.From = New System.Net.Mail.MailAddress(CStr(smtpConfig(&quot;User&quot;)))&#xA;msg.[To].Add(toAddr)&#xA;msg.Subject = &quot;Consolidated Billing Summary&quot;&#xA;msg.Body = body&#xA;msg.IsBodyHtml = True&#xA;smtp.Send(msg)&#xA;msg.Dispose()&#xA;smtp.Dispose()" ContinueOnError="False" DisplayName="InvokeCode: Send SMTP Email" sap:VirtualizedContainerService.HintSize="500,200" sap2010:WorkflowViewState.IdRef="InvokeCode_SendGroup">
+                              <ui:InvokeCode.Arguments>
+                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="smtpConfig">[in_SMTPConfig]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="toAddr">[userGroup.Key]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="body">[str_HtmlTable]</InArgument>
+                              </ui:InvokeCode.Arguments>
+                            </ui:InvokeCode>
+                          </TryCatch.Try>
+                          <TryCatch.Catches>
+                            <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="466,22" sap2010:WorkflowViewState.IdRef="Catch`1_SMTP_Send">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ActivityAction x:TypeArguments="s:Exception">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Handle SMTP Error" sap:VirtualizedContainerService.HintSize="450,250" sap2010:WorkflowViewState.IdRef="Sequence_SMTP_Error">
+                                  <ui:LogMessage DisplayName="Log Error" Level="Error" Message="[&quot;Failed to send SMTP email to &quot; &amp; userGroup.Key &amp; &quot;: &quot; &amp; exception.Message]" sap:VirtualizedContainerService.HintSize="416,144.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_SMTP_Error" />
+                                  <Assign DisplayName="Increment Failed Count" sap:VirtualizedContainerService.HintSize="416,85.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_FailedCount">
+                                    <Assign.To><OutArgument x:TypeArguments="x:Int32">[failedCount]</OutArgument></Assign.To>
+                                    <Assign.Value><InArgument x:TypeArguments="x:Int32">[failedCount + 1]</InArgument></Assign.Value>
+                                  </Assign>
+                                </Sequence>
+                              </ActivityAction>
+                            </Catch>
+                          </TryCatch.Catches>
+                        </TryCatch>
+                        <ui:InvokeCode Code="System.IO.File.AppendAllLines(dedupeFile, keysToAppend)&#xA;overallDedupeSet.AddRange(keysToAppend)" ContinueOnError="False" DisplayName="Append Dedupe" sap:VirtualizedContainerService.HintSize="500,100">
+                          <ui:InvokeCode.Arguments>
+                            <InArgument x:TypeArguments="scg:List(x:String)" x:Key="keysToAppend">[locallySentBills]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="dedupeFile">[dedupeFilePath]</InArgument>
+                            <InOutArgument x:TypeArguments="scg:List(x:String)" x:Key="overallDedupeSet">[dedupeSet]</InOutArgument>
+                          </ui:InvokeCode.Arguments>
+                        </ui:InvokeCode>
+                        <Assign sap:VirtualizedContainerService.HintSize="500,80" sap2010:WorkflowViewState.IdRef="AssignSentCountGroup">
+                          <Assign.To><OutArgument x:TypeArguments="x:Int32">[sentCount]</OutArgument></Assign.To>
+                          <Assign.Value><InArgument x:TypeArguments="x:Int32">[sentCount + 1]</InArgument></Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </If.Then>
+                  </If>
                 </Sequence>
               </ActivityAction>
             </ui:ForEach.Body>

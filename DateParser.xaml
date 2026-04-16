@@ -1,303 +1,50 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="DateParser" this:DateParser.in_Threshold2="30" this:DateParser.in_Threshold1="7" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:str="clr-namespace:System.Text.RegularExpressions;assembly=System.Text.RegularExpressions" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="DateParser" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="out_ReminderList" Type="OutArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
     <x:Property Name="in_ExtractedDataList" Type="InArgument(scg:List(scg:Dictionary(x:String, x:Object)))" />
-    <x:Property Name="in_Threshold2" Type="InArgument(x:Int32)" />
-    <x:Property Name="in_Threshold1" Type="InArgument(x:Int32)" />
   </x:Members>
-  <VisualBasic.Settings>
-    <x:Null />
-  </VisualBasic.Settings>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
-      <x:String>System.Activities</x:String>
-      <x:String>System.Activities.Statements</x:String>
-      <x:String>System.Activities.Expressions</x:String>
-      <x:String>System.Activities.Validation</x:String>
-      <x:String>System.Activities.XamlIntegration</x:String>
-      <x:String>Microsoft.VisualBasic</x:String>
-      <x:String>Microsoft.VisualBasic.Activities</x:String>
       <x:String>System</x:String>
       <x:String>System.Collections</x:String>
       <x:String>System.Collections.Generic</x:String>
-      <x:String>System.Collections.ObjectModel</x:String>
       <x:String>System.Data</x:String>
-      <x:String>System.Diagnostics</x:String>
-      <x:String>System.Drawing</x:String>
-      <x:String>System.IO</x:String>
-      <x:String>System.Linq</x:String>
-      <x:String>System.Net.Mail</x:String>
-      <x:String>System.Xml</x:String>
-      <x:String>System.Xml.Linq</x:String>
       <x:String>UiPath.Core</x:String>
       <x:String>UiPath.Core.Activities</x:String>
-      <x:String>System.Windows.Markup</x:String>
-      <x:String>GlobalVariablesNamespace</x:String>
-      <x:String>GlobalConstantsNamespace</x:String>
-      <x:String>System.Reflection</x:String>
-      <x:String>System.Runtime.Serialization</x:String>
-      <x:String>System.Collections.Specialized</x:String>
-      <x:String>System.Text.RegularExpressions</x:String>
-      <x:String>System.Linq.Expressions</x:String>
-      <x:String>System.Activities.Runtime.Collections</x:String>
-      <x:String>System.Globalization</x:String>
-      <x:String>System.Numerics</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
     <sco:Collection x:TypeArguments="AssemblyReference">
-      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
-      <AssemblyReference>mscorlib</AssemblyReference>
-      <AssemblyReference>PresentationCore</AssemblyReference>
-      <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>System</AssemblyReference>
-      <AssemblyReference>System.Activities</AssemblyReference>
-      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
-      <AssemblyReference>System.Core</AssemblyReference>
-      <AssemblyReference>System.Data</AssemblyReference>
-      <AssemblyReference>System.Data.Common</AssemblyReference>
-      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
-      <AssemblyReference>System.Drawing</AssemblyReference>
-      <AssemblyReference>System.Drawing.Common</AssemblyReference>
-      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
-      <AssemblyReference>System.Linq</AssemblyReference>
-      <AssemblyReference>System.Net.Mail</AssemblyReference>
-      <AssemblyReference>System.ObjectModel</AssemblyReference>
       <AssemblyReference>System.Private.CoreLib</AssemblyReference>
-      <AssemblyReference>System.Xaml</AssemblyReference>
-      <AssemblyReference>System.Xml</AssemblyReference>
-      <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
-      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
-      <AssemblyReference>WindowsBase</AssemblyReference>
-      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
-      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
-      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
-      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
-      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
-      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
-      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
-      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
-      <AssemblyReference>System.Collections.Specialized</AssemblyReference>
-      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
-      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
-      <AssemblyReference>UiPath.Workflow</AssemblyReference>
-      <AssemblyReference>System.Console</AssemblyReference>
-      <AssemblyReference>System.Security.Permissions</AssemblyReference>
-      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
-      <AssemblyReference>System.ComponentModel</AssemblyReference>
-      <AssemblyReference>System.Memory</AssemblyReference>
-      <AssemblyReference>System.Private.Uri</AssemblyReference>
-      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
       <AssemblyReference>System.Collections</AssemblyReference>
-      <AssemblyReference>System.Linq.Async</AssemblyReference>
-      <AssemblyReference>System.Runtime.Numerics</AssemblyReference>
-      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
-      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
-      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="628,2708" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="DateParser" sap:VirtualizedContainerService.HintSize="628,800" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="entry" />
-      <Variable x:TypeArguments="x:Int32" Name="daysLeft" />
-      <Variable x:TypeArguments="x:String" Name="severity" />
-      <Variable x:TypeArguments="s:DateTime" Name="parsedDate" />
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="reminderList" />
-      <Variable x:TypeArguments="x:String" Name="llmResult" />
-      <Variable x:TypeArguments="x:String" Name="groqApiKey" />
-      <Variable x:TypeArguments="x:String" Name="invoiceNumber" />
-      <Variable x:TypeArguments="x:String" Name="amountDue" />
-      <Variable x:TypeArguments="x:String" Name="webDataString" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-
-    <Assign DisplayName="Assign initialize list" sap:VirtualizedContainerService.HintSize="560,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign DisplayName="Assign initialize list" sap:VirtualizedContainerService.HintSize="560,82" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[reminderList]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[New List(Of Dictionary(Of String,Object))()]</InArgument>
+        <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[in_ExtractedDataList]</InArgument>
       </Assign.Value>
     </Assign>
-
-    <!-- Read Groq API key from settings.json — key never hardcoded in XAML -->
-    <ui:InvokeCode Code="Dim settingsPath As String = System.IO.Path.Combine(Environment.CurrentDirectory, &quot;Data&quot;, &quot;Config&quot;, &quot;settings.json&quot;)&#xA;If System.IO.File.Exists(settingsPath) Then&#xA;    Dim json As String = System.IO.File.ReadAllText(settingsPath)&#xA;    Dim obj = Newtonsoft.Json.Linq.JObject.Parse(json)&#xA;    apiKey = If(obj(&quot;GroqApiKey&quot;) IsNot Nothing, obj(&quot;GroqApiKey&quot;).ToString(), &quot;&quot;)&#xA;Else&#xA;    apiKey = &quot;&quot;&#xA;End If" ContinueOnError="True" DisplayName="Read: GroqApiKey from settings.json" sap:VirtualizedContainerService.HintSize="560,197" sap2010:WorkflowViewState.IdRef="InvokeCode_ReadGroqKey">
+    <ui:InvokeCode Code="For Each dict In reminderList&#xA;  If dict.ContainsKey(&quot;DueDate&quot;) AndAlso dict(&quot;DueDate&quot;) IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(dict(&quot;DueDate&quot;).ToString()) Then&#xA;    Try&#xA;      Dim dt_ParsedDate As DateTime = DateTime.ParseExact(dict(&quot;DueDate&quot;).ToString().Trim(), &quot;dd/MM/yyyy&quot;, System.Globalization.CultureInfo.InvariantCulture)&#xA;      Dim daysLeft As Integer = CInt((dt_ParsedDate.Date - DateTime.Now.Date).TotalDays)&#xA;      dict(&quot;DueDate&quot;) = dt_ParsedDate.ToString(&quot;yyyy-MM-dd&quot;)&#xA;      If daysLeft &lt; 0 Then&#xA;        dict(&quot;Severity&quot;) = &quot;URGENT&quot;&#xA;      Else&#xA;        dict(&quot;Severity&quot;) = &quot;NORMAL&quot;&#xA;      End If&#xA;    Catch ex As Exception&#xA;      dict(&quot;Severity&quot;) = &quot;UNKNOWN&quot;&#xA;    End Try&#xA;  Else&#xA;    dict(&quot;Severity&quot;) = &quot;UNKNOWN&quot;&#xA;  End If&#xA;Next" ContinueOnError="False" DisplayName="InvokeCode: Parse Native Date" sap:VirtualizedContainerService.HintSize="560,165" sap2010:WorkflowViewState.IdRef="InvokeCode_Parse">
       <ui:InvokeCode.Arguments>
-        <OutArgument x:TypeArguments="x:String" x:Key="apiKey">[groqApiKey]</OutArgument>
+        <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="reminderList">[reminderList]</InOutArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-
-    <ui:LogMessage DisplayName="Log: Groq API key loaded" sap:VirtualizedContainerService.HintSize="560,144" sap2010:WorkflowViewState.IdRef="LogMessage_GroqKey" Level="Info" Message="[&quot;GroqApiKey loaded: &quot; &amp; If(String.IsNullOrWhiteSpace(groqApiKey), &quot;MISSING — LLM fallback will fail&quot;, &quot;OK (&quot; &amp; groqApiKey.Length.ToString() &amp; &quot; chars)&quot;)]" />
-
-    <!-- Pattern array removed — Groq is now the sole extractor -->
-
-    <!-- ═══ OUTER LOOP: each extracted record ═══ -->
-    <ui:ForEach x:TypeArguments="scg:Dictionary(x:String, x:Object)" CurrentIndex="{x:Null}" DisplayName="For Each currentRecord in list" sap:VirtualizedContainerService.HintSize="630,2400" sap2010:WorkflowViewState.IdRef="ForEachList" Values="[in_ExtractedDataList]">
-      <ui:ForEach.Body>
-        <ActivityAction x:TypeArguments="scg:Dictionary(x:String, x:Object)">
-          <ActivityAction.Argument>
-            <DelegateInArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="currentRecord" />
-          </ActivityAction.Argument>
-          <Sequence DisplayName="Process Record via LLM" sap:VirtualizedContainerService.HintSize="600,1800" sap2010:WorkflowViewState.IdRef="SeqCurrentRecord">
-            <sap:WorkflowViewStateService.ViewState>
-              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-              </scg:Dictionary>
-            </sap:WorkflowViewStateService.ViewState>
-
-            <!-- Step 1: Log which record is being processed -->
-            <ui:LogMessage DisplayName="Log: Processing record" sap:VirtualizedContainerService.HintSize="560,144" sap2010:WorkflowViewState.IdRef="LogMessage_RecordStart" Level="Info" Message="[&quot;[DateParser] Processing: &quot; &amp; If(currentRecord.ContainsKey(&quot;ApplicantName&quot;) AndAlso currentRecord(&quot;ApplicantName&quot;) IsNot Nothing, currentRecord(&quot;ApplicantName&quot;).ToString(), &quot;Unknown&quot;)]" />
-
-            <!-- Step 2: Build WebData string from scraped portal keys -->
-            <Assign DisplayName="Build: WebData string for Groq" sap:VirtualizedContainerService.HintSize="560,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_WebData">
-              <Assign.To>
-                <OutArgument x:TypeArguments="x:String">[webDataString]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="x:String">["Due Date: " &amp; If(currentRecord.ContainsKey("WebDueDate") AndAlso currentRecord("WebDueDate") IsNot Nothing, currentRecord("WebDueDate").ToString(), "(not found)") &amp; " | Amount Due: " &amp; If(currentRecord.ContainsKey("WebAmountDue") AndAlso currentRecord("WebAmountDue") IsNot Nothing, currentRecord("WebAmountDue").ToString(), "(not found)") &amp; " | Portal: " &amp; If(currentRecord.ContainsKey("PortalName") AndAlso currentRecord("PortalName") IsNot Nothing, currentRecord("PortalName").ToString(), "Unknown")]</InArgument>
-              </Assign.Value>
-            </Assign>
-
-            <!-- Step 3: Invoke LLMFallback — Groq is the central brain -->
-            <ui:InvokeWorkflowFile DisplayName="Invoke LLMFallback.xaml (Groq)" sap:VirtualizedContainerService.HintSize="560,119" sap2010:WorkflowViewState.IdRef="InvokeWorkflow_LLM" WorkflowFileName="Extractors\LLMFallback.xaml">
-              <ui:InvokeWorkflowFile.Arguments>
-                <InArgument x:TypeArguments="x:String" x:Key="in_RawText">[If(currentRecord.ContainsKey("RawText") AndAlso currentRecord("RawText") IsNot Nothing, currentRecord("RawText").ToString(), "")]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_WebData">[webDataString]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_ApiKey">[groqApiKey]</InArgument>
-                <OutArgument x:TypeArguments="x:String" x:Key="out_ExtractedDate">[llmResult]</OutArgument>
-              </ui:InvokeWorkflowFile.Arguments>
-            </ui:InvokeWorkflowFile>
-
-            <!-- Step 4: TryCatch — Parse JSON, calculate severity, and package -->
-            <TryCatch DisplayName="TryCatch: Parse Groq JSON and Build Entry" sap:VirtualizedContainerService.HintSize="560,1400" sap2010:WorkflowViewState.IdRef="TryCatch_ParseGroq">
-              <TryCatch.Try>
-                <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="558,1200" sap2010:WorkflowViewState.IdRef="Seq_ParseGroq">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-
-                  <If Condition="[Not String.IsNullOrWhiteSpace(llmResult) AndAlso llmResult &lt;&gt; &quot;NULL&quot;]" DisplayName="If: Groq returned valid JSON?" sap:VirtualizedContainerService.HintSize="524,1050" sap2010:WorkflowViewState.IdRef="If_GroqValid">
-                    <If.Then>
-                      <Sequence DisplayName="Then — Parse and package" sap:VirtualizedContainerService.HintSize="522,870" sap2010:WorkflowViewState.IdRef="Seq_GroqSuccess">
-                        <sap:WorkflowViewStateService.ViewState>
-                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                          </scg:Dictionary>
-                        </sap:WorkflowViewStateService.ViewState>
-
-                        <!-- Extract InvoiceNumber, AmountDue, DueDate from Groq JSON -->
-                        <ui:InvokeCode Code="Dim groqJson = Newtonsoft.Json.Linq.JObject.Parse(llmJson)&#xA;outInvoiceNumber = If(groqJson(&quot;InvoiceNumber&quot;) IsNot Nothing AndAlso groqJson(&quot;InvoiceNumber&quot;).Type &lt;&gt; Newtonsoft.Json.Linq.JTokenType.Null, groqJson(&quot;InvoiceNumber&quot;).ToString(), &quot;N/A&quot;)&#xA;outAmountDue = If(groqJson(&quot;AmountDue&quot;) IsNot Nothing AndAlso groqJson(&quot;AmountDue&quot;).Type &lt;&gt; Newtonsoft.Json.Linq.JTokenType.Null, groqJson(&quot;AmountDue&quot;).ToString(), &quot;N/A&quot;)&#xA;Dim dueDateStr As String = If(groqJson(&quot;DueDate&quot;) IsNot Nothing AndAlso groqJson(&quot;DueDate&quot;).Type &lt;&gt; Newtonsoft.Json.Linq.JTokenType.Null, groqJson(&quot;DueDate&quot;).ToString(), &quot;&quot;)&#xA;outParsedDate = DateTime.Parse(dueDateStr)" ContinueOnError="False" DisplayName="InvokeCode: Parse Groq JSON fields" sap:VirtualizedContainerService.HintSize="488,197" sap2010:WorkflowViewState.IdRef="InvokeCode_ParseGroqJson">
-                          <ui:InvokeCode.Arguments>
-                            <InArgument x:TypeArguments="x:String" x:Key="llmJson">[llmResult]</InArgument>
-                            <OutArgument x:TypeArguments="x:String" x:Key="outInvoiceNumber">[invoiceNumber]</OutArgument>
-                            <OutArgument x:TypeArguments="x:String" x:Key="outAmountDue">[amountDue]</OutArgument>
-                            <OutArgument x:TypeArguments="s:DateTime" x:Key="outParsedDate">[parsedDate]</OutArgument>
-                          </ui:InvokeCode.Arguments>
-                        </ui:InvokeCode>
-
-                        <!-- Calculate days remaining from system clock -->
-                        <Assign DisplayName="Assign: daysLeft" sap:VirtualizedContainerService.HintSize="488,144" sap2010:WorkflowViewState.IdRef="Assign_DaysLeft">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="x:Int32">[daysLeft]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="x:Int32">[CInt((parsedDate.Date - DateTime.Now.Date).TotalDays)]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-
-                        <!-- Apply threshold logic -->
-                        <Assign DisplayName="Assign: severity" sap:VirtualizedContainerService.HintSize="488,144" sap2010:WorkflowViewState.IdRef="Assign_Severity">
-                          <Assign.To>
-                            <OutArgument x:TypeArguments="x:String">[severity]</OutArgument>
-                          </Assign.To>
-                          <Assign.Value>
-                            <InArgument x:TypeArguments="x:String">[If(daysLeft &lt; 0, "OVERDUE", If(daysLeft = 0, "DUE_TODAY", If(daysLeft &lt;= in_Threshold1, "URGENT", If(daysLeft &lt;= in_Threshold2, "WARNING", "NONE"))))]</InArgument>
-                          </Assign.Value>
-                        </Assign>
-
-                        <ui:LogMessage DisplayName="Log: Groq result" sap:VirtualizedContainerService.HintSize="488,144" sap2010:WorkflowViewState.IdRef="LogMessage_GroqParsed" Level="Info" Message="[&quot;[DateParser] Invoice: &quot; &amp; invoiceNumber &amp; &quot; | Due: &quot; &amp; parsedDate.ToString(&quot;MM/dd/yyyy&quot;) &amp; &quot; | DaysLeft: &quot; &amp; daysLeft.ToString() &amp; &quot; | Severity: &quot; &amp; severity]" />
-
-                        <!-- Only add to reminder list if action is needed -->
-                        <If Condition="[severity &lt;&gt; &quot;NONE&quot;]" DisplayName="If: Reminder needed?" sap:VirtualizedContainerService.HintSize="488,380" sap2010:WorkflowViewState.IdRef="If_SeverityCheck">
-                          <If.Then>
-                            <Sequence DisplayName="Then — Build and add entry" sap:VirtualizedContainerService.HintSize="486,280" sap2010:WorkflowViewState.IdRef="Seq_BuildEntry">
-                              <sap:WorkflowViewStateService.ViewState>
-                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                </scg:Dictionary>
-                              </sap:WorkflowViewStateService.ViewState>
-                              <Assign DisplayName="Assign: build entry dict" sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_BuildEntry">
-                                <Assign.To>
-                                  <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[entry]</OutArgument>
-                                </Assign.To>
-                                <Assign.Value>
-                                  <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object) From {{"ApplicantName", If(currentRecord.ContainsKey("ApplicantName"), currentRecord("ApplicantName"), CObj("Customer"))}, {"ApplicationNumber", invoiceNumber}, {"ServiceType", If(currentRecord.ContainsKey("ServiceType"), currentRecord("ServiceType"), CObj("Bill"))}, {"AmountDue", amountDue}, {"DueDate", parsedDate}, {"DaysLeft", daysLeft}, {"Severity", severity}, {"SourceURL", If(currentRecord.ContainsKey("SourceURL"), currentRecord("SourceURL"), CObj(""))}, {"RecipientEmail", If(currentRecord.ContainsKey("RecipientEmail"), currentRecord("RecipientEmail"), CObj(""))}, {"PortalName", If(currentRecord.ContainsKey("PortalName"), currentRecord("PortalName"), CObj("Unknown"))}, {"NotificationChannels", If(currentRecord.ContainsKey("NotificationChannels"), currentRecord("NotificationChannels"), CObj("email"))}, {"ExtractedAt", CObj(DateTime.Now)}, {"DateSource", CObj("Groq LLM")}}]</InArgument>
-                                </Assign.Value>
-                              </Assign>
-                              <Assign DisplayName="Assign: add to reminderList" sap:VirtualizedContainerService.HintSize="452,144" sap2010:WorkflowViewState.IdRef="Assign_AddEntry">
-                                <Assign.To>
-                                  <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[reminderList]</OutArgument>
-                                </Assign.To>
-                                <Assign.Value>
-                                  <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[reminderList.Concat(New List(Of Dictionary(Of String, Object)) From {entry}).ToList()]</InArgument>
-                                </Assign.Value>
-                              </Assign>
-                              <ui:LogMessage DisplayName="Log: Entry added" sap:VirtualizedContainerService.HintSize="452,144" sap2010:WorkflowViewState.IdRef="LogMessage_EntryAdded" Level="Info" Message="[&quot;[DateParser] Reminder added for &quot; &amp; invoiceNumber &amp; &quot; — Severity: &quot; &amp; severity]" />
-                            </Sequence>
-                          </If.Then>
-                          <If.Else>
-                            <ui:LogMessage DisplayName="Log: No reminder needed" sap:VirtualizedContainerService.HintSize="486,144" sap2010:WorkflowViewState.IdRef="LogMessage_NoReminder" Level="Info" Message="[&quot;[DateParser] No reminder needed for &quot; &amp; invoiceNumber &amp; &quot; — due in &quot; &amp; daysLeft.ToString() &amp; &quot; days.&quot;]" />
-                          </If.Else>
-                        </If>
-                      </Sequence>
-                    </If.Then>
-                    <If.Else>
-                      <Sequence DisplayName="Else — Groq returned NULL" sap:VirtualizedContainerService.HintSize="522,200" sap2010:WorkflowViewState.IdRef="Seq_GroqNull">
-                        <sap:WorkflowViewStateService.ViewState>
-                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                          </scg:Dictionary>
-                        </sap:WorkflowViewStateService.ViewState>
-                        <ui:LogMessage DisplayName="Log: Groq returned NULL" sap:VirtualizedContainerService.HintSize="488,144" sap2010:WorkflowViewState.IdRef="LogMessage_GroqNull" Level="Error" Message="[&quot;[DateParser] Critical: Groq returned NULL for: &quot; &amp; If(currentRecord.ContainsKey(&quot;ApplicantName&quot;), currentRecord(&quot;ApplicantName&quot;).ToString(), &quot;Unknown&quot;)]" />
-                        <Throw DisplayName="Throw: No data extracted" sap:VirtualizedContainerService.HintSize="488,92" sap2010:WorkflowViewState.IdRef="Throw_GroqNull" Exception="[New InvalidOperationException(&quot;DateParser: Groq returned NULL. No invoice data extracted for: &quot; &amp; If(currentRecord.ContainsKey(&quot;ApplicantName&quot;), currentRecord(&quot;ApplicantName&quot;).ToString(), &quot;Unknown&quot;))]" />
-                      </Sequence>
-                    </If.Else>
-                  </If>
-                </Sequence>
-              </TryCatch.Try>
-              <TryCatch.Catches>
-                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_ParseGroq">
-                  <ActivityAction x:TypeArguments="s:Exception">
-                    <ActivityAction.Argument>
-                      <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
-                    </ActivityAction.Argument>
-                    <Sequence DisplayName="Handle Parse Error" sap:VirtualizedContainerService.HintSize="558,220" sap2010:WorkflowViewState.IdRef="Seq_ParseError">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                      <ui:LogMessage DisplayName="Log: JSON parse failed" sap:VirtualizedContainerService.HintSize="524,144" sap2010:WorkflowViewState.IdRef="LogMessage_ParseErr" Level="Error" Message="[&quot;[DateParser] JSON parse failed: &quot; &amp; ex.Message &amp; &quot; | Raw Groq: &quot; &amp; If(llmResult Is Nothing, &quot;NULL&quot;, llmResult)]" />
-                      <Throw DisplayName="Throw: Parse Exception" sap:VirtualizedContainerService.HintSize="524,92" sap2010:WorkflowViewState.IdRef="Throw_ParseFail" Exception="[New InvalidOperationException(&quot;DateParser: Groq JSON parse failed: &quot; &amp; ex.Message)]" />
-                    </Sequence>
-                  </ActivityAction>
-                </Catch>
-              </TryCatch.Catches>
-            </TryCatch>
-          </Sequence>
-        </ActivityAction>
-      </ui:ForEach.Body>
-    </ui:ForEach>
-
-    <Assign sap:VirtualizedContainerService.HintSize="560,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_9">
+    <Assign sap:VirtualizedContainerService.HintSize="560,82" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ReminderList]</OutArgument>
       </Assign.To>

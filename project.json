@@ -25,7 +25,20 @@
     "workflowSerialization": "NewtonsoftJson",
     "excludedLoggedData": [
       "Private:*",
-      "*password*"
+      "*password*",
+      "*Password*",
+      "*pass*",
+      "*Pass*",
+      "*ConsumerNumber*",
+      "*MobileNumber*",
+      "*OTP*",
+      "*otp*",
+      "*temp_*",
+      "*smtpUser*",
+      "*smtpHost*",
+      "*Email*",
+      "*RawText*",
+      "*InvoiceText*"
     ],
     "executionType": "Workflow",
     "readyForPiP": false,
