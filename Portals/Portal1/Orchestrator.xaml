@@ -66,7 +66,7 @@
       <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Orchestrator" sap:VirtualizedContainerService.HintSize="979.3333333333334,6686" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Orchestrator" sap:VirtualizedContainerService.HintSize="1015.3333333333334,7038.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="str_PDFUrl" />
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="extractedBillsList" />
@@ -76,321 +76,328 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="979.3333333333334,6000" sap2010:WorkflowViewState.IdRef="TryCatch_Orchestrator">
-      <TryCatch.Try>
-        <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5637.333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
-      <uix:NApplicationCard.Body>
-        <ActivityAction x:TypeArguments="x:Object">
-          <ActivityAction.Argument>
-            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
-          </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="977.3333333333334,5433.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
-            <Sequence.Variables>
-              <Variable x:TypeArguments="x:String" Name="out_OTP" />
-              <Variable x:TypeArguments="x:Boolean" Name="bln_LoginSuccess" />
-            </Sequence.Variables>
-            <sap:WorkflowViewStateService.ViewState>
-              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-              </scg:Dictionary>
-            </sap:WorkflowViewStateService.ViewState>
-            <ui:RetryScope LogRetriedExceptions="{x:Null}" RetriedExceptionsLogLevel="{x:Null}" DisplayName="Retry Scope - Login Click" sap:VirtualizedContainerService.HintSize="943.3333333333334,440.6666666666667" sap2010:WorkflowViewState.IdRef="RetryScope_Login" NumberOfRetries="3" RetryInterval="00:00:05">
-              <ui:RetryScope.ActivityBody>
-                <ActivityAction>
-                  <uix:NClick ActivateBefore="{x:Null}" ClickType="Single" DisplayName="Click 'Login'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="334,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_1" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-                    <uix:NClick.Target>
-                      <uix:TargetAnchorable BrowserURL="tatapower-ddl.com" ContentHash="F4Cca1XWD0iuA9f3QOaqcg" DesignTimeRectangle="1765, 231, 127, 39" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Login' tag='A' /&gt;" Guid="cbd99055-7ccf-40ae-8536-eec0147600d8" InformativeScreenshot="a8c245dae678b516b20934634952b528.jpg" Reference="JpSPx8EROES2wmekerv2pw/ECB1ruAF_ki5As98rtBIMQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-                    </uix:NClick.Target>
-                  </uix:NClick>
-                </ActivityAction>
-              </ui:RetryScope.ActivityBody>
-              <ui:RetryScope.Condition>
-                <ActivityFunc x:TypeArguments="x:Boolean">
-                  <ui:UiElementExists DisplayName="Element Exists 'Customer'" Exists="{x:Null}" sap:VirtualizedContainerService.HintSize="334,107.33333333333333" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
-                    <ui:UiElementExists.Target>
-                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b2668541-11c7-458b-9e4a-bbda28f14b62" InformativeScreenshot="84da61bbdc951cb6f4b0ecbb0dbc2839.jpg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;&lt;webctrl aria-label='Customer' tag='A' /&gt;" TimeoutMS="5000" WaitForReady="INTERACTIVE" />
-                    </ui:UiElementExists.Target>
-                  </ui:UiElementExists>
-                </ActivityFunc>
-              </ui:RetryScope.Condition>
-            </ui:RetryScope>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Customer'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_2" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="tatapower-ddl.com" ContentHash="HKxbcOWaM0CcD7MIPJodPw" DesignTimeRectangle="1532, 379, 95, 25" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Customer' tag='A' /&gt;" Guid="819f917b-abc8-448b-8012-8359f3f1a2bf" InformativeScreenshot="84da61bbdc951cb6f4b0ecbb0dbc2839.jpg" Reference="JpSPx8EROES2wmekerv2pw/PjyCnbprZkKIKrzvg8td-Q" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NClick.Target>
-            </uix:NClick>
-            <Delay DisplayName="Wait for Popup" Duration="00:00:02" sap:VirtualizedContainerService.HintSize="943.3333333333334,124" sap2010:WorkflowViewState.IdRef="Delay_PopupWait" />
-            <TryCatch DisplayName="Dismiss Ad Popup (if any)" sap:VirtualizedContainerService.HintSize="943.3333333333334,540.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_AdPopup">
-              <TryCatch.Try>
-                <uix:NClick ActivateBefore="False" ClickType="Single" DisplayName="Click Close Popup" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="450,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_ClosePopup" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-                  <uix:NClick.Target>
-                    <uix:TargetAnchorable DesignTimeRectangle="0, 0, 0, 0" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Close' tag='BUTTON' /&gt;" Guid="211816fd-3ce5-42d2-8b48-8c509842545d" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-                  </uix:NClick.Target>
-                </uix:NClick>
-              </TryCatch.Try>
-              <TryCatch.Catches>
-                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_NoPopup">
-                  <ActivityAction x:TypeArguments="s:Exception">
-                    <ActivityAction.Argument>
-                      <DelegateInArgument x:TypeArguments="s:Exception" Name="ex_Popup" />
-                    </ActivityAction.Argument>
-                    <Sequence DisplayName="No popup - continue" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_NoPopup">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                    </Sequence>
-                  </ActivityAction>
-                </Catch>
-              </TryCatch.Catches>
-              <TryCatch.Finally>
-                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                </Sequence>
-              </TryCatch.Finally>
-            </TryCatch>
-            <Delay DisplayName="Wait for Login Page" Duration="00:00:05" sap:VirtualizedContainerService.HintSize="943.3333333333334,124" sap2010:WorkflowViewState.IdRef="Delay_LoginPage" />
-            <TryCatch DisplayName="Dismiss Login Page Popup (if any)" sap:VirtualizedContainerService.HintSize="943.3333333333334,540.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_LoginPopup">
-              <TryCatch.Try>
-                <uix:NClick ActivateBefore="False" ClickType="Single" DisplayName="Click Close Login Popup" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="450,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_CloseLoginPopup" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-                  <uix:NClick.Target>
-                    <uix:TargetAnchorable BrowserURL="" DesignTimeRectangle="1398, 382, 24, 30" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl parentid='divpopupimage' tag='SPAN' /&gt;" Guid="19caee83-1d2a-4b23-a8c7-c6dd51f0fe6a" InformativeScreenshot="5ce09dd24bf759120e28894e10ef1389.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-                  </uix:NClick.Target>
-                </uix:NClick>
-              </TryCatch.Try>
-              <TryCatch.Catches>
-                <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_NoLoginPopup">
-                  <ActivityAction x:TypeArguments="s:Exception">
-                    <ActivityAction.Argument>
-                      <DelegateInArgument x:TypeArguments="s:Exception" Name="ex_LoginPopup" />
-                    </ActivityAction.Argument>
-                    <Sequence DisplayName="No login popup - continue" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_NoLoginPopup">
-                      <sap:WorkflowViewStateService.ViewState>
-                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        </scg:Dictionary>
-                      </sap:WorkflowViewStateService.ViewState>
-                    </Sequence>
-                  </ActivityAction>
-                </Catch>
-              </TryCatch.Catches>
-              <TryCatch.Finally>
-                <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                </Sequence>
-              </TryCatch.Finally>
-            </TryCatch>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'INPUT txtLogin'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_1" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Text="[new System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password]" Version="V5">
-              <uix:NTypeInto.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="kJxmvMojp06WYe9hDebB8Q" DesignTimeRectangle="205, 543, 654, 83" ElementType="InputBox" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='txtLogin' tag='INPUT' /&gt;" Guid="6953591e-7255-41fb-9af7-7d0c1351f9cd" InformativeScreenshot="88133f76841a6890ed2fc6b70cbc57fb.jpg" Reference="JpSPx8EROES2wmekerv2pw/E1xVOFXG9UenWhC7WaJFFg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NTypeInto.Target>
-            </uix:NTypeInto>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'INPUT txtMobileNumber'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_2" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Text="[new System.Net.NetworkCredential(String.Empty, in_MobileNumber).Password]" Version="V5">
-              <uix:NTypeInto.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="yi_cbX76PEmUMao93cxVXw" DesignTimeRectangle="205, 656, 654, 82" ElementType="InputBox" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='txtMobileNumber' tag='INPUT' /&gt;" Guid="fd0989e4-3239-499d-a565-2d1c77ead23a" InformativeScreenshot="4dc022ffa7b2605e0b3a29474fbe2b28.jpg" Reference="JpSPx8EROES2wmekerv2pw/1BuM1ns2IECACzcNnOdCBQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NTypeInto.Target>
-            </uix:NTypeInto>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sign in with otp'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_3" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="_bQFDTyQu06FLs5cXh0YBA" DesignTimeRectangle="205, 815, 654, 75" ElementType="Button" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='btnlogin' tag='INPUT' /&gt;" Guid="42ef8f13-1e5e-4274-a92e-e9a86f0fb2ff" InformativeScreenshot="0e798f036e77c26628e26533d043b4ab.jpg" Reference="JpSPx8EROES2wmekerv2pw/4Dm9b1Q8I0WxXFQL49QqBQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NClick.Target>
-            </uix:NClick>
-            <Pick DisplayName="OTP Input with Timeout" sap:VirtualizedContainerService.HintSize="943.3333333333334,589.3333333333334" sap2010:WorkflowViewState.IdRef="Pick_1">
-              <PickBranch DisplayName="User enters OTP" sap:VirtualizedContainerService.HintSize="424.6666666666667,510" sap2010:WorkflowViewState.IdRef="PickBranch_1">
-                <PickBranch.Trigger>
-                  <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Enter OTP" sap:VirtualizedContainerService.HintSize="334,246" sap2010:WorkflowViewState.IdRef="InputDialog_OTP" IsPassword="True" Label="Please enter the OTP sent to your mobile number" Title="OTP Verification" TopMost="False">
-                    <ui:InputDialog.Result>
-                      <OutArgument x:TypeArguments="x:String">[out_OTP]</OutArgument>
-                    </ui:InputDialog.Result>
-                  </ui:InputDialog>
-                </PickBranch.Trigger>
-              </PickBranch>
-              <PickBranch DisplayName="Timeout after 2 minutes" sap:VirtualizedContainerService.HintSize="424.6666666666667,510" sap2010:WorkflowViewState.IdRef="PickBranch_2">
-                <PickBranch.Trigger>
-                  <Delay Duration="00:02:00" sap:VirtualizedContainerService.HintSize="334,92" sap2010:WorkflowViewState.IdRef="Delay_Timeout" />
-                </PickBranch.Trigger>
-                <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;OTP not entered in time. Workflow aborted.&quot;)]" sap:VirtualizedContainerService.HintSize="334,92" sap2010:WorkflowViewState.IdRef="Throw_OTP" />
-              </PickBranch>
-            </Pick>
-            <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into OTP" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_OTP" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" SecureText="[new System.Net.NetworkCredential(String.Empty, out_OTP).SecurePassword]" Version="V5">
-              <uix:NTypeInto.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="PtzaPtuIBU2QxMrZHHhr6A" DesignTimeRectangle="205, 501, 654, 90" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='divOtp' tag='DIV' /&gt;" Guid="2eaaf9e5-f407-4d2b-acaa-4edf5232a7f3" InformativeScreenshot="c74b52b81d125be9cb134e573e33b799.jpg" Reference="JpSPx8EROES2wmekerv2pw/IJEtdLiKTUuadzGfmtQiZw" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NTypeInto.Target>
-            </uix:NTypeInto>
-            <uix:NCheckState DisplayName="Verify Dashboard Loaded" HealingAgentBehavior="Disabled" sap:VirtualizedContainerService.HintSize="943.3333333333334,750.6666666666666" sap2010:WorkflowViewState.IdRef="NCheckState_Dashboard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Timeout="30" Version="V4">
-              <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_Exists">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <ui:LogMessage DisplayName="Log Account Synced" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_LoginSuccess" Level="Info" Message="[&quot;[Portal1][Orchestrator] Dashboard verified successfully.&quot;]" />
-                </Sequence>
-              </uix:NCheckState.IfExists>
-              <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="450,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_NotExists">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Login failed - dashboard not loaded after OTP&quot;)]" sap:VirtualizedContainerService.HintSize="416,114.66666666666667" sap2010:WorkflowViewState.IdRef="Throw_LoginFail" />
-                </Sequence>
-              </uix:NCheckState.IfNotExists>
-              <uix:NCheckState.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" DesignTimeRectangle="517, 577, 300, 54" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='dvCrDr' tag='DIV' /&gt;" Guid="fda19620-1b0a-4851-8a85-dbfee9612d31" InformativeScreenshot="8747150786b2dec9081c8c485efda336.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NCheckState.Target>
-            </uix:NCheckState>
-            <uix:NGetText DisplayName="Get Text '₹0.00'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,143.33333333333334" sap2010:WorkflowViewState.IdRef="NGetText_1" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NGetText.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="twaYZOjoD0qDRxdXHpj4Qg" DesignTimeRectangle="592, 636, 150, 80" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='lblTotalPayableAmount' tag='SPAN' /&gt;" Guid="ddece2a5-ffa2-40ec-894c-78603060b0f5" InformativeScreenshot="fce2c43a0997f96734e6a08965af606f.jpg" Reference="JpSPx8EROES2wmekerv2pw/3jX4547DCUyGwZcXKieliQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NGetText.Target>
-            </uix:NGetText>
-            <uix:NGetText DisplayName="Get Text 'No Amount Due at this t…'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,143.33333333333334" sap2010:WorkflowViewState.IdRef="NGetText_2" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NGetText.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="Fp7MLCkOgUOx-QfojN320Q" DesignTimeRectangle="105, 745, 1124, 36" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='currentBalanceMessage' tag='P' /&gt;" Guid="44e382ff-c56a-404e-bcde-e46733d2a7ff" InformativeScreenshot="010846527e4b6b8422f9cd3f7ecc03a6.jpg" Reference="JpSPx8EROES2wmekerv2pw/ATOG1FFKb0CIfcpsSr4DRg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NGetText.Target>
-            </uix:NGetText>
-            <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'View Bill'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_4" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NClick.Target>
-                <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="ryZ_ffqE1kirXodhepbCjw" DesignTimeRectangle="554, 818, 225, 60" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aaname='View Bill' parentid='divBillingAreaWithData' tag='A' /&gt;" Guid="49f0097c-8176-44ec-b21d-4686bb17f877" InformativeScreenshot="becddcc6bb8c7a70c0ab0a65e195bbb5.jpg" Reference="JpSPx8EROES2wmekerv2pw/0r2x3IFuDUisZu3xUt3M0Q" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-              </uix:NClick.Target>
-            </uix:NClick>
-            <uix:NMouseScroll KeyModifiers="{x:Null}" Direction="Down" DisplayName="Mouse Scroll" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,318.6666666666667" sap2010:WorkflowViewState.IdRef="NMouseScroll_1" InteractionMode="HardwareEvents" MovementUnits="10" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
-              <uix:NMouseScroll.SearchedElement>
-                <uix:SearchedElement>
-                  <uix:SearchedElement.InUiElement>
-                    <InArgument x:TypeArguments="ui:UiElement" />
-                  </uix:SearchedElement.InUiElement>
-                  <uix:SearchedElement.OutUiElement>
-                    <OutArgument x:TypeArguments="ui:UiElement" />
-                  </uix:SearchedElement.OutUiElement>
-                  <uix:SearchedElement.Target>
-                    <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/BillDashboard.aspx" ContentHash="Y5zKMY9G9UaJTkGed3p-kg" DesignTimeRectangle="135, 728, 299, 33" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" Guid="91692033-f849-42b4-aae9-aa497a42fff9" InformativeScreenshot="b9d7b0be5247c6ec03c6fb6dd77de215.jpg" Reference="JpSPx8EROES2wmekerv2pw/haQXtDxU5UyXBsgCzQxyjQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Current Bill' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
-                  </uix:SearchedElement.Target>
-                  <uix:SearchedElement.Timeout>
-                    <InArgument x:TypeArguments="x:Double" />
-                  </uix:SearchedElement.Timeout>
-                </uix:SearchedElement>
-              </uix:NMouseScroll.SearchedElement>
-            </uix:NMouseScroll>
-            <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute - PDF Link" sap:VirtualizedContainerService.HintSize="943.3333333333334,218" sap2010:WorkflowViewState.IdRef="GetAttribute_1">
-              <ui:GetAttribute.Result>
-                <OutArgument x:TypeArguments="x:String">[str_PDFUrl]</OutArgument>
-              </ui:GetAttribute.Result>
-              <ui:GetAttribute.Target>
-                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="8589598b-df85-4c7d-86c5-eecc7139871b" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
-                  <ui:Target.TimeoutMS>
-                    <InArgument x:TypeArguments="x:Int32" />
-                  </ui:Target.TimeoutMS>
-                </ui:Target>
-              </ui:GetAttribute.Target>
-            </ui:GetAttribute>
-            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'View Bill PDF'" sap:VirtualizedContainerService.HintSize="943.3333333333334,110" sap2010:WorkflowViewState.IdRef="Click_PDF" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
-              <ui:Click.CursorPosition>
-                <ui:CursorPosition Position="Center">
-                  <ui:CursorPosition.OffsetX>
-                    <InArgument x:TypeArguments="x:Int32" />
-                  </ui:CursorPosition.OffsetX>
-                  <ui:CursorPosition.OffsetY>
-                    <InArgument x:TypeArguments="x:Int32" />
-                  </ui:CursorPosition.OffsetY>
-                </ui:CursorPosition>
-              </ui:Click.CursorPosition>
-              <ui:Click.Target>
-                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1e335678-7fc1-458b-a98a-66fc56a96186" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
-                  <ui:Target.TimeoutMS>
-                    <InArgument x:TypeArguments="x:Int32" />
-                  </ui:Target.TimeoutMS>
-                </ui:Target>
-              </ui:Click.Target>
-            </ui:Click>
-          </Sequence>
-        </ActivityAction>
-      </uix:NApplicationCard.Body>
-      <uix:NApplicationCard.OCREngine>
-        <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
-          <ActivityFunc.Argument>
-            <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
-          </ActivityFunc.Argument>
-        </ActivityFunc>
-      </uix:NApplicationCard.OCREngine>
-      <uix:NApplicationCard.TargetApp>
-        <uix:TargetApp Area="-11, -11, 1942, 1150" BrowserType="Chrome" ContentHash="igciHsIoDU-waYvNeo7uhw" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACYUlEQVRYR+1VS4hOYRgesWElt8iEcZ2Z/8nkfl8whUTCxmUoNqPM/4xi5FLuDBJFoeS+ERLmfyZ2rMiOLCxYsLKQLGyUW++Z58/fycJ0ZiPnqa/zne97v/d9vvc873uqqnLkyJGjGwAVozeoGlDLQG0G1QxqKahR3ksfy44kcDEJPgfUZVBvQH0F9Q3Ud89j7TyoWhRLvXqMSNetS/FcD+o9qJ8V4zqoF54HmVugHoBag7YLydnMcNpngXqXCv4U1FhQN/wetz8L6odtZ2YmUNfSUSZwPBX8szUQeydAXQW1AdSHCpudsV8oltJu/x71vwmcSxE4BmoFqMWgxoOaAupJyuZoZgIBE6DFFo4fg9po0bVP3Nr5pwyF7aY4W9t8N+2yezCBwaBKoD75Zi8dqDMRHPUxReAeqCGZNVCGSYwDtQXUs4pAEfhtxfsXUBfdJ9JussEk+oJa4iw8cglGNh6COgxqEah+PR68EiZSJjMI1EDPk/V/D6B2gNoFah6o1aDmgloHag+ohaCWey9uGfsxn2yVR2ue6jOzQa3yiM8UPgYUus41uWyngWoBNQPUdFD9g8AVUK/8Y3kN6pqbSIgr1p6Duu96j253CtQBl2K79dBhwrF/ENRJ62I+KIDaDmo3qNu+7F6frQkCa102R9xKo5+H2kNkYRhObzrgPt+4zQ5jLYLdAdVqYmFzCNQlUCtBLTCp/aDOgDoNapt7R2sQGOH0RUpGO72TnOpI1RhQDaAKoIZZbCNBNUYK/T+YAKoaVJ0/R7xH2Q4tUH3svx7UcBMKP2HTmJZEjhw5/j/8Amdc9pzAV7dqAAAAAElFTkSuQmCC" InformativeScreenshot="84a9a62f7019ca66335471122a60f6fd.jpg" Reference="JpSPx8EROES2wmekerv2pw/ybx1T5HhxU6wRhP3oWuGhg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" Url="https://www.tatapower-ddl.com/" Version="V2" />
-      </uix:NApplicationCard.TargetApp>
-    </uix:NApplicationCard>
-    <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Attach to PDF Tab (Dynamic)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,1026" sap2010:WorkflowViewState.IdRef="NApplicationCard_PDF" InteractionMode="DebuggerApi" ScopeGuid="5514734e-7f1g-5b85-9432-d77c05bcbb44" Version="V2">
-      <uix:NApplicationCard.Body>
-        <ActivityAction x:TypeArguments="x:Object">
-          <ActivityAction.Argument>
-            <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
-          </ActivityAction.Argument>
-          <Sequence DisplayName="Extract PDF Data" sap:VirtualizedContainerService.HintSize="450,778.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_PDF">
-            <sap:WorkflowViewStateService.ViewState>
-              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-              </scg:Dictionary>
-            </sap:WorkflowViewStateService.ViewState>
-            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke DocumentScraper" sap:VirtualizedContainerService.HintSize="416,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_DocScraper" UnSafe="False" WorkflowFileName="Extractors\DocumentScraper.xaml">
-              <ui:InvokeWorkflowFile.Arguments>
-                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_ExtractedFields">[New Dictionary(Of String, Object)]</InArgument>
-                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[New Dictionary(Of String, Object) From {{"DirectDocumentURL", str_PDFUrl}, {"Fields", "[{""Name"":""AmountPayable"", ""Anchor"":""Amount Payable""}]"}}]</InArgument>
-                <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[Nothing]</InArgument>
-                <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_RawDataList">[extractedBillsList]</OutArgument>
-              </ui:InvokeWorkflowFile.Arguments>
-            </ui:InvokeWorkflowFile>
-            <ui:LogMessage DisplayName="Log Extracted Amount" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Extraction" Level="Info" Message="[&quot;Extracted Amount Payable: &quot; &amp; If(extractedBillsList IsNot Nothing AndAlso extractedBillsList.Count &gt; 0 AndAlso extractedBillsList(0).ContainsKey(&quot;AmountPayable&quot;), extractedBillsList(0)(&quot;AmountPayable&quot;).ToString(), &quot;Not Found&quot;)]" />
-            <ui:InvokeCode Code="If extractedBillsList IsNot Nothing Then&#xA;For Each bill In extractedBillsList&#xA;  bill(&quot;RecipientEmail&quot;) = in_RecipientEmail&#xA;  bill(&quot;PortalName&quot;) = &quot;Portal 1&quot;&#xA;  Dim rawConsumer As String = New System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password&#xA;  bill(&quot;ConsumerNumber&quot;) = Convert.ToBase64String(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(rawConsumer)))&#xA;  rawConsumer = Nothing&#xA;  If bill.ContainsKey(&quot;AmountPayable&quot;) Then bill(&quot;AmountDue&quot;) = bill(&quot;AmountPayable&quot;)&#xA;Next&#xA;End If" ContinueOnError="False" DisplayName="Map to ExtractedBills" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_MapFields">
-              <ui:InvokeCode.Arguments>
-                <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="extractedBillsList">[extractedBillsList]</InOutArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_RecipientEmail">[in_RecipientEmail]</InArgument>
-                <InArgument x:TypeArguments="ss:SecureString" x:Key="in_ConsumerNumber">[in_ConsumerNumber]</InArgument>
-              </ui:InvokeCode.Arguments>
-            </ui:InvokeCode>
-            <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_OutBills">
-              <Assign.To>
-                <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedBills]</OutArgument>
-              </Assign.To>
-              <Assign.Value>
-                <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[extractedBillsList]</InArgument>
-              </Assign.Value>
-            </Assign>
-          </Sequence>
-        </ActivityAction>
-      </uix:NApplicationCard.Body>
-      <uix:NApplicationCard.OCREngine>
-        <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
-          <ActivityFunc.Argument>
-            <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
-          </ActivityFunc.Argument>
-        </ActivityFunc>
-      </uix:NApplicationCard.OCREngine>
-      <uix:NApplicationCard.TargetApp>
-        <uix:TargetApp Area="0, 0, 0, 0" BrowserType="Chrome" Selector="[string.Format(&quot;&lt;html app='chrome.exe' url='{0}' /&gt;&quot;, str_PDFUrl)]" Url="[str_PDFUrl]">
-          <uix:TargetApp.FilePath>
-            <InArgument x:TypeArguments="x:String" />
-          </uix:TargetApp.FilePath>
-        </uix:TargetApp>
-      </uix:NApplicationCard.TargetApp>
-    </uix:NApplicationCard>
-      </TryCatch.Try>
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="1015.3333333333334,7016" sap2010:WorkflowViewState.IdRef="TryCatch_Orchestrator">
       <TryCatch.Finally>
-        <ui:CloseApplication ContinueOnError="True" DisplayName="Close Application Chrome" sap:VirtualizedContainerService.HintSize="334,107.33333333333333" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
+        <ui:CloseApplication ContinueOnError="True" DisplayName="Close Application Chrome" sap:VirtualizedContainerService.HintSize="1013.3333333333334,87.33333333333333" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
           <ui:CloseApplication.Target>
             <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="34e9e0d1-6c23-455b-b9d9-7ed7a3a2bc0d" Selector="&lt;html app='chrome.exe' /&gt;" TimeoutMS="3000" WaitForReady="NONE" />
           </ui:CloseApplication.Target>
         </ui:CloseApplication>
       </TryCatch.Finally>
+      <TryCatch.Try>
+        <Sequence DisplayName="Try" sap:VirtualizedContainerService.HintSize="1013.3333333333334,6780.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_TryBlocks">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Chrome Welcome to Tata Power-DDL(1)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,5694.666666666667" sap2010:WorkflowViewState.IdRef="NApplicationCard_1" InteractionMode="DebuggerApi" ScopeGuid="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V2">
+            <uix:NApplicationCard.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="977.3333333333334,5490.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:String" Name="out_OTP" />
+                    <Variable x:TypeArguments="x:Boolean" Name="bln_LoginSuccess" />
+                  </Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:RetryScope LogRetriedExceptions="{x:Null}" RetriedExceptionsLogLevel="{x:Null}" DisplayName="Retry Scope - Login Click" sap:VirtualizedContainerService.HintSize="943.3333333333334,498" sap2010:WorkflowViewState.IdRef="RetryScope_Login" NumberOfRetries="3" RetryInterval="00:00:05">
+                    <ui:RetryScope.ActivityBody>
+                      <ActivityAction>
+                        <uix:NClick ActivateBefore="{x:Null}" ClickType="Single" DisplayName="Click 'Login'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="334,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_1" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                          <uix:NClick.Target>
+                            <uix:TargetAnchorable BrowserURL="tatapower-ddl.com" ContentHash="F4Cca1XWD0iuA9f3QOaqcg" DesignTimeRectangle="1765, 231, 127, 39" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Login' tag='A' /&gt;" Guid="cbd99055-7ccf-40ae-8536-eec0147600d8" InformativeScreenshot="a8c245dae678b516b20934634952b528.jpg" Reference="JpSPx8EROES2wmekerv2pw/ECB1ruAF_ki5As98rtBIMQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                          </uix:NClick.Target>
+                        </uix:NClick>
+                      </ActivityAction>
+                    </ui:RetryScope.ActivityBody>
+                    <ui:RetryScope.Condition>
+                      <ActivityFunc x:TypeArguments="x:Boolean">
+                        <ui:UiElementExists Exists="{x:Null}" DisplayName="Element Exists 'Customer'" sap:VirtualizedContainerService.HintSize="334,107.33333333333333" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+                          <ui:UiElementExists.Target>
+                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b2668541-11c7-458b-9e4a-bbda28f14b62" InformativeScreenshot="84da61bbdc951cb6f4b0ecbb0dbc2839.jpg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;&lt;webctrl aria-label='Customer' tag='A' /&gt;" TimeoutMS="5000" WaitForReady="INTERACTIVE" />
+                          </ui:UiElementExists.Target>
+                        </ui:UiElementExists>
+                      </ActivityFunc>
+                    </ui:RetryScope.Condition>
+                  </ui:RetryScope>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Customer'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_2" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="tatapower-ddl.com" ContentHash="HKxbcOWaM0CcD7MIPJodPw" DesignTimeRectangle="1532, 379, 95, 25" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Customer' tag='A' /&gt;" Guid="819f917b-abc8-448b-8012-8359f3f1a2bf" InformativeScreenshot="84da61bbdc951cb6f4b0ecbb0dbc2839.jpg" Reference="JpSPx8EROES2wmekerv2pw/PjyCnbprZkKIKrzvg8td-Q" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <Delay DisplayName="Wait for Popup" Duration="00:00:02" sap:VirtualizedContainerService.HintSize="943.3333333333334,124" sap2010:WorkflowViewState.IdRef="Delay_PopupWait" />
+                  <TryCatch DisplayName="Dismiss Ad Popup (if any)" sap:VirtualizedContainerService.HintSize="943.3333333333334,540.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_AdPopup">
+                    <TryCatch.Try>
+                      <uix:NClick ActivateBefore="False" ClickType="Single" DisplayName="Click Close Popup" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="450,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_ClosePopup" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable DesignTimeRectangle="0, 0, 0, 0" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-label='Close' tag='BUTTON' /&gt;" Guid="211816fd-3ce5-42d2-8b48-8c509842545d" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_NoPopup">
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="ex_Popup" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="No popup - continue" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_NoPopup">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </Sequence>
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                    <TryCatch.Finally>
+                      <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Sequence>
+                    </TryCatch.Finally>
+                  </TryCatch>
+                  <Delay DisplayName="Wait for Login Page" Duration="00:00:05" sap:VirtualizedContainerService.HintSize="943.3333333333334,124" sap2010:WorkflowViewState.IdRef="Delay_LoginPage" />
+                  <TryCatch DisplayName="Dismiss Login Page Popup (if any)" sap:VirtualizedContainerService.HintSize="943.3333333333334,540.6666666666666" sap2010:WorkflowViewState.IdRef="TryCatch_LoginPopup">
+                    <TryCatch.Try>
+                      <uix:NClick ActivateBefore="False" ClickType="Single" DisplayName="Click Close Login Popup" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="450,163.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_CloseLoginPopup" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                        <uix:NClick.Target>
+                          <uix:TargetAnchorable BrowserURL="" DesignTimeRectangle="1398, 382, 24, 30" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl parentid='divpopupimage' tag='SPAN' /&gt;" Guid="19caee83-1d2a-4b23-a8c7-c6dd51f0fe6a" InformativeScreenshot="5ce09dd24bf759120e28894e10ef1389.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                        </uix:NClick.Target>
+                      </uix:NClick>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch_NoLoginPopup">
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="ex_LoginPopup" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="No login popup - continue" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_NoLoginPopup">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </Sequence>
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                    <TryCatch.Finally>
+                      <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </Sequence>
+                    </TryCatch.Finally>
+                  </TryCatch>
+                  <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'INPUT txtLogin'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_1" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Text="[new System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password]" Version="V5">
+                    <uix:NTypeInto.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="kJxmvMojp06WYe9hDebB8Q" DesignTimeRectangle="205, 543, 654, 83" ElementType="InputBox" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='txtLogin' tag='INPUT' /&gt;" Guid="6953591e-7255-41fb-9af7-7d0c1351f9cd" InformativeScreenshot="88133f76841a6890ed2fc6b70cbc57fb.jpg" Reference="JpSPx8EROES2wmekerv2pw/E1xVOFXG9UenWhC7WaJFFg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NTypeInto.Target>
+                  </uix:NTypeInto>
+                  <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into 'INPUT txtMobileNumber'" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_2" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Text="[new System.Net.NetworkCredential(String.Empty, in_MobileNumber).Password]" Version="V5">
+                    <uix:NTypeInto.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="yi_cbX76PEmUMao93cxVXw" DesignTimeRectangle="205, 656, 654, 82" ElementType="InputBox" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='txtMobileNumber' tag='INPUT' /&gt;" Guid="fd0989e4-3239-499d-a565-2d1c77ead23a" InformativeScreenshot="4dc022ffa7b2605e0b3a29474fbe2b28.jpg" Reference="JpSPx8EROES2wmekerv2pw/1BuM1ns2IECACzcNnOdCBQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NTypeInto.Target>
+                  </uix:NTypeInto>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Sign in with otp'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_3" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="_bQFDTyQu06FLs5cXh0YBA" DesignTimeRectangle="205, 815, 654, 75" ElementType="Button" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='btnlogin' tag='INPUT' /&gt;" Guid="42ef8f13-1e5e-4274-a92e-e9a86f0fb2ff" InformativeScreenshot="0e798f036e77c26628e26533d043b4ab.jpg" Reference="JpSPx8EROES2wmekerv2pw/4Dm9b1Q8I0WxXFQL49QqBQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <Pick DisplayName="OTP Input with Timeout" sap:VirtualizedContainerService.HintSize="943.3333333333334,589.3333333333334" sap2010:WorkflowViewState.IdRef="Pick_1">
+                    <PickBranch DisplayName="User enters OTP" sap:VirtualizedContainerService.HintSize="424.6666666666667,510" sap2010:WorkflowViewState.IdRef="PickBranch_1">
+                      <PickBranch.Trigger>
+                        <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Enter OTP" sap:VirtualizedContainerService.HintSize="334,246" sap2010:WorkflowViewState.IdRef="InputDialog_OTP" IsPassword="True" Label="Please enter the OTP sent to your mobile number" Title="OTP Verification" TopMost="False">
+                          <ui:InputDialog.Result>
+                            <OutArgument x:TypeArguments="x:String">[out_OTP]</OutArgument>
+                          </ui:InputDialog.Result>
+                        </ui:InputDialog>
+                      </PickBranch.Trigger>
+                    </PickBranch>
+                    <PickBranch DisplayName="Timeout after 2 minutes" sap:VirtualizedContainerService.HintSize="424.6666666666667,510" sap2010:WorkflowViewState.IdRef="PickBranch_2">
+                      <PickBranch.Trigger>
+                        <Delay Duration="00:02:00" sap:VirtualizedContainerService.HintSize="334,92" sap2010:WorkflowViewState.IdRef="Delay_Timeout" />
+                      </PickBranch.Trigger>
+                      <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;OTP not entered in time. Workflow aborted.&quot;)]" sap:VirtualizedContainerService.HintSize="334,92" sap2010:WorkflowViewState.IdRef="Throw_OTP" />
+                    </PickBranch>
+                  </Pick>
+                  <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" ClipboardMode="Never" DisplayName="Type Into OTP" EmptyFieldMode="SingleLine" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,248" sap2010:WorkflowViewState.IdRef="NTypeInto_OTP" InteractionMode="SameAsCard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" SecureText="[new System.Net.NetworkCredential(String.Empty, out_OTP).SecurePassword]" Version="V5">
+                    <uix:NTypeInto.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/Login" ContentHash="PtzaPtuIBU2QxMrZHHhr6A" DesignTimeRectangle="205, 501, 654, 90" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='divOtp' tag='DIV' /&gt;" Guid="2eaaf9e5-f407-4d2b-acaa-4edf5232a7f3" InformativeScreenshot="c74b52b81d125be9cb134e573e33b799.jpg" Reference="JpSPx8EROES2wmekerv2pw/IJEtdLiKTUuadzGfmtQiZw" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Tata Power: Login' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NTypeInto.Target>
+                  </uix:NTypeInto>
+                  <uix:NCheckState DisplayName="Verify Dashboard Loaded" HealingAgentBehavior="Disabled" sap:VirtualizedContainerService.HintSize="943.3333333333334,750.6666666666666" sap2010:WorkflowViewState.IdRef="NCheckState_Dashboard" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Timeout="30" Version="V4">
+                    <uix:NCheckState.IfExists>
+                      <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="450,227.33333333333334" sap2010:WorkflowViewState.IdRef="Sequence_Exists">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:LogMessage DisplayName="Log Account Synced" sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_LoginSuccess" Level="Info" Message="[&quot;[Portal1][Orchestrator] Dashboard verified successfully.&quot;]" />
+                      </Sequence>
+                    </uix:NCheckState.IfExists>
+                    <uix:NCheckState.IfNotExists>
+                      <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="450,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_NotExists">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Login failed - dashboard not loaded after OTP&quot;)]" sap:VirtualizedContainerService.HintSize="416,114.66666666666667" sap2010:WorkflowViewState.IdRef="Throw_LoginFail" />
+                      </Sequence>
+                    </uix:NCheckState.IfNotExists>
+                    <uix:NCheckState.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" DesignTimeRectangle="517, 577, 300, 54" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='dvCrDr' tag='DIV' /&gt;" Guid="fda19620-1b0a-4851-8a85-dbfee9612d31" InformativeScreenshot="8747150786b2dec9081c8c485efda336.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NCheckState.Target>
+                  </uix:NCheckState>
+                  <uix:NGetText DisplayName="Get Text '₹0.00'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,143.33333333333334" sap2010:WorkflowViewState.IdRef="NGetText_1" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NGetText.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="twaYZOjoD0qDRxdXHpj4Qg" DesignTimeRectangle="592, 636, 150, 80" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='lblTotalPayableAmount' tag='SPAN' /&gt;" Guid="ddece2a5-ffa2-40ec-894c-78603060b0f5" InformativeScreenshot="fce2c43a0997f96734e6a08965af606f.jpg" Reference="JpSPx8EROES2wmekerv2pw/3jX4547DCUyGwZcXKieliQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NGetText.Target>
+                  </uix:NGetText>
+                  <uix:NGetText DisplayName="Get Text 'No Amount Due at this t…'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,143.33333333333334" sap2010:WorkflowViewState.IdRef="NGetText_2" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NGetText.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="Fp7MLCkOgUOx-QfojN320Q" DesignTimeRectangle="105, 745, 1124, 36" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='currentBalanceMessage' tag='P' /&gt;" Guid="44e382ff-c56a-404e-bcde-e46733d2a7ff" InformativeScreenshot="010846527e4b6b8422f9cd3f7ecc03a6.jpg" Reference="JpSPx8EROES2wmekerv2pw/ATOG1FFKb0CIfcpsSr4DRg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NGetText.Target>
+                  </uix:NGetText>
+                  <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'View Bill'" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,195.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_4" InteractionMode="SameAsCard" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NClick.Target>
+                      <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/Dashboard.aspx" ContentHash="ryZ_ffqE1kirXodhepbCjw" DesignTimeRectangle="554, 818, 225, 60" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aaname='View Bill' parentid='divBillingAreaWithData' tag='A' /&gt;" Guid="49f0097c-8176-44ec-b21d-4686bb17f877" InformativeScreenshot="becddcc6bb8c7a70c0ab0a65e195bbb5.jpg" Reference="JpSPx8EROES2wmekerv2pw/0r2x3IFuDUisZu3xUt3M0Q" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dashboard' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                    </uix:NClick.Target>
+                  </uix:NClick>
+                  <uix:NMouseScroll KeyModifiers="{x:Null}" Direction="Down" DisplayName="Mouse Scroll" HealingAgentBehavior="SameAsCard" sap:VirtualizedContainerService.HintSize="943.3333333333334,318.6666666666667" sap2010:WorkflowViewState.IdRef="NMouseScroll_1" InteractionMode="HardwareEvents" MovementUnits="10" ScopeIdentifier="4403623d-6e0f-4a74-8321-c66b94abaa33" Version="V5">
+                    <uix:NMouseScroll.SearchedElement>
+                      <uix:SearchedElement>
+                        <uix:SearchedElement.InUiElement>
+                          <InArgument x:TypeArguments="ui:UiElement" />
+                        </uix:SearchedElement.InUiElement>
+                        <uix:SearchedElement.OutUiElement>
+                          <OutArgument x:TypeArguments="ui:UiElement" />
+                        </uix:SearchedElement.OutUiElement>
+                        <uix:SearchedElement.Target>
+                          <uix:TargetAnchorable BrowserURL="customerportal.tatapower.com/TPDDL/BillDashboard.aspx" ContentHash="Y5zKMY9G9UaJTkGed3p-kg" DesignTimeRectangle="135, 728, 299, 33" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" Guid="91692033-f849-42b4-aae9-aa497a42fff9" InformativeScreenshot="b9d7b0be5247c6ec03c6fb6dd77de215.jpg" Reference="JpSPx8EROES2wmekerv2pw/haQXtDxU5UyXBsgCzQxyjQ" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Current Bill' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
+                        </uix:SearchedElement.Target>
+                        <uix:SearchedElement.Timeout>
+                          <InArgument x:TypeArguments="x:Double" />
+                        </uix:SearchedElement.Timeout>
+                      </uix:SearchedElement>
+                    </uix:NMouseScroll.SearchedElement>
+                  </uix:NMouseScroll>
+                  <ui:GetAttribute ContinueOnError="{x:Null}" Attribute="href" DisplayName="Get Attribute - PDF Link" sap:VirtualizedContainerService.HintSize="943.3333333333334,218" sap2010:WorkflowViewState.IdRef="GetAttribute_1">
+                    <ui:GetAttribute.Result>
+                      <OutArgument x:TypeArguments="x:String">[str_PDFUrl]</OutArgument>
+                    </ui:GetAttribute.Result>
+                    <ui:GetAttribute.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="8589598b-df85-4c7d-86c5-eecc7139871b" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                      </ui:Target>
+                    </ui:GetAttribute.Target>
+                  </ui:GetAttribute>
+                  <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click 'View Bill PDF'" sap:VirtualizedContainerService.HintSize="943.3333333333334,110" sap2010:WorkflowViewState.IdRef="Click_PDF" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+                    <ui:Click.CursorPosition>
+                      <ui:CursorPosition Position="Center">
+                        <ui:CursorPosition.OffsetX>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetX>
+                        <ui:CursorPosition.OffsetY>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetY>
+                      </ui:CursorPosition>
+                    </ui:Click.CursorPosition>
+                    <ui:Click.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="1e335678-7fc1-458b-a98a-66fc56a96186" Selector="&lt;webctrl id='ViewBillPdf' tag='A' /&gt;" WaitForReady="INTERACTIVE">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                      </ui:Target>
+                    </ui:Click.Target>
+                  </ui:Click>
+                </Sequence>
+              </ActivityAction>
+            </uix:NApplicationCard.Body>
+            <uix:NApplicationCard.OCREngine>
+              <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+                <ActivityFunc.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+                </ActivityFunc.Argument>
+              </ActivityFunc>
+            </uix:NApplicationCard.OCREngine>
+            <uix:NApplicationCard.TargetApp>
+              <uix:TargetApp Area="-11, -11, 1942, 1150" BrowserType="Chrome" ContentHash="igciHsIoDU-waYvNeo7uhw" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACYUlEQVRYR+1VS4hOYRgesWElt8iEcZ2Z/8nkfl8whUTCxmUoNqPM/4xi5FLuDBJFoeS+ERLmfyZ2rMiOLCxYsLKQLGyUW++Z58/fycJ0ZiPnqa/zne97v/d9vvc873uqqnLkyJGjGwAVozeoGlDLQG0G1QxqKahR3ksfy44kcDEJPgfUZVBvQH0F9Q3Ud89j7TyoWhRLvXqMSNetS/FcD+o9qJ8V4zqoF54HmVugHoBag7YLydnMcNpngXqXCv4U1FhQN/wetz8L6odtZ2YmUNfSUSZwPBX8szUQeydAXQW1AdSHCpudsV8oltJu/x71vwmcSxE4BmoFqMWgxoOaAupJyuZoZgIBE6DFFo4fg9po0bVP3Nr5pwyF7aY4W9t8N+2yezCBwaBKoD75Zi8dqDMRHPUxReAeqCGZNVCGSYwDtQXUs4pAEfhtxfsXUBfdJ9JussEk+oJa4iw8cglGNh6COgxqEah+PR68EiZSJjMI1EDPk/V/D6B2gNoFah6o1aDmgloHag+ohaCWey9uGfsxn2yVR2ue6jOzQa3yiM8UPgYUus41uWyngWoBNQPUdFD9g8AVUK/8Y3kN6pqbSIgr1p6Duu96j253CtQBl2K79dBhwrF/ENRJ62I+KIDaDmo3qNu+7F6frQkCa102R9xKo5+H2kNkYRhObzrgPt+4zQ5jLYLdAdVqYmFzCNQlUCtBLTCp/aDOgDoNapt7R2sQGOH0RUpGO72TnOpI1RhQDaAKoIZZbCNBNUYK/T+YAKoaVJ0/R7xH2Q4tUH3svx7UcBMKP2HTmJZEjhw5/j/8Amdc9pzAV7dqAAAAAElFTkSuQmCC" InformativeScreenshot="84a9a62f7019ca66335471122a60f6fd.jpg" Reference="JpSPx8EROES2wmekerv2pw/ybx1T5HhxU6wRhP3oWuGhg" Selector="&lt;html app='chrome.exe' title='Welcome to Tata Power-DDL' /&gt;" Url="https://www.tatapower-ddl.com/" Version="V2" />
+            </uix:NApplicationCard.TargetApp>
+          </uix:NApplicationCard>
+          <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Attach to PDF Tab (Dynamic)" HealingAgentBehavior="Job" sap:VirtualizedContainerService.HintSize="979.3333333333334,1026" sap2010:WorkflowViewState.IdRef="NApplicationCard_PDF" InteractionMode="DebuggerApi" ScopeGuid="5514734e-7f1g-5b85-9432-d77c05bcbb44" Version="V2">
+            <uix:NApplicationCard.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Extract PDF Data" sap:VirtualizedContainerService.HintSize="450,778.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_PDF">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke DocumentScraper" sap:VirtualizedContainerService.HintSize="416,177.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_DocScraper" UnSafe="False" WorkflowFileName="Extractors\DocumentScraper.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_ExtractedFields">[New Dictionary(Of String, Object)]</InArgument>
+                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_PortalConfig">[New Dictionary(Of String, Object) From {{"DirectDocumentURL", str_PDFUrl}, {"Fields", "[{""Name"":""AmountPayable"", ""Anchor"":""Amount Payable""}]"}}]</InArgument>
+                      <InArgument x:TypeArguments="ui:Browser" x:Key="in_BrowserSession">[Nothing]</InArgument>
+                      <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="out_RawDataList">[extractedBillsList]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <ui:LogMessage DisplayName="Log Extracted Amount" sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_Extraction" Level="Info" Message="[&quot;Extracted Amount Payable: &quot; &amp; If(extractedBillsList IsNot Nothing AndAlso extractedBillsList.Count &gt; 0 AndAlso extractedBillsList(0).ContainsKey(&quot;AmountPayable&quot;), extractedBillsList(0)(&quot;AmountPayable&quot;).ToString(), &quot;Not Found&quot;)]" />
+                  <ui:InvokeCode Code="If extractedBillsList IsNot Nothing Then&#xA;For Each bill In extractedBillsList&#xA;  bill(&quot;RecipientEmail&quot;) = in_RecipientEmail&#xA;  bill(&quot;PortalName&quot;) = &quot;Portal 1&quot;&#xA;  Dim rawConsumer As String = New System.Net.NetworkCredential(String.Empty, in_ConsumerNumber).Password&#xA;  bill(&quot;ConsumerNumber&quot;) = Convert.ToBase64String(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(rawConsumer)))&#xA;  rawConsumer = Nothing&#xA;  If bill.ContainsKey(&quot;AmountPayable&quot;) Then bill(&quot;AmountDue&quot;) = bill(&quot;AmountPayable&quot;)&#xA;Next&#xA;End If" ContinueOnError="False" DisplayName="Map to ExtractedBills" sap:VirtualizedContainerService.HintSize="416,197.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeCode_MapFields">
+                    <ui:InvokeCode.Arguments>
+                      <InOutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" x:Key="extractedBillsList">[extractedBillsList]</InOutArgument>
+                      <InArgument x:TypeArguments="x:String" x:Key="in_RecipientEmail">[in_RecipientEmail]</InArgument>
+                      <InArgument x:TypeArguments="ss:SecureString" x:Key="in_ConsumerNumber">[in_ConsumerNumber]</InArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <Assign sap:VirtualizedContainerService.HintSize="416,167.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_OutBills">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[out_ExtractedBills]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))">[extractedBillsList]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                </Sequence>
+              </ActivityAction>
+            </uix:NApplicationCard.Body>
+            <uix:NApplicationCard.OCREngine>
+              <ActivityFunc x:TypeArguments="sd:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+                <ActivityFunc.Argument>
+                  <DelegateInArgument x:TypeArguments="sd:Image" Name="Image" />
+                </ActivityFunc.Argument>
+              </ActivityFunc>
+            </uix:NApplicationCard.OCREngine>
+            <uix:NApplicationCard.TargetApp>
+              <uix:TargetApp Area="0, 0, 0, 0" BrowserType="Chrome" Selector="[string.Format(&quot;&lt;html app='chrome.exe' url='{0}' /&gt;&quot;, str_PDFUrl)]" Url="[str_PDFUrl]">
+                <uix:TargetApp.FilePath>
+                  <InArgument x:TypeArguments="x:String" />
+                </uix:TargetApp.FilePath>
+              </uix:TargetApp>
+            </uix:NApplicationCard.TargetApp>
+          </uix:NApplicationCard>
+        </Sequence>
+      </TryCatch.Try>
     </TryCatch>
   </Sequence>
 </Activity>

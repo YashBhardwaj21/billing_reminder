@@ -34,12 +34,7 @@
       <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Global Wrapper" sap:VirtualizedContainerService.HintSize="658,5544.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_Global">
-    <sap:WorkflowViewStateService.ViewState>
-      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-      </scg:Dictionary>
-    </sap:WorkflowViewStateService.ViewState>
+  <Sequence DisplayName="Global Wrapper" sap:VirtualizedContainerService.HintSize="658,9393.333333333334" sap2010:WorkflowViewState.IdRef="Sequence_Global">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="SelectedPortal" />
       <Variable x:TypeArguments="ss:SecureString" Name="Portal1_ConsumerNumber" />
@@ -52,22 +47,30 @@
       <Variable x:TypeArguments="ss:SecureString" Name="smtpPass" />
       <Variable x:TypeArguments="x:String" Name="temp_SMTPPass" />
       <Variable x:TypeArguments="scg:List(scg:Dictionary(x:String, x:Object))" Name="Global_BillsList" />
+      <Variable x:TypeArguments="ss:SecureString" Name="Portal2_ConsumerNumber" />
+      <Variable x:TypeArguments="ss:SecureString" Name="Portal2_Password" />
+      <Variable x:TypeArguments="x:String" Name="temp_Password" />
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" Name="dict_SMTPConfig" />
     </Sequence.Variables>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="560,5522" sap2010:WorkflowViewState.IdRef="TryCatchGlobal_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="596,9370.666666666666" sap2010:WorkflowViewState.IdRef="TryCatchGlobal_1">
       <TryCatch.Try>
-        <Sequence DisplayName="Main Dispatcher" sap:VirtualizedContainerService.HintSize="558,5121.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <Sequence DisplayName="Main Dispatcher" sap:VirtualizedContainerService.HintSize="594,7070" sap2010:WorkflowViewState.IdRef="Sequence_1">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:InputDialog Options="{x:Null}" DisplayName="Select Portal" sap:VirtualizedContainerService.HintSize="524,332.6666666666667" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Please select the portal you want to automate:" OptionsString="Portal 1;Portal 2;Portal 3;Portal 4;Portal 5" Title="Billing Automation Dispatcher" TopMost="False">
+          <ui:InputDialog Options="{x:Null}" DisplayName="Select Portal" sap:VirtualizedContainerService.HintSize="560,332.6666666666667" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="Please select the portal you want to automate:" OptionsString="Portal 1;Portal 2;Portal 3;Portal 4;Portal 5" Title="Billing Automation Dispatcher" TopMost="False">
             <ui:InputDialog.Result>
               <OutArgument x:TypeArguments="x:String">[SelectedPortal]</OutArgument>
             </ui:InputDialog.Result>
           </ui:InputDialog>
-          <Assign DisplayName="Set SMTP Host" sap:VirtualizedContainerService.HintSize="524,85.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_SMTPHost">
+          <Assign DisplayName="Set SMTP Host" sap:VirtualizedContainerService.HintSize="560,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_SMTPHost">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">[smtpHost]</OutArgument>
             </Assign.To>
@@ -75,8 +78,8 @@
               <InArgument x:TypeArguments="x:String">["smtp.gmail.com"]</InArgument>
             </Assign.Value>
           </Assign>
-          <ui:GetRobotCredential AssetName="BillingBot_SMTP" CacheStrategy="None" DisplayName="Get SMTP Credentials" sap:VirtualizedContainerService.HintSize="524,142.66666666666666" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[smtpPass]" TimeoutMS="{x:Null}" Username="[smtpUser]" />
-          <Assign DisplayName="Pack dict_SMTPConfig" sap:VirtualizedContainerService.HintSize="524,85.33333333333334" sap2010:WorkflowViewState.IdRef="Assign_PackSMTPConfig">
+          <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="BillingBot_SMTP" CacheStrategy="None" DisplayName="Get SMTP Credentials" sap:VirtualizedContainerService.HintSize="560,176.66666666666666" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[smtpPass]" Username="[smtpUser]" />
+          <Assign DisplayName="Pack dict_SMTPConfig" sap:VirtualizedContainerService.HintSize="560,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_PackSMTPConfig">
             <Assign.To>
               <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[dict_SMTPConfig]</OutArgument>
             </Assign.To>
@@ -84,17 +87,17 @@
               <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[New Dictionary(Of String, Object) From {{"Host", smtpHost}, {"Port", 587}, {"User", smtpUser}, {"Pass", smtpPass}}]</InArgument>
             </Assign.Value>
           </Assign>
-          <If Condition="[SelectedPortal = &quot;Portal 1&quot;]" sap:VirtualizedContainerService.HintSize="524,2700.6666666666665" sap2010:WorkflowViewState.IdRef="If_1">
+          <If Condition="[SelectedPortal = &quot;Portal 1&quot;]" sap:VirtualizedContainerService.HintSize="560,5906" sap2010:WorkflowViewState.IdRef="If_1">
             <If.Then>
-              <Sequence DisplayName="Execute Portal 1" sap:VirtualizedContainerService.HintSize="522,2386" sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <Sequence DisplayName="Execute Portal 1" sap:VirtualizedContainerService.HintSize="558,2730.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_2">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <If Condition="[Portal1_ConsumerNumber Is Nothing OrElse Portal1_ConsumerNumber.Length = 0]" sap:VirtualizedContainerService.HintSize="488,2158" sap2010:WorkflowViewState.IdRef="If_PromptInputs_2">
+                <If Condition="[Portal1_ConsumerNumber Is Nothing OrElse Portal1_ConsumerNumber.Length = 0]" sap:VirtualizedContainerService.HintSize="524,2502.6666666666665" sap2010:WorkflowViewState.IdRef="If_PromptInputs_2">
                   <If.Then>
-                    <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="486,1927.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_PromptInputs">
+                    <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="486,2272" sap2010:WorkflowViewState.IdRef="Sequence_PromptInputs">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -119,7 +122,7 @@
                           </Sequence>
                         </If.Else>
                       </If>
-                      <Assign sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
+                      <Assign sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_1">
                         <Assign.To>
                           <OutArgument x:TypeArguments="ss:SecureString">[Portal1_ConsumerNumber]</OutArgument>
                         </Assign.To>
@@ -127,7 +130,7 @@
                           <InArgument x:TypeArguments="ss:SecureString">[new System.Net.NetworkCredential(String.Empty, temp_Consumer.Trim()).SecurePassword]</InArgument>
                         </Assign.Value>
                       </Assign>
-                      <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Mobile Number" sap:VirtualizedContainerService.HintSize="416,278" sap2010:WorkflowViewState.IdRef="InputDialog_3" IsPassword="True" Label="Please enter Mobile Number:" Title="Portal 1 Authentication" TopMost="False">
+                      <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Mobile Number" sap:VirtualizedContainerService.HintSize="452,278" sap2010:WorkflowViewState.IdRef="InputDialog_3" IsPassword="True" Label="Please enter Mobile Number:" Title="Portal 1 Authentication" TopMost="False">
                         <ui:InputDialog.Result>
                           <OutArgument x:TypeArguments="x:String">[temp_Mobile]</OutArgument>
                         </ui:InputDialog.Result>
@@ -146,7 +149,7 @@
                           </Sequence>
                         </If.Else>
                       </If>
-                      <Assign sap:VirtualizedContainerService.HintSize="416,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
+                      <Assign sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_3">
                         <Assign.To>
                           <OutArgument x:TypeArguments="ss:SecureString">[Portal1_MobileNumber]</OutArgument>
                         </Assign.To>
@@ -154,12 +157,12 @@
                           <InArgument x:TypeArguments="ss:SecureString">[new System.Net.NetworkCredential(String.Empty, temp_Mobile.Trim()).SecurePassword]</InArgument>
                         </Assign.Value>
                       </Assign>
-                      <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Recipient Email" sap:VirtualizedContainerService.HintSize="416,268.6666666666667" sap2010:WorkflowViewState.IdRef="InputDialog_Email" IsPassword="False" Label="Please enter Recipient Email:" Title="Portal 1 Authentication" TopMost="False">
+                      <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Recipient Email" sap:VirtualizedContainerService.HintSize="452,278" sap2010:WorkflowViewState.IdRef="InputDialog_Email" IsPassword="False" Label="Please enter Recipient Email:" Title="Portal 1 Authentication" TopMost="False">
                         <ui:InputDialog.Result>
                           <OutArgument x:TypeArguments="x:String">[temp_Email]</OutArgument>
                         </ui:InputDialog.Result>
                       </ui:InputDialog>
-                      <If Condition="[Not System.Text.RegularExpressions.Regex.IsMatch(temp_Email.Trim(), &quot;^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$&quot;)]" sap:VirtualizedContainerService.HintSize="452,344.6666666666667" sap2010:WorkflowViewState.IdRef="If_RegexEmail">
+                      <If Condition="[Not System.Text.RegularExpressions.Regex.IsMatch(temp_Email.Trim(), &quot;^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$&quot;)]" sap:VirtualizedContainerService.HintSize="452,335.3333333333333" sap2010:WorkflowViewState.IdRef="If_RegexEmail">
                         <If.Then>
                           <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Invalid Email format. Please provide a valid email address.&quot;)]" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Throw_3" />
                         </If.Then>
@@ -176,7 +179,7 @@
                     </Sequence>
                   </If.Then>
                   <If.Else>
-                    <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                    <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="486,90.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_4">
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -185,7 +188,7 @@
                     </Sequence>
                   </If.Else>
                 </If>
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke Orchestrator" sap:VirtualizedContainerService.HintSize="452,168" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Portals\Portal1\Orchestrator.xaml">
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke Orchestrator" sap:VirtualizedContainerService.HintSize="524,168" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Portals\Portal1\Orchestrator.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
                     <InArgument x:TypeArguments="ss:SecureString" x:Key="in_ConsumerNumber">[Portal1_ConsumerNumber]</InArgument>
                     <InArgument x:TypeArguments="ss:SecureString" x:Key="in_MobileNumber">[Portal1_MobileNumber]</InArgument>
@@ -196,13 +199,120 @@
               </Sequence>
             </If.Then>
             <If.Else>
-              <Sequence DisplayName="Not Implemented" sap:VirtualizedContainerService.HintSize="486,174.66666666666666" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <Sequence DisplayName="Check Portal 2" sap:VirtualizedContainerService.HintSize="558,3035.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_3">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="452,114.66666666666667" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Portal not implemented yet.&quot;]" />
+                <If Condition="[SelectedPortal = &quot;Portal 2&quot;]" sap:VirtualizedContainerService.HintSize="524,2975.3333333333335" sap2010:WorkflowViewState.IdRef="If_Portal2">
+                  <If.Then>
+                    <Sequence DisplayName="Execute Portal 2" sap:VirtualizedContainerService.HintSize="522,2730.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_Portal2">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <If Condition="[Portal2_ConsumerNumber Is Nothing OrElse Portal2_ConsumerNumber.Length = 0]" sap:VirtualizedContainerService.HintSize="488,2502.6666666666665" sap2010:WorkflowViewState.IdRef="If_PromptInputs_P2">
+                        <If.Then>
+                          <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="486,2272" sap2010:WorkflowViewState.IdRef="Sequence_PromptInputs_P2">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Consumer Number" sap:VirtualizedContainerService.HintSize="452,278" sap2010:WorkflowViewState.IdRef="InputDialog_P2_Consumer" IsPassword="True" Label="Please enter Consumer Number:" Title="Portal 2 Authentication" TopMost="False">
+                              <ui:InputDialog.Result>
+                                <OutArgument x:TypeArguments="x:String">[temp_Consumer]</OutArgument>
+                              </ui:InputDialog.Result>
+                            </ui:InputDialog>
+                            <If Condition="[Not System.Text.RegularExpressions.Regex.IsMatch(temp_Consumer.Trim(), &quot;^\d{10,12}$&quot;)]" sap:VirtualizedContainerService.HintSize="452,344.6666666666667" sap2010:WorkflowViewState.IdRef="If_RegexConsumer_P2">
+                              <If.Then>
+                                <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Invalid Consumer Number format. Must be 10-12 numeric digits.&quot;)]" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Throw_P2_1" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Sequence_RegexConsumerElse_P2">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                            <Assign sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_P2_1">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="ss:SecureString">[Portal2_ConsumerNumber]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="ss:SecureString">[new System.Net.NetworkCredential(String.Empty, temp_Consumer.Trim()).SecurePassword]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Password" sap:VirtualizedContainerService.HintSize="416,278" sap2010:WorkflowViewState.IdRef="InputDialog_P2_Password" IsPassword="True" Label="Please enter Password:" Title="Portal 2 Authentication" TopMost="False">
+                              <ui:InputDialog.Result>
+                                <OutArgument x:TypeArguments="x:String">[temp_Password]</OutArgument>
+                              </ui:InputDialog.Result>
+                            </ui:InputDialog>
+                            <If Condition="[String.IsNullOrWhiteSpace(temp_Password)]" sap:VirtualizedContainerService.HintSize="452,344.6666666666667" sap2010:WorkflowViewState.IdRef="If_RegexPassword_P2">
+                              <If.Then>
+                                <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Password cannot be empty.&quot;)]" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Throw_P2_2" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Sequence_RegexPasswordElse_P2">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                            <Assign sap:VirtualizedContainerService.HintSize="452,176.66666666666666" sap2010:WorkflowViewState.IdRef="Assign_P2_3">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="ss:SecureString">[Portal2_Password]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="ss:SecureString">[new System.Net.NetworkCredential(String.Empty, temp_Password).SecurePassword]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                            <ui:InputDialog Options="{x:Null}" OptionsString="{x:Null}" DisplayName="Input Recipient Email" sap:VirtualizedContainerService.HintSize="452,278" sap2010:WorkflowViewState.IdRef="InputDialog_P2_Email" IsPassword="False" Label="Please enter Recipient Email:" Title="Portal 2 Authentication" TopMost="False">
+                              <ui:InputDialog.Result>
+                                <OutArgument x:TypeArguments="x:String">[temp_Email]</OutArgument>
+                              </ui:InputDialog.Result>
+                            </ui:InputDialog>
+                            <If Condition="[Not System.Text.RegularExpressions.Regex.IsMatch(temp_Email.Trim(), &quot;^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$&quot;)]" sap:VirtualizedContainerService.HintSize="452,335.3333333333333" sap2010:WorkflowViewState.IdRef="If_RegexEmail_P2">
+                              <If.Then>
+                                <Throw Exception="[new UiPath.Core.BusinessRuleException(&quot;Invalid Email format. Please provide a valid email address.&quot;)]" sap:VirtualizedContainerService.HintSize="450,92" sap2010:WorkflowViewState.IdRef="Throw_P2_3" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Sequence_RegexEmailElse_P2">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                          </Sequence>
+                        </If.Then>
+                        <If.Else>
+                          <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Sequence_P2_4">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                      <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Invoke Orchestrator" sap:VirtualizedContainerService.HintSize="488,168" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_Portal2" UnSafe="False" WorkflowFileName="Portals\Portal2\Orchestrator.xaml" />
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="522,92" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Portal not implemented yet.&quot;]" />
+                  </If.Else>
+                </If>
               </Sequence>
             </If.Else>
           </If>
@@ -226,7 +336,7 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Utilities\HandleException.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="558,145.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_HandleEx" UnSafe="False" WorkflowFileName="Utilities\HandleException.xaml">
+            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Utilities\HandleException.xaml - Invoke Workflow File" sap:VirtualizedContainerService.HintSize="594,145.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_HandleEx" UnSafe="False" WorkflowFileName="Utilities\HandleException.xaml">
               <ui:InvokeWorkflowFile.Arguments>
                 <InArgument x:TypeArguments="s:Exception" x:Key="in_Exception">[exception]</InArgument>
                 <InArgument x:TypeArguments="x:String" x:Key="in_WorkflowName">Main</InArgument>
@@ -236,13 +346,13 @@
         </Catch>
       </TryCatch.Catches>
       <TryCatch.Finally>
-        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="524,1300" sap2010:WorkflowViewState.IdRef="Sequence_Finally">
+        <Sequence DisplayName="Finally" sap:VirtualizedContainerService.HintSize="594,1990.6666666666667" sap2010:WorkflowViewState.IdRef="Sequence_Finally">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <If Condition="[Portal1_ConsumerNumber IsNot Nothing]" sap:VirtualizedContainerService.HintSize="482,388" sap2010:WorkflowViewState.IdRef="If_Dispose_Consumer_Finally">
+          <If Condition="[Portal1_ConsumerNumber IsNot Nothing]" sap:VirtualizedContainerService.HintSize="560,388" sap2010:WorkflowViewState.IdRef="If_Dispose_Consumer_Finally">
             <If.Then>
               <InvokeMethod DisplayName="Dispose Consumer" sap:VirtualizedContainerService.HintSize="450,135.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeMethod_Consumer_Fin" MethodName="Dispose">
                 <InvokeMethod.TargetObject>
@@ -251,10 +361,16 @@
               </InvokeMethod>
             </If.Then>
             <If.Else>
-              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_Cons_Else_Fin" />
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_Cons_Else_Fin">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
             </If.Else>
           </If>
-          <If Condition="[Portal1_MobileNumber IsNot Nothing]" sap:VirtualizedContainerService.HintSize="482,388" sap2010:WorkflowViewState.IdRef="If_Dispose_Mobile_Finally">
+          <If Condition="[Portal1_MobileNumber IsNot Nothing]" sap:VirtualizedContainerService.HintSize="560,388" sap2010:WorkflowViewState.IdRef="If_Dispose_Mobile_Finally">
             <If.Then>
               <InvokeMethod DisplayName="Dispose Mobile" sap:VirtualizedContainerService.HintSize="450,135.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeMethod_Mobile_Fin" MethodName="Dispose">
                 <InvokeMethod.TargetObject>
@@ -263,10 +379,16 @@
               </InvokeMethod>
             </If.Then>
             <If.Else>
-              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_Mob_Else_Fin" />
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_Mob_Else_Fin">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
             </If.Else>
           </If>
-          <If Condition="[smtpPass IsNot Nothing]" sap:VirtualizedContainerService.HintSize="482,388" sap2010:WorkflowViewState.IdRef="If_Dispose_SMTPPass_Finally">
+          <If Condition="[smtpPass IsNot Nothing]" sap:VirtualizedContainerService.HintSize="560,388" sap2010:WorkflowViewState.IdRef="If_Dispose_SMTPPass_Finally">
             <If.Then>
               <InvokeMethod DisplayName="Dispose SMTP Pass" sap:VirtualizedContainerService.HintSize="450,135.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeMethod_SMTP_Fin" MethodName="Dispose">
                 <InvokeMethod.TargetObject>
@@ -275,7 +397,49 @@
               </InvokeMethod>
             </If.Then>
             <If.Else>
-              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_SMTP_Else_Fin" />
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.66666666666667" sap2010:WorkflowViewState.IdRef="Seq_SMTP_Else_Fin">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
+            </If.Else>
+          </If>
+          <If Condition="[Portal2_ConsumerNumber IsNot Nothing]" sap:VirtualizedContainerService.HintSize="560,388" sap2010:WorkflowViewState.IdRef="If_Dispose_Consumer2_Finally">
+            <If.Then>
+              <InvokeMethod DisplayName="Dispose Consumer 2" sap:VirtualizedContainerService.HintSize="450,135.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeMethod_Consumer2_Fin" MethodName="Dispose">
+                <InvokeMethod.TargetObject>
+                  <InArgument x:TypeArguments="ss:SecureString">[Portal2_ConsumerNumber]</InArgument>
+                </InvokeMethod.TargetObject>
+              </InvokeMethod>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Seq_Cons2_Else_Fin">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
+            </If.Else>
+          </If>
+          <If Condition="[Portal2_Password IsNot Nothing]" sap:VirtualizedContainerService.HintSize="560,378.6666666666667" sap2010:WorkflowViewState.IdRef="If_Dispose_Password2_Finally">
+            <If.Then>
+              <InvokeMethod DisplayName="Dispose Password 2" sap:VirtualizedContainerService.HintSize="450,135.33333333333334" sap2010:WorkflowViewState.IdRef="InvokeMethod_Password2_Fin" MethodName="Dispose">
+                <InvokeMethod.TargetObject>
+                  <InArgument x:TypeArguments="ss:SecureString">[Portal2_Password]</InArgument>
+                </InvokeMethod.TargetObject>
+              </InvokeMethod>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,90.6" sap2010:WorkflowViewState.IdRef="Seq_Pass2_Else_Fin">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
             </If.Else>
           </If>
         </Sequence>
